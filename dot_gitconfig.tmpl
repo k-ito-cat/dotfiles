@@ -1,8 +1,5 @@
 [include]
 	path = ~/.local/share/chezmoi/.gitconfig.local
-  
-[credential "helperselector"]
-  selected = manager
 
 [color]
 	ui = auto
@@ -12,3 +9,20 @@
 	co = checkout
 	br = branch
 	ci = commit
+	s = status
+	sc = switch -c
+	bdel = branch -D
+	slist = stash list
+	save = stash save
+	cob = checkout -b
+	cae = commit --allow-empty -m
+
+[core]
+	excludesfile = {{ .chezmoi.homeDir }}/.gitignore_global
+
+[ghq]
+	root = ~/src
+
+[credential]
+	helper = osxkeychain
+
