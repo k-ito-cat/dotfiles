@@ -16,11 +16,13 @@
 `chezmoi edit <パス>`  
 テンプレ化するなら `.tmpl` を使う  
 すぐ反映したいとき: `chezmoi edit --apply <パス>`
+
 → [chezmoi設定ファイル](https://github.com/k-ito-cat/dotfiles/blob/main/dot_config/chezmoi/chezmoi.toml.tmpl)で編集時はVSCodeを立ち上げるように設定済みなので、VSCode上で編集を行う。
 
 ### 3. 反映
 - 変更確認: `chezmoi diff`  
-- 反映: `chezmoi apply`  
+- 反映: `chezmoi apply`
+
 → chezmoi管理ファイルだけでなく、実際のファイルも変更される
 
 ### 4. リモートへ反映
@@ -61,4 +63,5 @@
 {{ else if eq .chezmoi.os "darwin" }} 
 # macOS用の設定
 {{ end }}
+
 
