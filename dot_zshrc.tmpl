@@ -2,6 +2,8 @@
 # Amazon Q pre block. Keep at the top of this file.
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
 export PATH="/Applications/Cursor.app/Contents/Resources/app/bin:$PATH"
+[ -f "$HOME/.asdf/asdf.sh" ] && . "$HOME/.asdf/asdf.sh"
+[ -f "$HOME/.asdf/completions/asdf.zsh" ] && . "$HOME/.asdf/completions/asdf.zsh"
 {{ end }}
 
 # ghq listコマンドをpecoでキーバインド。cursorで開くように設定。
@@ -21,6 +23,8 @@ export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 # goでインストールしたghqのパスを通す
 export PATH="$HOME/go/bin:$PATH"
 . /home/linuxbrew/.linuxbrew/opt/asdf/libexec/asdf.sh
+[ -f "$HOME/.asdf/asdf.sh" ] && . "$HOME/.asdf/asdf.sh"
+[ -f "$HOME/.asdf/completions/asdf.zsh" ] && . "$HOME/.asdf/completions/asdf.zsh"
 {{ end }}
 
 # Homebrew (Linuxbrew)
@@ -38,4 +42,3 @@ export LANGUAGE=en_US:en
 # Amazon Q post block. Keep at the bottom of this file.
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
 {{ end }}
-
