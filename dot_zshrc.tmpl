@@ -48,3 +48,8 @@ export LANGUAGE=en_US:en
 alias ssh="ssh.exe"
 alias ssh-add="ssh-add.exe"
 {{ end }}
+
+{{ if eq .chezmoi.os "darwin" }}
+# macOS 用: 1Password SSH Agent のソケットを指定
+export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
+{{ end }}

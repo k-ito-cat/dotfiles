@@ -1,10 +1,14 @@
-{{- $agent := "~/.1password/agent.sock" -}}
-{{- if eq .chezmoi.os "linux" -}}
-{{-   $agent = "~/.ssh/1Password/config" -}}
-{{- end -}}
+{{ if eq .chezmoi.os "darwin" }}
+Host github.com
+  HostName github.com
+  User git
+  IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+  ForwardAgent yes
 
+{{ else if eq .chezmoi.os "linux" }}
 Host github.com
   HostName github.com
   User git
   IdentitiesOnly yes
-  IdentityAgent {{$agent}}
+  IdentityAgent ~/.ssh/1Password/config
+{{ end }}
