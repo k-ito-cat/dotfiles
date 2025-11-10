@@ -1,0 +1,10 @@
+{{- $agent := "~/.1password/agent.sock" -}}
+{{- if eq .chezmoi.os "linux" -}}
+{{-   $agent = "~/.ssh/1Password/config" -}}
+{{- end -}}
+
+Host github.com
+  HostName github.com
+  User git
+  IdentitiesOnly yes
+  IdentityAgent {{$agent}}
