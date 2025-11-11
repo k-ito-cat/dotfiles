@@ -16,7 +16,7 @@ function peco-src () {
   zle clear-screen
 }
 zle -N peco-src
-bindkey '^]' peco-src
+bindkey '^L' peco-src
 
 {{ if eq .chezmoi.os "linux" }}
 export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
