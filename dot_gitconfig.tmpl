@@ -1,5 +1,6 @@
-[include]
-	path = ~/.local/share/chezmoi/.gitconfig.local
+[user]
+  name = {{ output "op" "item" "get" "GitUser" "--vault" "Development" "--field" "name" | trim }}
+  email = {{ output "op" "item" "get" "GitUser" "--vault" "Development" "--field" "email" | trim }}
 
 [color]
 	ui = auto
