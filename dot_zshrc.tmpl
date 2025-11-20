@@ -1,3 +1,6 @@
+# 1Password CLI サインインコマンドのエイリアス　
+alias ops="eval \"\$(op signin)\""
+
 {{ if eq .chezmoi.os "darwin" }}
 # Amazon Q pre block. Keep at the top of this file.
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
@@ -19,7 +22,9 @@ zle -N peco-src
 bindkey '^L' peco-src
 
 {{ if eq .chezmoi.os "linux" }}
+# bun
 export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+
 # goでインストールしたghqのパスを通す
 export PATH="$HOME/go/bin:$PATH"
 . /home/linuxbrew/.linuxbrew/opt/asdf/libexec/asdf.sh
