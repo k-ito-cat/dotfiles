@@ -22,8 +22,10 @@ zle -N peco-src
 bindkey '^L' peco-src
 
 {{ if eq .chezmoi.os "linux" }}
-# bun
 export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+
+# bun
+export PATH="$HOME/.bun/bin:$PATH"
 
 # goでインストールしたghqのパスを通す
 export PATH="$HOME/go/bin:$PATH"
