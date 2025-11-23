@@ -2,22 +2,6 @@
   name = {{ output "op" "item" "get" "GitUser" "--vault" "Development" "--field" "name" | trim }}
   email = {{ output "op" "item" "get" "GitUser" "--vault" "Development" "--field" "email" | trim }}
 
-[color]
-	ui = auto
-
-[alias]
-	st = status
-	co = checkout
-	br = branch
-	ci = commit
-	s = status
-	sc = switch -c
-	bdel = branch -D
-	slist = stash list
-	save = stash save
-	cob = checkout -b
-	cae = commit --allow-empty -m
-
 [core]
 	excludesfile = {{ .chezmoi.homeDir }}/.gitignore_global
 
