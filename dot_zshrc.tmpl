@@ -1,14 +1,52 @@
+# ===== Aliases =====
 # 1Password CLI サインインコマンドのエイリアス　
 alias ops="eval \"\$(op signin)\""
+
+{{- if eq .chezmoi.os "linux" }}
+# WSLからホストOSのSSHを使うためのエイリアス
+alias ssh="ssh.exe"
+alias ssh-add="ssh-add.exe"
+{{ end }}
+
+# ===== PATH =====
+[ -f "$HOME/.asdf/asdf.sh" ] && . "$HOME/.asdf/asdf.sh"
+[ -f "$HOME/.asdf/completions/asdf.zsh" ] && . "$HOME/.asdf/completions/asdf.zsh"
 
 {{ if eq .chezmoi.os "darwin" }}
 # Amazon Q pre block. Keep at the top of this file.
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
+
 export PATH="/Applications/Cursor.app/Contents/Resources/app/bin:$PATH"
-[ -f "$HOME/.asdf/asdf.sh" ] && . "$HOME/.asdf/asdf.sh"
-[ -f "$HOME/.asdf/completions/asdf.zsh" ] && . "$HOME/.asdf/completions/asdf.zsh"
 {{ end }}
 
+{{ if eq .chezmoi.os "linux" }}
+export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+
+# bun
+export PATH="$HOME/.bun/bin:$PATH"
+
+# goでインストールしたghqのパスを通す
+export PATH="$HOME/go/bin:$PATH"
+
+. /home/linuxbrew/.linuxbrew/opt/asdf/libexec/asdf.sh
+
+# Homebrew (Linuxbrew)
+if [ -d "/home/linuxbrew/.linuxbrew/bin" ]; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
+{{ end }}
+
+# ===== Prompt =====
+# カレントディレクトリを表示
+export PS1='%~ %# '
+
+
+# ===== Locale & language =====
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US:en
+
+
+# ===== Functions & keybindings =====
 # ghq listコマンドをpecoでキーバインド。cursorで開くように設定。
 function peco-src () {
   local selected_dir=$(ghq list -p | peco --prompt="repositories >" --query "$LBUFFER")
@@ -21,38 +59,9 @@ function peco-src () {
 zle -N peco-src
 bindkey '^L' peco-src
 
-{{ if eq .chezmoi.os "linux" }}
-export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 
-# bun
-export PATH="$HOME/.bun/bin:$PATH"
-
-# goでインストールしたghqのパスを通す
-export PATH="$HOME/go/bin:$PATH"
-. /home/linuxbrew/.linuxbrew/opt/asdf/libexec/asdf.sh
-[ -f "$HOME/.asdf/asdf.sh" ] && . "$HOME/.asdf/asdf.sh"
-[ -f "$HOME/.asdf/completions/asdf.zsh" ] && . "$HOME/.asdf/completions/asdf.zsh"
-
-# Homebrew (Linuxbrew)
-if [ -d "/home/linuxbrew/.linuxbrew/bin" ]; then
-  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-fi
-
-{{ end }}
-
-# カレントディレクトリを表示
-export PS1='%~ %# '
-
-export LANG=en_US.UTF-8
-export LANGUAGE=en_US:en
-
+# ===== macOS (Darwin) post =====
 {{ if eq .chezmoi.os "darwin" }}
 # Amazon Q post block. Keep at the bottom of this file.
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
-{{ end }}
-
-{{- if eq .chezmoi.os "linux" }}
-# WSLからホストOSのSSHを使うためのエイリアス
-alias ssh="ssh.exe"
-alias ssh-add="ssh-add.exe"
 {{ end }}
