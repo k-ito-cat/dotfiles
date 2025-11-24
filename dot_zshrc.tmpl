@@ -2,12 +2,6 @@
 # 1Password CLI サインインコマンドのエイリアス　
 alias ops="eval \"\$(op signin)\""
 
-{{- if eq .chezmoi.os "linux" }}
-# WSLからホストOSのSSHを使うためのエイリアス
-alias ssh="ssh.exe"
-alias ssh-add="ssh-add.exe"
-{{ end }}
-
 # ===== PATH =====
 [ -f "$HOME/.asdf/asdf.sh" ] && . "$HOME/.asdf/asdf.sh"
 [ -f "$HOME/.asdf/completions/asdf.zsh" ] && . "$HOME/.asdf/completions/asdf.zsh"
@@ -59,6 +53,21 @@ function peco-src () {
 zle -N peco-src
 bindkey '^L' peco-src
 
+{{- if eq .chezmoi.os "linux" }}
+# Windowsの1Password SSH AgentをWSLから使うためのブリッジを自動起動する処理
+# npiperelay.exe が存在する環境（WSL上でWindowsを参照できる環境）だけ実行する
+if command -v npiperelay.exe >/dev/null 2>&1; then
+
+  # WSL側で使うUnixソケットのパス。ssh はここをエージェントとして参照する
+  export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
+
+  # ソケットが存在しない=ブリッジ未起動なので、自動で立ち上げる
+  if [ ! -S "$SSH_AUTH_SOCK" ]; then
+    ~/.local/bin/1pass-ssh-bridge >/dev/null 2>&1 &
+  fi
+fi
+
+{{ end }}
 
 # ===== macOS (Darwin) post =====
 {{ if eq .chezmoi.os "darwin" }}

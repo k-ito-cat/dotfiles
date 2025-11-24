@@ -4,11 +4,4 @@ Host github.com
   User git
   IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
   ForwardAgent yes
-
-{{ else if eq .chezmoi.os "linux" }}
-Host github.com
-  HostName github.com
-  User git
-  IdentitiesOnly yes
-  IdentityAgent ~/.ssh/1Password/config
 {{ end }}
