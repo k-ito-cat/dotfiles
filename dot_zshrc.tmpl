@@ -58,8 +58,9 @@ if command -v npiperelay.exe >/dev/null 2>&1; then
   # WSL側で使うUnixソケットのパス。ssh はここをエージェントとして参照する
   export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
 
-  # ソケットが存在しない=ブリッジ未起動なので、自動で立ち上げる
-  if [ ! -S "$SSH_AUTH_SOCK" ]; then
+  # 一度でも失敗したらソケットを消してブリッジし直す
+  if ! ssh-add -l >/dev/null 2>&1; then
+    rm -f "$SSH_AUTH_SOCK"
     ~/.local/bin/1pass-ssh-bridge >/dev/null 2>&1 &
   fi
 fi
