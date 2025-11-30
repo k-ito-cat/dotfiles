@@ -7,9 +7,6 @@ alias ops="eval \"\$(op signin)\""
 [ -f "$HOME/.asdf/completions/asdf.zsh" ] && . "$HOME/.asdf/completions/asdf.zsh"
 
 {{ if eq .chezmoi.os "darwin" }}
-# Amazon Q pre block. Keep at the top of this file.
-[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
-
 export PATH="/Applications/Cursor.app/Contents/Resources/app/bin:$PATH"
 {{ end }}
 
@@ -67,10 +64,4 @@ if command -v npiperelay.exe >/dev/null 2>&1; then
   fi
 fi
 
-{{ end }}
-
-# ===== macOS (Darwin) post =====
-{{ if eq .chezmoi.os "darwin" }}
-# Amazon Q post block. Keep at the bottom of this file.
-[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
 {{ end }}
