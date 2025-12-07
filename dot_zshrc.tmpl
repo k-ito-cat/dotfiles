@@ -51,21 +51,23 @@ zle -N peco-src
 bindkey '^L' peco-src
 
 {{- if eq .chezmoi.os "linux" }}
-# Windowsの1Password SSH AgentをWSLから使うためのブリッジを自動起動する処理
-# npiperelay.exe が存在する環境（WSL上でWindowsを参照できる環境）だけ実行する
-if command -v npiperelay.exe >/dev/null 2>&1; then
-
-  # WSL側で使うUnixソケットのパス。ssh はここをエージェントとして参照する
+# Windows の 1Password SSH Agent を WSL から使うためのブリッジ
+if grep -qi microsoft /proc/version 2>/dev/null && command -v npiperelay.exe >/dev/null 2>&1; then
   export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
 
-  # 一度でも失敗したらソケットを消してブリッジし直す
-  if ! ssh-add -l >/dev/null 2>&1; then
+  wsl_restart_ssh_bridge() {
     rm -f "$SSH_AUTH_SOCK"
     ~/.local/bin/1pass-ssh-bridge >/dev/null 2>&1 &
+    sleep 0.5
+  }
+
+  # ソケットに接続できないまたはエージェントがいない場合はブリッジやり直し
+  if ! ssh-add -l >/dev/null 2>&1; then
+    wsl_restart_ssh_bridge
   fi
 fi
-
 {{ end }}
+
 
 {{- if eq .chezmoi.os "darwin" }}
 # 1Password SSH Agent を ~/.ssh/agent.sock としてエイリアスを張っている。
