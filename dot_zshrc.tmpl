@@ -38,11 +38,11 @@ export LANGUAGE=en_US:en
 
 
 # ===== Functions & keybindings =====
-# ghq listコマンドをpecoでキーバインド。cursorで開くように設定。
+# ghq listコマンドをpecoでキーバインド。vscodeで開くように設定。
 function peco-src () {
   local selected_dir=$(ghq list -p | peco --prompt="repositories >" --query "$LBUFFER")
   if [ -n "$selected_dir" ]; then
-    BUFFER="cursor ${selected_dir}"
+    BUFFER="code ${selected_dir}"
     zle accept-line
   fi
   zle clear-screen
