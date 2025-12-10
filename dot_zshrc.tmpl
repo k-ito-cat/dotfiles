@@ -3,14 +3,27 @@
 alias ops="eval \"\$(op signin)\""
 
 # ===== PATH =====
+
+# asdf
 [ -f "$HOME/.asdf/asdf.sh" ] && . "$HOME/.asdf/asdf.sh"
 [ -f "$HOME/.asdf/completions/asdf.zsh" ] && . "$HOME/.asdf/completions/asdf.zsh"
 
+# Homebrew (mac / Linux 共通)
+if command -v brew >/dev/null 2>&1; then
+  eval "$(brew shellenv)"
+
+  # zsh拡張プラグイン
+  source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+  source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+fi
+
 {{ if eq .chezmoi.os "darwin" }}
+# Cursor CLI
 export PATH="/Applications/Cursor.app/Contents/Resources/app/bin:$PATH"
 {{ end }}
 
 {{ if eq .chezmoi.os "linux" }}
+# local bin
 export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 
 # bun
@@ -18,14 +31,8 @@ export PATH="$HOME/.bun/bin:$PATH"
 
 # goでインストールしたghqのパスを通す
 export PATH="$HOME/go/bin:$PATH"
-
-. /home/linuxbrew/.linuxbrew/opt/asdf/libexec/asdf.sh
-
-# Homebrew (Linuxbrew)
-if [ -d "/home/linuxbrew/.linuxbrew/bin" ]; then
-  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-fi
 {{ end }}
+
 
 # ===== Prompt =====
 # カレントディレクトリを表示
