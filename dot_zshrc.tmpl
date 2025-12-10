@@ -3,6 +3,10 @@
 alias ops="eval \"\$(op signin)\""
 
 # ===== PATH =====
+# asdf
+if command -v asdf >/dev/null 2>&1; then
+  . "$(brew --prefix asdf)/libexec/asdf.sh"
+fi
 
 # Homebrew (mac / Linux 共通)
 {{ if eq .chezmoi.os "darwin" }}
