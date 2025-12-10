@@ -12,3 +12,7 @@ brew "cocoapods"
 
 cask "1password-cli"
 {{ end }}
+
+{{ if eq .chezmoi.os "linux" }}
+brew "1password-cli"
+{{ end }}
