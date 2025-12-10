@@ -4,10 +4,6 @@ alias ops="eval \"\$(op signin)\""
 
 # ===== PATH =====
 
-# asdf
-[ -f "$HOME/.asdf/asdf.sh" ] && . "$HOME/.asdf/asdf.sh"
-[ -f "$HOME/.asdf/completions/asdf.zsh" ] && . "$HOME/.asdf/completions/asdf.zsh"
-
 # Homebrew (mac / Linux 共通)
 {{ if eq .chezmoi.os "darwin" }}
 if [ -x /opt/homebrew/bin/brew ]; then
