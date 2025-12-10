@@ -25,11 +25,6 @@ if command -v brew >/dev/null 2>&1; then
   source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 fi
 
-{{ if eq .chezmoi.os "darwin" }}
-# Cursor CLI
-export PATH="/Applications/Cursor.app/Contents/Resources/app/bin:$PATH"
-{{ end }}
-
 {{ if eq .chezmoi.os "linux" }}
 # local bin
 export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
