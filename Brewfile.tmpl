@@ -1,0 +1,14 @@
+brew "git"
+brew "chezmoi"
+brew "ghq"
+brew "peco"
+brew "asdf"
+brew "zsh-autosuggestions"
+brew "zsh-syntax-highlighting"
+brew "f3"
+
+{{ if eq .chezmoi.os "darwin" }}
+brew "cocoapods"
+
+cask "1password-cli"
+{{ end }}
