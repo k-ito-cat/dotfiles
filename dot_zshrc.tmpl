@@ -76,11 +76,9 @@ fi
 {{ end }}
 
 {{- if eq .chezmoi.os "darwin" }}
-# 1Password SSH Agent を ~/.ssh/agent.sock としてエイリアスを張っている。
-# ホスト側で SSH_AUTH_SOCK を設定しておかないと、
-# devcontainer 起動時に VS Code/Cursor が独自の SSH ソケット
-# (/tmp/cursor-remote-ssh-xxxx.sock) を自動で挿入してしまうため、
-# ホスト側で先に SSH_AUTH_SOCK を ~/.ssh/agent.sock に固定する。
+# 1Password SSH Agentのソケットを固定して参照できるようにする。
+# SSHは秘密鍵そのものではなく、SSH_AUTH_SOCKが指すエージェントソケット経由で署名を行うため、
+# ここを固定しておくとシェルや起動経路が変わっても鍵認証ができる。
 
 export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
 {{- end }}
