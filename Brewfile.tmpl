@@ -12,3 +12,8 @@ cask "1password-cli"
 brew "cocoapods"
 
 {{ end }}
+
+{{ if eq .chezmoi.os "linux" }}
+tap "wezterm/wezterm-linuxbrew"
+brew "wezterm"
+{{ end }}
