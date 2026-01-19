@@ -12,5 +12,7 @@
 [diff]
     external = difft
 
+{{ if eq .chezmoi.os "darwin" }}
 [credential]
 	helper = osxkeychain
+{{ end }}
