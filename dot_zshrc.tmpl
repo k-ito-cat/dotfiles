@@ -45,6 +45,13 @@ export LANGUAGE=en_US:en
 
 
 # ===== Functions & keybindings =====
+
+# zoxide: z / zi を追加し、移動履歴から学習してジャンプ
+eval "$(zoxide init zsh)"
+# starship: 言語情報などをターミナルに表示
+eval "$(starship init zsh)"
+
+
 # ghq listコマンドをpecoでキーバインド。vscodeで開くように設定。
 function peco-src () {
   local selected_dir=$(ghq list -p | peco --prompt="repositories >" --query "$LBUFFER")

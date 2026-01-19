@@ -1,0 +1,3 @@
+# プロンプトの前の空行を消す
+add_newline = false
+
