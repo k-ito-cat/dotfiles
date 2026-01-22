@@ -1,0 +1,28 @@
+# ===== SSH Agent =====
+
+{{- if eq .chezmoi.os "linux" }}
+# Windows の 1Password SSH Agent を WSL から使うためのブリッジ
+if grep -qi microsoft /proc/version 2>/dev/null && command -v npiperelay.exe >/dev/null 2>&1; then
+  export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
+
+  # ...&! -> 起動メッセージが出さず、jobsにも載せない
+  wsl_restart_ssh_bridge() {
+    rm -f "$SSH_AUTH_SOCK"
+    ~/.local/bin/1pass-ssh-bridge >/dev/null 2>&1 &!
+    sleep 0.5
+  }
+
+  # ソケットに接続できないまたはエージェントがいない場合はブリッジやり直し
+  if ! ssh-add -l >/dev/null 2>&1; then
+    wsl_restart_ssh_bridge
+  fi
+fi
+{{ end }}
+
+{{- if eq .chezmoi.os "darwin" }}
+# 1Password SSH Agentのソケットを固定して参照できるようにする。
+# SSHは秘密鍵そのものではなく、SSH_AUTH_SOCKが指すエージェントソケット経由で署名を行うため、
+# ここを固定しておくとシェルや起動経路が変わっても鍵認証ができる。
+
+export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
+{{- end }}
