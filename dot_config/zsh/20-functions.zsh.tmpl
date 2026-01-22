@@ -1,0 +1,36 @@
+# ===== Functions =====
+
+# navi: チートシート検索
+if command -v navi >/dev/null 2>&1; then
+  eval "$(navi widget zsh)"
+  bindkey '^N' _navi_widget
+fi
+
+# ghq listコマンドをpecoでキーバインド。vscodeで開くように設定。
+peco-src () {
+  local selected_dir=$(ghq list -p | peco --prompt="repositories >" --query "$LBUFFER")
+  if [ -n "$selected_dir" ]; then
+    local win_cwd
+    win_cwd=$(wslpath -w "$selected_dir")
+
+    # Weztermで開く
+    # TODO: Mac用の設定
+    if wezterm.exe cli list >/dev/null 2>&1; then
+      BUFFER="wezterm.exe cli spawn --cwd ${win_cwd:q}"
+    else
+      BUFFER="wezterm.exe start --cwd ${win_cwd:q}"
+    fi
+
+    zle accept-line
+  fi
+  zle clear-screen
+}
+zle -N peco-src
+bindkey '^G' peco-src
+
+# fzfで選んだファイルをneovimで開く
+v() {
+  local f
+  f="$(fzf)" || return
+  [ -n "$f" ] && nvim "$f"
+}
