@@ -1,0 +1,48 @@
+# ===== Core =====
+
+# ===== PATH =====
+
+# Homebrew (mac / Linux 共通)
+{{ if eq .chezmoi.os "darwin" }}
+if [ -x /opt/homebrew/bin/brew ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+{{ else if eq .chezmoi.os "linux" }}
+if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
+{{ end }}
+
+# ===== Plugins =====
+
+# zsh拡張プラグイン
+if command -v brew >/dev/null 2>&1; then
+  source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+  source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+fi
+
+# ===== Prompt integration =====
+
+{{ if eq .chezmoi.os "linux" }}
+# WezTermに作業ディレクトリ（cwd）を通知して同期する
+# WSLでのみ必要
+. ~/.config/wezterm/wezterm.sh
+{{ end }}
+
+# ===== Environment =====
+
+# autosuggestionsの色
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=248'
+
+# ===== Locale & language =====
+
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US:en
+
+# ===== Tools init =====
+
+eval "$(mise activate zsh)"
+# zoxide: z / zi を追加し、移動履歴から学習してジャンプ
+eval "$(zoxide init zsh)"
+# starship: 言語情報などをターミナルに表示
+eval "$(starship init zsh)"
