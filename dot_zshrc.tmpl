@@ -1,91 +1,11 @@
-# ===== Aliases =====
-# 1Password CLI サインインコマンドのエイリアス　
-alias ops="eval \"\$(op signin)\""
+# 目的別に ~/.config/zsh/*.zsh を番号順で読み込む
 
-# ===== PATH =====
-# asdf
-if command -v asdf >/dev/null 2>&1; then
-  . "$(brew --prefix asdf)/libexec/asdf.sh"
+ZSH_CONFIG_DIR="$HOME/.config/zsh"
+
+if [ -d "$ZSH_CONFIG_DIR" ]; then
+  for f in "$ZSH_CONFIG_DIR"/[0-9][0-9]-*.zsh; do
+    if [ -r "$f" ]; then
+      . "$f"
+    fi
+  done
 fi
-
-# Homebrew (mac / Linux 共通)
-{{ if eq .chezmoi.os "darwin" }}
-if [ -x /opt/homebrew/bin/brew ]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
-{{ else if eq .chezmoi.os "linux" }}
-if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
-  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-fi
-{{ end }}
-
-# zsh拡張プラグイン
-if command -v brew >/dev/null 2>&1; then
-  source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-  source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-fi
-
-{{ if eq .chezmoi.os "linux" }}
-# local bin
-export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
-
-# bun
-export PATH="$HOME/.bun/bin:$PATH"
-{{ end }}
-
-# ===== Enviroment =====
-
-# ===== Prompt =====
-# autosuggestionsの色
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=248'
-
-# ===== Locale & language =====
-export LANG=en_US.UTF-8
-export LANGUAGE=en_US:en
-
-
-# ===== Functions & keybindings =====
-
-# zoxide: z / zi を追加し、移動履歴から学習してジャンプ
-eval "$(zoxide init zsh)"
-# starship: 言語情報などをターミナルに表示
-eval "$(starship init zsh)"
-
-
-# ghq listコマンドをpecoでキーバインド。vscodeで開くように設定。
-function peco-src () {
-  local selected_dir=$(ghq list -p | peco --prompt="repositories >" --query "$LBUFFER")
-  if [ -n "$selected_dir" ]; then
-    BUFFER="code ${selected_dir}"
-    zle accept-line
-  fi
-  zle clear-screen
-}
-zle -N peco-src
-bindkey '^L' peco-src
-
-{{- if eq .chezmoi.os "linux" }}
-# Windows の 1Password SSH Agent を WSL から使うためのブリッジ
-if grep -qi microsoft /proc/version 2>/dev/null && command -v npiperelay.exe >/dev/null 2>&1; then
-  export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
-
-  wsl_restart_ssh_bridge() {
-    rm -f "$SSH_AUTH_SOCK"
-    ~/.local/bin/1pass-ssh-bridge >/dev/null 2>&1 &
-    sleep 0.5
-  }
-
-  # ソケットに接続できないまたはエージェントがいない場合はブリッジやり直し
-  if ! ssh-add -l >/dev/null 2>&1; then
-    wsl_restart_ssh_bridge
-  fi
-fi
-{{ end }}
-
-{{- if eq .chezmoi.os "darwin" }}
-# 1Password SSH Agentのソケットを固定して参照できるようにする。
-# SSHは秘密鍵そのものではなく、SSH_AUTH_SOCKが指すエージェントソケット経由で署名を行うため、
-# ここを固定しておくとシェルや起動経路が変わっても鍵認証ができる。
-
-export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
-{{- end }}
