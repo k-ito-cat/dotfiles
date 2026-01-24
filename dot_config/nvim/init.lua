@@ -17,6 +17,33 @@ require("lazy").setup({
   { "nvim-telescope/telescope.nvim" },
 
   { "folke/trouble.nvim", dependencies = { "nvim-tree/nvim-web-devicons" } },
+
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+    },
+    cmd = "Neotree",
+    opts = {
+      close_if_last_window = true,
+      popup_border_style = "rounded",
+      filesystem = {
+        follow_current_file = { enabled = true },
+        hijack_netrw_behavior = "open_default",
+      },
+      window = {
+        width = 32,
+        mappings = {
+          ["<space>"] = "toggle_node",
+          ["<cr>"] = "open",
+          ["o"] = "open",
+        },
+      },
+    },
+  },
 })
 
 vim.diagnostic.config({
@@ -86,4 +113,7 @@ vim.keymap.set("n", "<leader>fd", telescope.lsp_definitions)
 require("trouble").setup({})
 vim.keymap.set("n", "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>")
 vim.keymap.set("n", "<leader>xw", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>")
+
+vim.keymap.set("n", "<leader>nt", "<cmd>Neotree toggle<cr>")
+vim.keymap.set("n", "<leader>nf", "<cmd>Neotree focus<cr>")
 
