@@ -1,0 +1,5 @@
+[ui]
+language = "ja"
+
+[instructions]
+system = "以後、日本語で返答して。"

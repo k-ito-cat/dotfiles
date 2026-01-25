@@ -3,6 +3,7 @@ node = "22.13.0"
 
 # npmパッケージ
 "npm:@antfu/ni" = "latest"
+"npm:@openai/codex" = "latest"
 
 # 言語サーバー（LSP）
 "aqua:LuaLS/lua-language-server" = "latest"
