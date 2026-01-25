@@ -3,18 +3,35 @@
 ; == よく使う（ターミナル） ==
 # 今いる場所
 pwd
-# 一覧
+# 一覧（eza）
 ls
+# 一覧（詳細 / eza）
+ll
+# 一覧（詳細+隠し / eza）
+la
+# ツリー（eza）
+lst
+# ツリー（1階層 / eza）
+lst1
+# ツリー（2階層 / eza）
+lst2
+# ツリー（3階層 / eza）
+lst3
 # 移動
 cd <dir>
 # 移動（zoxide）
 z <一部>
+# 表示（cat）
+cat <file>
+# 表示（bat）
+cat
 # 編集（neovim）
 nvim <file>
 # ファイラ（yazi）
 yy
 # Git操作（lazygit）
 lg
+
 
 % file search
 ; == 検索（ファイル/中身） ==

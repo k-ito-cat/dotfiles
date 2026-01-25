@@ -1,0 +1,20 @@
+style:
+  tag:
+    color: "cyan"
+    width_percentage: 12
+    min_width: 8
+  comment:
+    color: "white"
+    width_percentage: 18
+    min_width: 12
+  snippet:
+    color: "blue"
+    width_percentage: 18
+    min_width: 12
+
+finder:
+  command: "fzf"
+
+shell:
+  command: "zsh"
+
