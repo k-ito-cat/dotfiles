@@ -31,5 +31,7 @@ cask "1password-cli"
 # ===== macOS only =====
 {{ if eq .chezmoi.os "darwin" }}
 brew "cocoapods"
+# WindowsはWindows版をwingetで導入する方針なのでbrewで入れるのはmacOSのみ
+cask "wezterm"
 {{ end }}
 
