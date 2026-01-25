@@ -5,8 +5,8 @@ style:
     min_width: 8
   comment:
     color: "white"
-    width_percentage: 18
-    min_width: 12
+    width_percentage: 22
+    min_width: 14
   snippet:
     color: "blue"
     width_percentage: 18

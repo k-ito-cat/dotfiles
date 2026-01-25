@@ -88,6 +88,25 @@ V
 # 一番下
 G
 
+% neovim plugin
+; == neovim プラグイン ==
+# ファイル検索（telescope）
+\ff
+# 中身検索（telescope）
+\fg
+# バッファ一覧（telescope）
+\fb
+
+# ツリー表示（neo-tree）
+\nt
+# ツリーへ移動（neo-tree）
+\nf
+
+# 診断一覧（trouble）
+\xx
+# 診断一覧（現在バッファ / trouble）
+\xw
+
 % chezmoi
 ; == chezmoi コマンド ==
 # 状態
