@@ -8,6 +8,12 @@ alias ops="eval \"\$(op signin)\""
 alias lg="lazygit"
 alias yy="yazi"
 
+# codex
+# 推論のレベルの指定。設定ファイルを一時的に上書きする。デフォルトはmedium。
+alias codexh="codex -c model_reasoning_effort='high'"
+alias codexm="codex -c model_reasoning_effort='medium'"
+alias codexl="codex -c model_reasoning_effort='low'"
+
 # chezmoi
 alias czap="chezmoi apply"
 alias czad="chezmoi add"
