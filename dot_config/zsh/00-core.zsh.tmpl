@@ -1,5 +1,18 @@
 # ===== Core =====
 
+
+# ===== Zsh Custom =====
+
+# TABで候補を選べるようにする
+zstyle ":completion:*" menu select
+# 大文字/小文字を区別しない
+zstyle ":completion:*" matcher-list "m:{a-zA-Z}={A-Za-z}"
+# 部分一致で補完
+zstyle ":completion:*" matcher-list \
+  "m:{a-zA-Z}={A-Za-z}" \
+  "r:|=*" \
+  "l:|=* r:|=*"
+
 # ===== PATH =====
 
 # Homebrew (mac / Linux 共通)
