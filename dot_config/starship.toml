@@ -1,3 +1,62 @@
 # プロンプトの前の空行を消す
 add_newline = false
 
+format = """
+$os\
+$directory\
+$git_branch\
+$git_status\
+$nodejs\
+$rust\
+$golang\
+$python\
+$aws\
+$line_break\
+$character\
+"""
+
+right_format = ""
+
+[os]
+disabled = false
+format = "[$symbol ]($style)"
+
+[os.symbols]
+Windows = ""
+Ubuntu = ""
+Debian = ""
+Macos = ""
+Linux = ""
+
+[directory]
+truncation_length = 3
+truncate_to_repo = true
+style = "bold cyan"
+format = "[$path]($style) "
+read_only = ""
+read_only_style = "bold red"
+
+[git_branch]
+symbol = " "
+style = "bold purple"
+format = "[$symbol$branch]($style) "
+
+[nodejs]
+symbol = " "
+style = "bold green"
+format = "[$symbol($version)]($style) "
+
+[aws]
+symbol = " "
+style = "bold yellow"
+format = "[$symbol($profile)]($style) "
+disabled = false
+
+[line_break]
+disabled = true
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
+vimcmd_symbol = "[❮](bold yellow)"
+
