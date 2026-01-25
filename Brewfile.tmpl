@@ -1,27 +1,35 @@
+# ===== Core =====
 brew "git"
 brew "chezmoi"
-brew "ghq"
-brew "peco"
-brew "f3"
-brew "sheldon"
-cask "1password-cli"
 
-brew "neovim"
+# ===== Dev =====
+brew "lazygit"
+brew "difftastic"
+brew "ghq"
+brew "mise"
+
+# ===== CLI UX =====
 brew "ripgrep"
 brew "fd"
 brew "fzf"
-brew "lazygit"
-brew "difftastic"
+brew "peco"
+brew "navi"
 brew "yazi"
+brew "eza"
+brew "bat"
 brew "zoxide"
 brew "starship"
-brew "navi"
-brew "mise"
-brew "bat"
-brew "eza"
+brew "sheldon"
+brew "neovim"
 
+# ===== System =====
+brew "f3"
+
+# ===== Security =====
+cask "1password-cli"
+
+# ===== macOS only =====
 {{ if eq .chezmoi.os "darwin" }}
 brew "cocoapods"
-
 {{ end }}
 
