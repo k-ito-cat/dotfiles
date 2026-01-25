@@ -10,16 +10,27 @@ fi
 peco-src () {
   local selected_dir=$(ghq list -p | peco --prompt="repositories >" --query "$LBUFFER")
   if [ -n "$selected_dir" ]; then
+{{- if eq .chezmoi.os "darwin" }}
+    local cwd
+    cwd="$selected_dir"
+
+    # Weztermで開く（macOS）
+    if wezterm cli list >/dev/null 2>&1; then
+      BUFFER="wezterm cli spawn --cwd ${cwd:q}"
+    else
+      BUFFER="wezterm start --cwd ${cwd:q}"
+    fi
+{{- else }}
     local win_cwd
     win_cwd=$(wslpath -w "$selected_dir")
 
-    # Weztermで開く
-    # TODO: Mac用の設定
+    # Weztermで開く（WSL）
     if wezterm.exe cli list >/dev/null 2>&1; then
       BUFFER="wezterm.exe cli spawn --cwd ${win_cwd:q}"
     else
       BUFFER="wezterm.exe start --cwd ${win_cwd:q}"
     fi
+{{- end }}
 
     zle accept-line
   fi
@@ -34,3 +45,4 @@ v() {
   f="$(fzf)" || return
   [ -n "$f" ] && nvim "$f"
 }
+

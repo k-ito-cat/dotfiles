@@ -3,8 +3,13 @@ local act = wezterm.action
 
 local config = {}
 
--- TODO: target_tripleで分岐
-config.default_domain = 'WSL:Ubuntu'
+local target = wezterm.target_triple
+local is_darwin = target:find("apple") ~= nil
+local is_windows = target:find("windows") ~= nil
+
+if is_windows then
+  config.default_domain = 'WSL:Ubuntu'
+end
 
 -- ベル音を消す
 config.audible_bell = "Disabled"
@@ -19,15 +24,16 @@ config.visual_bell = {
 config.colors = config.colors or {}
 config.colors.visual_bell = "#0b0f14"
 
--- TODO: target_tripleで分岐
-local wsl_domains = wezterm.default_wsl_domains()
-for _, dom in ipairs(wsl_domains) do
-  if dom.name == 'WSL:Ubuntu' then
-    dom.default_prog = { 'zsh', '-l' }
-    dom.default_cwd = '~'
+if is_windows then
+  local wsl_domains = wezterm.default_wsl_domains()
+  for _, dom in ipairs(wsl_domains) do
+    if dom.name == 'WSL:Ubuntu' then
+      dom.default_prog = { 'zsh', '-l' }
+      dom.default_cwd = '~'
+    end
   end
+  config.wsl_domains = wsl_domains
 end
-config.wsl_domains = wsl_domains
 
 config.window_decorations = "RESIZE"
 
@@ -46,8 +52,9 @@ config.hide_tab_bar_if_only_one_tab = true
 config.window_close_confirmation = 'NeverPrompt'
 
 -- 透明
--- TODO: target_tripleで分岐
-config.win32_system_backdrop = 'Disable'
+if is_windows then
+  config.win32_system_backdrop = 'Disable'
+end
 config.window_background_opacity = 0.76
 config.text_background_opacity = 0.86
 
@@ -85,3 +92,4 @@ config.keys = {
 }
 
 return config
+
