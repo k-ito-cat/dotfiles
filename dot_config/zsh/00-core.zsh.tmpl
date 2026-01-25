@@ -28,10 +28,8 @@ fi
 
 # ===== Plugins =====
 
-# zsh拡張プラグイン
-if command -v brew >/dev/null 2>&1; then
-  source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-  source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+if command -v sheldon >/dev/null 2>&1; then
+  eval "$(sheldon source)"
 fi
 
 # ===== Prompt integration =====
