@@ -1,9 +1,11 @@
 [tools]
 node = "22.13.0"
 
+# npmパッケージ
 "npm:@antfu/ni" = "latest"
 
 # 言語サーバー（LSP）
 "aqua:LuaLS/lua-language-server" = "latest"
 "npm:typescript-language-server" = "latest"
 "npm:@astrojs/language-server" = "latest"
+
