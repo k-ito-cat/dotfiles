@@ -32,6 +32,38 @@ yy
 # Git操作（lazygit）
 lg
 
+% gh
+
+# 認証状態
+gh auth status
+# ログイン
+gh auth login
+# 今いるリポジトリ情報
+gh repo view
+# ブラウザで開く
+gh repo view --web
+# PR一覧
+gh pr list
+# PR作成（対話）
+gh pr create
+# PRチェックアウト
+gh pr checkout {{pr_number}}
+# PRの中身を見る
+gh pr view {{pr_number}}
+# issue一覧
+gh issue list
+# issue作成
+gh issue create
+# issueを見る
+gh issue view {{issue_number}}
+# release一覧
+gh release list
+# workflow一覧
+gh workflow list
+# workflow実行
+gh workflow run {{workflow_name}}
+# run一覧
+gh run list
 
 % file search
 ; == 検索（ファイル/中身） ==
