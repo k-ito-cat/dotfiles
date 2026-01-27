@@ -1,0 +1,7 @@
+Host github.com
+  HostName github.com
+  User git
+
+# 1Password SSH agentをSSH_AUTH_SOCKで使う方針なので、
+# IdentityFile, IdentitiesOnlyは未設定。
+
