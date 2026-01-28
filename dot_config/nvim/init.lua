@@ -1,6 +1,16 @@
 -- 端末の機能(OSC 52)で、nvimでコピーした内容をOS側クリップボードへ送る
-vim.g.clipboard = 'osc52'
-vim.opt.clipboard = 'unnamedplus'
+vim.g.clipboard = {
+  name = "OSC 52",
+  copy = {
+    ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+    ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+  },
+  paste = {
+    ["+"] = require("vim.ui.clipboard.osc52").paste("+"),
+    ["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+  },
+}
+vim.opt.clipboard = "unnamedplus"
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then
@@ -55,6 +65,18 @@ require("lazy").setup({
       },
     },
   },
+
+  -- オートセーブ
+  {
+    "okuuva/auto-save.nvim",
+    event = "InsertLeave",
+    opts = {},
+  },
+
+  -- Markdown
+  { "gaoDean/autolist.nvim", ft = { "markdown", "text" }, opts = {} },
+  { "kylechui/nvim-surround", event = "VeryLazy", opts = {} },
+  { "windwp/nvim-autopairs", event = "InsertEnter", opts = {} },
 })
 
 vim.diagnostic.config({
@@ -127,4 +149,3 @@ vim.keymap.set("n", "<leader>xw", "<cmd>Trouble diagnostics toggle filter.buf=0<
 
 vim.keymap.set("n", "<leader>nt", "<cmd>Neotree toggle<cr>")
 vim.keymap.set("n", "<leader>nf", "<cmd>Neotree focus<cr>")
-
