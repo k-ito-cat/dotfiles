@@ -42,7 +42,7 @@ config.font = wezterm.font_with_fallback {
   'Symbols Nerd Font Mono',
   'Noto Sans Mono CJK JP',
 }
-config.font_size = 12.5
+config.font_size = 10
 config.line_height = 1.08
 config.default_cursor_style = "SteadyBar"
 config.window_padding = { left = 10, right = 10, top = 8, bottom = 8 }
@@ -55,7 +55,7 @@ config.window_close_confirmation = 'NeverPrompt'
 if is_windows then
   config.win32_system_backdrop = 'Disable'
 end
-config.window_background_opacity = 0.76
+config.window_background_opacity = 0.9
 config.text_background_opacity = 0.86
 
 config.keys = {
