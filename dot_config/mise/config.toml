@@ -11,3 +11,6 @@ node = "22.13.0"
 "npm:typescript-language-server" = "latest"
 "npm:@astrojs/language-server" = "latest"
 
+# フォーマッター
+"aqua:JohnnyMorganz/StyLua" = "latest"
+"aqua:tamasfe/taplo" = "latest"
