@@ -129,10 +129,16 @@ G
 # バッファ一覧（telescope）
 \fb
 
+# フォーマット（conform）
+\f
+
 # ツリー表示（neo-tree）
 \nt
 # ツリーへ移動（neo-tree）
 \nf
+
+# Markdownプレビュー開始/停止
+:MarkdownPreviewToggle
 
 # 診断一覧（trouble）
 \xx
