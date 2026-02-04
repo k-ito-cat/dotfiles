@@ -55,8 +55,8 @@ config.window_close_confirmation = 'NeverPrompt'
 if is_windows then
   config.win32_system_backdrop = 'Disable'
 end
-config.window_background_opacity = 0.9
-config.text_background_opacity = 0.86
+config.window_background_opacity = 0.95
+config.text_background_opacity = 0.9
 
 config.keys = {
   { key = 'c', mods = 'CTRL|SHIFT', action = act.CopyTo 'Clipboard' },
@@ -92,4 +92,3 @@ config.keys = {
 }
 
 return config
-
