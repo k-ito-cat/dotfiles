@@ -93,6 +93,17 @@ Ctrl+G
 # navi
 Ctrl+N
 
+% node
+; == ni ==
+# 依存インストール
+ni
+# 依存追加
+ni <pkg>
+# dev依存追加
+ni -D <pkg>
+# グローバル追加
+ni -g <pkg>
+
 % neovim
 ; == neovim 主要 ==
 # 入力
