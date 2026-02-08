@@ -47,7 +47,6 @@ if is_windows then
   config.line_height = 1.08
 elseif is_darwin then
   config.font = wezterm.font_with_fallback {
-    'SF Mono',
     'Menlo',
     'Hiragino Sans',
     'Symbols Nerd Font Mono',
