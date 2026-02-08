@@ -43,7 +43,7 @@ if is_windows then
     'Symbols Nerd Font Mono',
     'Noto Sans Mono CJK JP',
   }
-  config.font_size = 11
+  config.font_size = 10
   config.line_height = 1.08
 elseif is_darwin then
   config.font = wezterm.font_with_fallback {
@@ -74,7 +74,7 @@ config.window_close_confirmation = 'NeverPrompt'
 if is_windows then
   config.win32_system_backdrop = 'Disable'
 end
-config.window_background_opacity = 0.95
+config.window_background_opacity = 0.85
 config.text_background_opacity = 0.9
 
 config.keys = {
