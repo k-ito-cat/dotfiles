@@ -37,13 +37,33 @@ end
 
 config.window_decorations = "RESIZE"
 
-config.font = wezterm.font_with_fallback {
-  'JetBrains Mono',
-  'Symbols Nerd Font Mono',
-  'Noto Sans Mono CJK JP',
-}
-config.font_size = 10
-config.line_height = 1.08
+if is_windows then
+  config.font = wezterm.font_with_fallback {
+    'JetBrains Mono',
+    'Symbols Nerd Font Mono',
+    'Noto Sans Mono CJK JP',
+  }
+  config.font_size = 11
+  config.line_height = 1.08
+elseif is_darwin then
+  config.font = wezterm.font_with_fallback {
+    'SF Mono',
+    'Menlo',
+    'Hiragino Sans',
+    'Symbols Nerd Font Mono',
+    'Apple Color Emoji',
+  }
+  config.font_size = 13
+  config.line_height = 1.05
+else
+  config.font = wezterm.font_with_fallback {
+    'JetBrains Mono',
+    'Noto Sans Mono CJK JP',
+    'Symbols Nerd Font Mono',
+  }
+  config.font_size = 10
+  config.line_height = 1.08
+end
 config.default_cursor_style = "SteadyBar"
 config.window_padding = { left = 10, right = 10, top = 8, bottom = 8 }
 
