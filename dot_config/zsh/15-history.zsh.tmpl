@@ -1,0 +1,7 @@
+# ===== History =====
+
+export HISTFILE="$HOME/.zsh_history"
+export HISTSIZE=100000
+export SAVEHIST=100000
+# 複数タブで履歴を共有しつつ、重複と余分な空白を抑える。
+setopt APPEND_HISTORY SHARE_HISTORY HIST_IGNORE_DUPS HIST_REDUCE_BLANKS
