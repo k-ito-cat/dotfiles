@@ -53,7 +53,7 @@ elseif is_darwin then
     'Symbols Nerd Font Mono',
     'Apple Color Emoji',
   }
-  config.font_size = 13
+  config.font_size = 14
   config.line_height = 1.05
 else
   config.font = wezterm.font_with_fallback {
