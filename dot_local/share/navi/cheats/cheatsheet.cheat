@@ -184,14 +184,12 @@ printf '%s\n' 'Ctrl+Shift+T : New Tab'
 printf '%s\n' 'Ctrl+Shift+D : Split Horizontal'
 # Ctrl+Shift+E : 縦分割
 printf '%s\n' 'Ctrl+Shift+E : Split Vertical'
-# Ctrl+Shift+H : 左へ
-printf '%s\n' 'Ctrl+Shift+H : Pane Left'
-# Ctrl+Shift+L : 右へ
-printf '%s\n' 'Ctrl+Shift+L : Pane Right'
-# Ctrl+Shift+K : 上へ
-printf '%s\n' 'Ctrl+Shift+K : Pane Up'
-# Ctrl+Shift+J : 下へ
-printf '%s\n' 'Ctrl+Shift+J : Pane Down'
+# Ctrl+Shift+[ : paneローテーション（反時計回り）
+printf '%s\n' 'Ctrl+Shift+[ : Rotate Panes CounterClockwise'
+# Ctrl+Shift+] : paneローテーション（時計回り）
+printf '%s\n' 'Ctrl+Shift+] : Rotate Panes Clockwise'
+# Ctrl+Shift+←/→/↑/↓ : paneフォーカス移動（WezTermデフォルト）
+printf '%s\n' 'Ctrl+Shift+Arrow Keys : Pane Focus Move (Default)'
 # Ctrl+W : 分割ビュー閉じる
 printf '%s\n' 'Ctrl+W : Close Pane'
 # Ctrl+Shift+W : タブ閉じる

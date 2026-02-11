@@ -86,10 +86,10 @@ config.keys = {
   { key = 'd', mods = 'CTRL|SHIFT', action = act.SplitHorizontal { domain = 'CurrentPaneDomain' } },
   { key = 'e', mods = 'CTRL|SHIFT', action = act.SplitVertical { domain = 'CurrentPaneDomain' } },
 
-  { key = 'h', mods = 'CTRL|SHIFT', action = act.ActivatePaneDirection 'Left' },
-  { key = 'l', mods = 'CTRL|SHIFT', action = act.ActivatePaneDirection 'Right' },
-  { key = 'k', mods = 'CTRL|SHIFT', action = act.ActivatePaneDirection 'Up' },
-  { key = 'j', mods = 'CTRL|SHIFT', action = act.ActivatePaneDirection 'Down' },
+  { key = '[', mods = 'CTRL|SHIFT', action = act.RotatePanes 'CounterClockwise' },
+  { key = ']', mods = 'CTRL|SHIFT', action = act.RotatePanes 'Clockwise' },
+  { key = 'phys:LeftBracket', mods = 'CTRL|SHIFT', action = act.RotatePanes 'CounterClockwise' },
+  { key = 'phys:RightBracket', mods = 'CTRL|SHIFT', action = act.RotatePanes 'Clockwise' },
 -- 分割ビュー閉じる
  {
   key = 'w',
