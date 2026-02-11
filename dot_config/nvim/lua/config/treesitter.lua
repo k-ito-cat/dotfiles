@@ -13,21 +13,6 @@ function M.setup()
     "markdown_inline",
   }
 
-  local ok_configs, configs = pcall(require, "nvim-treesitter.configs")
-  if ok_configs then
-    configs.setup({
-      ensure_installed = languages,
-      highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = false,
-      },
-      indent = {
-        enable = true,
-      },
-    })
-    return
-  end
-
   local ok_ts, ts = pcall(require, "nvim-treesitter")
   if not ok_ts then
     vim.notify("nvim-treesitter が見つかりません", vim.log.levels.WARN)
@@ -51,9 +36,12 @@ function M.setup()
       "lua",
       "markdown",
     },
-    callback = function()
-      vim.treesitter.start()
-      vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+    callback = function(args)
+      local ok_start = pcall(vim.treesitter.start, args.buf)
+      if not ok_start then
+        return
+      end
+      vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
     end,
   })
 end
