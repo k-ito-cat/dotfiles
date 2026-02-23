@@ -3,34 +3,32 @@
 ; == よく使う（ターミナル） ==
 # 今いる場所
 pwd
-# 一覧（eza）
-ls
-# 一覧（詳細 / eza）
-ll
-# 一覧（詳細+隠し / eza）
-la
-# ツリー（eza）
-lst
-# ツリー（1階層 / eza）
-lst1
-# ツリー（2階層 / eza）
-lst2
-# ツリー（3階層 / eza）
-lst3
 # 移動
 cd <dir>
 # 移動（zoxide）
 z <一部>
 # 表示（cat）
 cat <file>
-# 表示（bat）
-cat
 # 編集（neovim）
 nvim <file>
-# ファイラ（yazi）
-yy
-# Git操作（lazygit）
-lg
+
+% file reference
+; == ファイル参照 ==
+# AGENTS.mdを表示
+cat ~/.local/share/chezmoi/dot_codex/AGENTS.md
+# zsh alias定義（chezmoi）を表示
+cat ~/.local/share/chezmoi/dot_config/zsh/10-aliases.zsh.tmpl
+# zsh functions定義（chezmoi）を表示
+cat ~/.local/share/chezmoi/dot_config/zsh/20-functions.zsh.tmpl
+# zsh keybind定義（chezmoi）を表示
+cat ~/.local/share/chezmoi/dot_config/zsh/30-keybinds.zsh.tmpl
+
+% navi
+; == navi ==
+# チートシートを開いて選択後に即実行
+navi
+# チートシートを開いてコマンドを入力欄に挿入（zsh keybind）
+Ctrl+N
 
 % gh
 
@@ -88,18 +86,7 @@ N
 # 確認しながら置換（neovim）
 :%s/前/後/gc
 
-% custom function
-; == カスタム関数 ==
-# fzfで選んだファイルを開く（neovim）
-v
-# 中身検索してヒット位置を開く（ripgrep + fzf + neovim）
-vg <語>
-# リポジトリ選択（ghq + peco）
-Ctrl+G
-# navi
-Ctrl+N
-
-% node
+% ni
 ; == ni ==
 # 依存インストール
 ni
