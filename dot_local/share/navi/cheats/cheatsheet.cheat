@@ -164,6 +164,61 @@ chezmoi edit <PATH>
 # 更新（git pull + apply）
 chezmoi update
 
+% brew bundle
+; == Brew Bundle ==
+# Brewfileを指定してインストール
+brew bundle --file <Brewfile>
+# Brewfileどおりにインストール
+brew bundle install
+# Brewfileとの差分確認
+brew bundle check
+# 現在環境からBrewfileを生成（上書き）
+brew bundle dump --force
+
+% mise
+; == mise ==
+# .mise.tomlに従ってインストール
+mise install
+# ローカルでツール/バージョンを使う
+mise use <tool>@<version>
+# インストール済み一覧
+mise ls
+# 実行バイナリの参照先を確認
+mise which <tool>
+
+% sheldon
+; == sheldon ==
+# lockファイル更新
+sheldon lock
+# shell用のsource文字列を出力
+sheldon source
+
+% docker
+; == Docker ==
+# 起動中コンテナ一覧
+docker ps
+# ログ追従
+docker logs -f <container>
+# コンテナに入る（sh）
+docker exec -it <container> sh
+
+% docker compose
+; == Docker Compose ==
+# composeファイル指定で起動
+docker compose -f <compose.yml> up -d
+# composeファイル指定で停止/削除
+docker compose -f <compose.yml> down
+# composeファイル指定で状態確認
+docker compose -f <compose.yml> ps
+# composeファイル指定でログ追従
+docker compose -f <compose.yml> logs -f
+# composeファイル指定でサービスに入る（sh）
+docker compose -f <compose.yml> exec <service> sh
+# カレントのcomposeで起動
+docker compose up -d
+# カレントのcomposeで停止/削除
+docker compose down
+
 % Wezterm key
 ; == Weztermキーコマンド ==
 
