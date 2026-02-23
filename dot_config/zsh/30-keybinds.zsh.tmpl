@@ -1,0 +1,9 @@
+# ===== Keybinds =====
+
+# [Ctrl+N] zle: _navi_widget を割り当てる
+if command -v navi >/dev/null 2>&1; then
+  bindkey '^N' _navi_widget
+fi
+
+# [Ctrl+G] zle: peco-src を割り当てる
+bindkey '^G' peco-src

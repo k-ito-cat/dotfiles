@@ -1,12 +1,11 @@
 # ===== Functions =====
 
-# navi: チートシート検索
+# [Ctrl+N] navi: チートシート検索widgetを初期化する
 if command -v navi >/dev/null 2>&1; then
   eval "$(navi widget zsh)"
-  bindkey '^N' _navi_widget
 fi
 
-# ghq listコマンドをpecoでキーバインド。vscodeで開くように設定。
+# [Ctrl+G] ghq+peco: リポジトリを選択してWezTermで開く
 peco-src () {
   local selected_dir=$(ghq list -p | peco --prompt="repositories >" --query "$LBUFFER")
   if [ -n "$selected_dir" ]; then
@@ -36,10 +35,10 @@ peco-src () {
   fi
   zle clear-screen
 }
+# [peco-src] zle: widgetとして登録
 zle -N peco-src
-bindkey '^G' peco-src
 
-# fzfで選んだファイルをneovimで開く
+# [v] fzf+nvim: fzfで選んだファイルをneovimで開く
 v() {
   local f
   f="$(fzf)" || return
