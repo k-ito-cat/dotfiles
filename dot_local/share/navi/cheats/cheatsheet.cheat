@@ -42,6 +42,12 @@ gh auth login
 gh repo view
 # ブラウザで開く
 gh repo view --web
+# .gitignoreテンプレート一覧
+gh repo gitignore list
+# .gitignoreテンプレート表示
+gh repo gitignore view {{gitignore_template}}
+# .gitignore作成（上書き保存）
+gh repo gitignore view {{gitignore_template}} > .gitignore
 # PR一覧
 gh pr list
 # PR作成（対話）
