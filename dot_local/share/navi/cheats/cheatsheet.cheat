@@ -56,6 +56,8 @@ gh pr checkout {{pr_number}}
 gh pr view {{pr_number}}
 # issue一覧
 gh issue list
+# issue横断検索（@me関与のみ・openのみ・最新順・repo名+タイトルを箇条書き）
+gh search issues --state open --involves @me --archived=false --sort created --order desc -L {{limit}} --json repository,title --jq '.[] | "- \(.repository.nameWithOwner): \(.title)"'
 # issue作成
 gh issue create
 # issueを見る
