@@ -44,6 +44,14 @@ gh repo list
 gh repo list {{owner}} -L 100 --json nameWithOwner,sshUrl
 # ブラウザで開く
 gh repo view --web
+# Project作成（@me）
+gh project create --owner @me --title <project_title>
+# Project一覧（@me）
+gh project list --owner @me
+# ProjectをPRIVATEにする（@me）
+gh project edit <project_number> --owner @me --visibility PRIVATE
+# Projectにリポジトリを紐づける（@me）
+gh project link <project_number> --owner @me --repo <repo_name>
 # .gitignoreテンプレート一覧
 gh repo gitignore list
 # .gitignoreテンプレート表示
