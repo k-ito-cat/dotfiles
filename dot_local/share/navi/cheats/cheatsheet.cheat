@@ -38,6 +38,10 @@ gh auth status
 gh auth login
 # 今いるリポジトリ情報
 gh repo view
+# リポジトリ一覧
+gh repo list
+# リポジトリ一覧（JSON / SSH URL付き）
+gh repo list {{owner}} -L 100 --json nameWithOwner,sshUrl
 # ブラウザで開く
 gh repo view --web
 # .gitignoreテンプレート一覧
