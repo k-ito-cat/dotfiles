@@ -122,7 +122,8 @@ WIPコミットが多い場合は squash して、最終コミットメッセー
 - 実装が複雑、影響範囲が広い、依存やビルド周りに触れた場合は、`npm run build`も実行して確認する。
 
 ## MCP
-- Notion MCPを使う操作は、実行前に毎回ユーザーへ確認し、明示的な `yes` / `OK` がある場合のみ実行する。
+- Notion MCPの更新系操作（追加・更新・削除・移動）は、実行前に毎回ユーザーへ確認し、明示的な `yes` / `OK` がある場合のみ実行する。
+- Notion MCPの読み取り系操作（fetch / search / get-comments など）は、事前確認なしで実行してよい。
 - Notionのページ本文を更新する前に、`notion://docs/enhanced-markdown-spec` を確認し、対象ブロック（特に `columns`）の書式要件を先に確定する。
 - `notion-update-page` は `data` を文字列ではなくオブジェクトで渡す。
 - `columns` 内の本文更新では、列内要素のインデント（タブ）を維持した形式で更新する。
