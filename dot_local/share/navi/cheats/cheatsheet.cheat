@@ -32,11 +32,16 @@ Ctrl+N
 
 % codex
 ; == codex ==
+# Codexを起動
 codex
+# セッションを選んで再開
 codex resume
+# 直近セッションを即再開
 codex resume --last
-printf '%s\n' 'Codex改行: Ctrl+J'
-printf '%s\n' 'Codex送信: Enter'
+# 改行キー（Codex）
+printf '%s\n' 'Ctrl+J'
+# 送信キー（Codex）
+printf '%s\n' 'Enter'
 
 % gh
 
