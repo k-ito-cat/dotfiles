@@ -30,6 +30,14 @@ navi
 # チートシートを開いてコマンドを入力欄に挿入（zsh keybind）
 Ctrl+N
 
+% codex
+; == codex ==
+codex
+codex resume
+codex resume --last
+printf '%s\n' 'Codex改行: Ctrl+J'
+printf '%s\n' 'Codex送信: Enter'
+
 % gh
 
 # 認証状態
