@@ -9,6 +9,9 @@ local is_windows = target:find("windows") ~= nil
 
 if is_windows then
   config.default_domain = 'WSL:Ubuntu'
+  config.allow_win32_input_mode = true
+  config.ime_preedit_rendering = 'System'
+  config.enable_kitty_keyboard = true
 end
 
 -- ベル音を消す
