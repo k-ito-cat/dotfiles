@@ -1,5 +1,7 @@
 local wezterm = require 'wezterm'
 local act = wezterm.action
+-- 0x96f theme by Filip Janevski: https://0x96f.dev/
+local theme = dofile(wezterm.config_dir .. '/colors/0x96f.lua')
 
 local config = {}
 
@@ -24,7 +26,7 @@ config.visual_bell = {
 }
 
 -- ビジュアルベルの色
-config.colors = config.colors or {}
+config.colors = theme
 config.colors.visual_bell = "#0b0f14"
 
 if is_windows then
@@ -69,7 +71,6 @@ end
 config.default_cursor_style = "SteadyBar"
 config.window_padding = { left = 10, right = 10, top = 8, bottom = 8 }
 
-config.color_scheme = 'Tokyo Night'
 config.hide_tab_bar_if_only_one_tab = true
 config.window_close_confirmation = 'NeverPrompt'
 
