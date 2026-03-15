@@ -5,11 +5,11 @@ style:
     min_width: 8
   comment:
     color: "white"
-    width_percentage: 22
+    width_percentage: 42
     min_width: 14
   snippet:
     color: "blue"
-    width_percentage: 18
+    width_percentage: 32
     min_width: 12
 
 finder:
