@@ -71,7 +71,7 @@ gh repo gitignore view {{gitignore_template}} > .gitignore
 
 % gh project
 
-# Project一覧（@me / 番号とタイトル確認）
+# openなProject一覧（@me / 番号とタイトル確認）
 gh project list --owner @me
 # Project一覧（@me / closed含む）
 gh project list --owner @me --closed
