@@ -45,12 +45,15 @@ printf '%s\n' 'Ctrl+J'
 # 送信キー（Codex）
 printf '%s\n' 'Enter'
 
-% gh
+% gh auth
 
 # 認証状態
 gh auth status
 # ログイン
 gh auth login
+
+% gh repo
+
 # 今いるリポジトリ情報
 gh repo view
 # リポジトリ一覧
@@ -59,28 +62,47 @@ gh repo list
 gh repo list {{owner}} -L 100 --json nameWithOwner,sshUrl
 # ブラウザで開く
 gh repo view --web
-# Project作成（@me）
-gh project create --owner @me --title <project_title>
-# Project一覧（@me）
-gh project list --owner @me
-# ProjectをPRIVATEにする（@me）
-gh project edit <project_number> --owner @me --visibility PRIVATE
-# Projectにリポジトリを紐づける（@me）
-gh project link <project_number> --owner @me --repo <repo_name>
 # .gitignoreテンプレート一覧
 gh repo gitignore list
 # .gitignoreテンプレート表示
 gh repo gitignore view {{gitignore_template}}
 # .gitignore作成（上書き保存）
 gh repo gitignore view {{gitignore_template}} > .gitignore
-# PR一覧
-gh pr list
-# PR作成（対話）
-gh pr create
-# PRチェックアウト
-gh pr checkout {{pr_number}}
-# PRの中身を見る
-gh pr view {{pr_number}}
+
+% gh project
+
+# Project一覧（@me / 番号とタイトル確認）
+gh project list --owner @me
+# Project一覧（@me / closed含む）
+gh project list --owner @me --closed
+# Project詳細を見る（@me）
+gh project view <project_number> --owner @me
+# Project作成（@me）
+gh project create --owner @me --title <project_title>
+# Projectタイトル更新（@me）
+gh project edit <project_number> --owner @me --title <new_title>
+# Project説明更新（@me）
+gh project edit <project_number> --owner @me --description <description>
+# ProjectをPRIVATEにする（@me）
+gh project edit <project_number> --owner @me --visibility PRIVATE
+# Projectにリポジトリを紐づける（@me）
+gh project link <project_number> --owner @me --repo <repo_name>
+# Project削除（@me）
+gh project delete <project_number> --owner @me
+
+% gh project item
+
+# Projectにdraft itemを追加（@me）
+gh project item-create <project_number> --owner @me --title <title>
+# Projectのitem一覧（@me）
+gh project item-list <project_number> --owner @me
+# Projectのissue item一覧（@me）
+gh project item-list <project_number> --owner @me --query "is:issue"
+# Projectのopen issue item一覧（@me）
+gh project item-list <project_number> --owner @me --query "is:issue is:open"
+
+% gh issue
+
 # issue一覧
 gh issue list
 # issue横断検索（@me関与のみ・openのみ・最新順・repo名+タイトルを箇条書き）
@@ -89,8 +111,25 @@ gh search issues --state open --involves @me --archived=false --sort created --o
 gh issue create
 # issueを見る
 gh issue view {{issue_number}}
+
+% gh pr
+
+# PR一覧
+gh pr list
+# PR作成（対話）
+gh pr create
+# PRチェックアウト
+gh pr checkout {{pr_number}}
+# PRの中身を見る
+gh pr view {{pr_number}}
+
+% gh release
+
 # release一覧
 gh release list
+
+% gh actions
+
 # workflow一覧
 gh workflow list
 # workflow実行
