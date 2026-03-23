@@ -9,11 +9,21 @@ if grep -qi microsoft /proc/version 2>/dev/null && command -v npiperelay.exe >/d
   wsl_restart_ssh_bridge() {
     rm -f "$SSH_AUTH_SOCK"
     ~/.local/bin/1pass-ssh-bridge >/dev/null 2>&1 &!
-    sleep 0.5
+    local i
+    for i in {1..10}; do
+      [ -S "$SSH_AUTH_SOCK" ] && return 0
+      sleep 0.05
+    done
+    return 1
+  }
+
+  wsl_ssh_bridge_running() {
+    [ -S "$SSH_AUTH_SOCK" ] || return 1
+    pgrep -f "socat UNIX-LISTEN:$SSH_AUTH_SOCK" >/dev/null 2>&1
   }
 
   # ソケットに接続できないまたはエージェントがいない場合はブリッジやり直し
-  if ! ssh-add -l >/dev/null 2>&1; then
+  if ! wsl_ssh_bridge_running; then
     wsl_restart_ssh_bridge
   fi
 fi
