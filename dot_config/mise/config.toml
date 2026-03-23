@@ -9,6 +9,7 @@ node = "24"
 
 # 言語サーバー（LSP）
 "aqua:LuaLS/lua-language-server" = "latest"
+"aqua:tree-sitter/tree-sitter" = "latest"
 "npm:typescript-language-server" = "latest"
 "npm:@astrojs/language-server" = "latest"
 
