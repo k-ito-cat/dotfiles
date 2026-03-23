@@ -45,6 +45,10 @@ printf '%s\n' 'Ctrl+J'
 # 送信キー（Codex）
 printf '%s\n' 'Enter'
 
+% copilot
+; == copilot ==
+copilot
+
 % gh auth
 
 # 認証状態

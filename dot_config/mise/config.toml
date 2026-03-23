@@ -5,6 +5,7 @@ node = "24"
 "npm:@antfu/ni" = "latest"
 "npm:@openai/codex" = "latest"
 "npm:@devcontainers/cli" = "latest"
+"npm:@github/copilot" = "latest"
 
 # 言語サーバー（LSP）
 "aqua:LuaLS/lua-language-server" = "latest"
