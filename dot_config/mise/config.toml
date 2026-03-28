@@ -4,6 +4,7 @@ node = "24"
 # npmパッケージ
 "npm:@antfu/ni" = "latest"
 "npm:@openai/codex" = "latest"
+"npm:@anthropic-ai/claude-code" = "latest"
 "npm:@devcontainers/cli" = "latest"
 "npm:@github/copilot" = "latest"
 
