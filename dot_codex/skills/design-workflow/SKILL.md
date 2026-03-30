@@ -35,9 +35,20 @@ description: Use when the user wants to create or revise UI design, screen desig
 4. 各画面の責務を定義する
 5. 画面遷移図を作る
 6. ワイヤーフレームを作る
-7. 要件から必要コンポーネントと UI パターンを洗い出す
-8. その後にだけ、カラーパレット、タイポグラフィ、コンポーネント見本、UI パターン見本、画面デザインへ進む
-9. 差分が出たら `docs/design/` 配下へ還元する
+   - この段階では visual design をしない
+   - 画面構成、情報の主従、操作位置だけを決める
+7. ワイヤーフレームを根拠に必要コンポーネントと UI パターンを洗い出す
+   - 必要なら 6 と 7 は往復してよい
+8. 文書を根拠に `Layout Gallery` を作る
+   - `screens.md` と `layouts.md` を正本にして、画面内のゾーン構成とレスポンシブ時の崩し方を 1 シートで固定する
+   - ここではコンポーネント中身ではなく、面の分割、幅配分、主従、補助面の扱いを視覚化する
+9. 文書を根拠に `Component Gallery` を作る
+   - `components.md` を正本にして、状態差、サイズ差、パターン差が認識ずれなく伝わる 1 シートを作る
+   - これは見本集ではなく、実装と画面構築のための正本として扱う
+10. foundations / tokens の未定義が visual design に影響しないか確認する
+11. 画面デザインへ進む
+12. 各段階で差分を `docs/design/` 配下へ還元する
+   - すぐ更新しない場合も、更新要否と未更新理由を明示する
 
 ## Hard rules
 
@@ -46,6 +57,13 @@ description: Use when the user wants to create or revise UI design, screen desig
 - ヒアリングで合意していない内容を推測で反映しない
 - 仕様を暗黙補完したまま画面一覧を確定しない
 - 画面一覧、画面責務、画面遷移図、ワイヤーフレームがない状態でコンポーネント設計や画面デザインへ進まない
+- `Layout Gallery` と `Component Gallery` を経ずに visual design へ進まない
+- ワイヤーフレーム段階で visual design をしない
+- `Layout Gallery` ではコンポーネント詳細に入りすぎない
+- `Component Gallery` では画面固有レイアウトの都合を混ぜない
+- wireframe の更新後は `docs/design/` 配下への還元要否を必ず判断する
+- `docs/design/` を未更新のまま次段階へ進む場合は、未更新理由を明示する
+- Workflow の段階を飛ばして進む場合は、例外理由を明示する
 - 文書群と不整合なデザインを作らない
 
 ## Read in this order
@@ -54,14 +72,16 @@ description: Use when the user wants to create or revise UI design, screen desig
 2. `docs/design/DESIGN.md`
 3. `docs/design/foundations.md`
 4. `docs/design/screens.md`
-5. `docs/design/components.md`
-6. `docs/design/ui-patterns.md`
-7. `docs/design/tokens.md`
+5. `docs/design/layouts.md`
+6. `docs/design/components.md`
+7. `docs/design/ui-patterns.md`
+8. `docs/design/tokens.md`
 
 ## When to stop and ask
 
 - 仕様から画面が自然に導けない
 - 画面は定義できるが、責務の切り方が複数ありうる
+- Layout と screen responsibility の境界が曖昧
 - どの UI パターンを採るかで要件解釈が変わる
 - foundations や tokens に未定義項目があり、視覚化判断に影響する
 
@@ -70,5 +90,7 @@ description: Use when the user wants to create or revise UI design, screen desig
 - まず不足している前提を指摘する
 - 必要ならヒアリングで決める
 - 画面一覧を先に固定する
-- その後に画面責務、遷移、WF、コンポーネントへ進む
+- その後に画面責務、遷移、WF、Layout Gallery、Component Gallery へ進む
+- 今どの Workflow 段階にいるかを短く明示する
+- 参照した文書と更新対象文書を必要最小限で明示する
 - デザイン案を出すときは、どの文書根拠に従っているかを意識する
