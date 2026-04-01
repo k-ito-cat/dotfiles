@@ -10,7 +10,7 @@ description: Use when the user wants to create or revise UI design, screen desig
 ## Quick start
 
 - まず `docs/specs/product.md` と `docs/specs/structure.md` を確認する
-- 必要に応じて `docs/specs/api.md` を確認する
+- 必要に応じて `docs/specs/api.md` と `docs/specs/glossary.md` を確認する
 - 次に `docs/design/` 配下を確認する
   - `DESIGN.md`
   - `foundations.md`
@@ -27,6 +27,7 @@ description: Use when the user wants to create or revise UI design, screen desig
    - `docs/specs/product.md`
    - `docs/specs/structure.md`
    - 必要なら `docs/specs/api.md`
+   - 必要なら `docs/specs/glossary.md`
 2. デザイン文書群の未定義項目を確認する
    - `docs/design/` 配下に未定義や責務の曖昧さがあるか見る
    - 未定義項目はユーザーへヒアリングして決める
@@ -39,13 +40,11 @@ description: Use when the user wants to create or revise UI design, screen desig
    - 画面構成、情報の主従、操作位置だけを決める
 7. ワイヤーフレームを根拠に必要コンポーネントと UI パターンを洗い出す
    - 必要なら 6 と 7 は往復してよい
-8. 文書を根拠に `Layout Gallery` を作る
-   - `screens.md` と `layouts.md` を正本にして、画面内のゾーン構成とレスポンシブ時の崩し方を 1 シートで固定する
-   - ここではコンポーネント中身ではなく、面の分割、幅配分、主従、補助面の扱いを視覚化する
-9. 文書を根拠に `Component Gallery` を作る
+8. 文書を根拠に `Component Gallery` を作る
    - `components.md` を正本にして、状態差、サイズ差、パターン差が認識ずれなく伝わる 1 シートを作る
    - これは見本集ではなく、実装と画面構築のための正本として扱う
-10. foundations / tokens の未定義が visual design に影響しないか確認する
+9. foundations / tokens の未定義が visual design に影響しないか確認する
+10. `product.md` のレスポンシブ対応方針と多言語対応方針を確認する
 11. 画面デザインへ進む
 12. 各段階で差分を `docs/design/` 配下へ還元する
    - すぐ更新しない場合も、更新要否と未更新理由を明示する
@@ -57,10 +56,10 @@ description: Use when the user wants to create or revise UI design, screen desig
 - ヒアリングで合意していない内容を推測で反映しない
 - 仕様を暗黙補完したまま画面一覧を確定しない
 - 画面一覧、画面責務、画面遷移図、ワイヤーフレームがない状態でコンポーネント設計や画面デザインへ進まない
-- `Layout Gallery` と `Component Gallery` を経ずに visual design へ進まない
+- `Component Gallery` を経ずに visual design へ進まない
 - ワイヤーフレーム段階で visual design をしない
-- `Layout Gallery` ではコンポーネント詳細に入りすぎない
 - `Component Gallery` では画面固有レイアウトの都合を混ぜない
+- レスポンシブ対応と多言語対応の有無は `product.md` を正本とし、design 側で勝手に決めない
 - wireframe の更新後は `docs/design/` 配下への還元要否を必ず判断する
 - `docs/design/` を未更新のまま次段階へ進む場合は、未更新理由を明示する
 - Workflow の段階を飛ばして進む場合は、例外理由を明示する
@@ -72,25 +71,25 @@ description: Use when the user wants to create or revise UI design, screen desig
 2. `docs/design/DESIGN.md`
 3. `docs/design/foundations.md`
 4. `docs/design/screens.md`
-5. `docs/design/layouts.md`
-6. `docs/design/components.md`
-7. `docs/design/ui-patterns.md`
-8. `docs/design/tokens.md`
+5. `docs/design/components.md`
+6. `docs/design/ui-patterns.md`
+7. `docs/design/tokens.md`
+8. `docs/specs/glossary.md`
 
 ## When to stop and ask
 
 - 仕様から画面が自然に導けない
 - 画面は定義できるが、責務の切り方が複数ありうる
-- Layout と screen responsibility の境界が曖昧
 - どの UI パターンを採るかで要件解釈が変わる
 - foundations や tokens に未定義項目があり、視覚化判断に影響する
+- レスポンシブ対応や多言語対応の扱いが `product.md` で未定義のまま、screen design に影響する
 
 ## Output expectations
 
 - まず不足している前提を指摘する
 - 必要ならヒアリングで決める
 - 画面一覧を先に固定する
-- その後に画面責務、遷移、WF、Layout Gallery、Component Gallery へ進む
+- その後に画面責務、遷移、WF、Component Gallery へ進む
 - 今どの Workflow 段階にいるかを短く明示する
 - 参照した文書と更新対象文書を必要最小限で明示する
 - デザイン案を出すときは、どの文書根拠に従っているかを意識する
