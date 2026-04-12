@@ -3,9 +3,11 @@ node = "24"
 
 # npmパッケージ
 "npm:@antfu/ni" = "latest"
+"npm:@devcontainers/cli" = "latest"
+
+# AIコードアシスタント
 "npm:@openai/codex" = "latest"
 "npm:@anthropic-ai/claude-code" = "latest"
-"npm:@devcontainers/cli" = "latest"
 "npm:@github/copilot" = "latest"
 
 # 言語サーバー（LSP）
