@@ -1,0 +1,3 @@
+# Codex が repo 直下に作る空の .codex を全体で無視する。.codex ディレクトリは使うので除外しない。
+/.codex
+!/.codex/
