@@ -143,6 +143,12 @@ gh run list
 
 % file search
 ; == 検索（ファイル/中身） ==
+# zsh関数 v の定義を参照
+cat ~/.config/zsh/20-functions.zsh
+# ファイル名指定で開く（zsh関数）
+v <file>
+# fzfで選んで開く（zsh関数）
+v
 # ファイル名検索（fzf）
 fzf
 # 中身検索（ripgrep）

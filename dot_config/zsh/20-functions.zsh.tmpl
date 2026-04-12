@@ -41,7 +41,11 @@ zle -N peco-src
 # [v] fzf+nvim: fzfで選んだファイルをneovimで開く
 v() {
   local f
-  f="$(fzf)" || return
+  if [ "$#" -gt 0 ]; then
+    nvim "$@"
+    return
+  fi
+
+  f="$(fzf --walker=file,dir,follow,hidden)" || return
   [ -n "$f" ] && nvim "$f"
 }
-
