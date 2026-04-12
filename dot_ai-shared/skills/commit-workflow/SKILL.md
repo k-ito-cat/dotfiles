@@ -32,4 +32,5 @@ description: Use when the user asks for `gcm` or `gc!`, or whenever commit split
 ## gc! rules
 
 - コミット前に、対象ファイルと対応するコミット文案を一覧で提示する
+- 差分にシークレット、トークン、パスワード、秘密鍵、個人情報などセキュリティリスクのある情報が含まれる場合、該当箇所を指摘しコミットしないことを提案する
 - 許可を得てからコミットする
