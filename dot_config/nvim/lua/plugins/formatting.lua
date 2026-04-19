@@ -20,6 +20,8 @@ return {
       formatters_by_ft = {
         lua = { "stylua" },
         toml = { "taplo" },
+        json = { "prettier" },
+        jsonc = { "prettier" },
       },
     },
   },

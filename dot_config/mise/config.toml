@@ -15,7 +15,9 @@ node = "24"
 "aqua:tree-sitter/tree-sitter" = "latest"
 "npm:typescript-language-server" = "latest"
 "npm:@astrojs/language-server" = "latest"
+"npm:vscode-json-languageserver" = "latest"
 
 # フォーマッター
 "aqua:JohnnyMorganz/StyLua" = "latest"
 "aqua:tamasfe/taplo" = "latest"
+"npm:prettier" = "latest"
