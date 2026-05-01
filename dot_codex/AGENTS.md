@@ -33,6 +33,7 @@
 - 反復的で重い手順は `~/.ai-shared/skills` の Skill を優先する。
 - 作業前に `~/.ai-shared/skills` を確認し、該当 Skill があれば先に参照する。
 - このファイルはコアルールの入口とし、詳細手順は Skill 側を正本にする。
+- 設定ファイル、dotfiles、shell/editor/CLI 設定、`~/.config` 配下を編集する場合は `dotfiles-workflow` Skill を使い、`chezmoi source-path` が返す管理元を正本として編集し、原則 `chezmoi apply` まで行う。
 
 ## MCP
 
