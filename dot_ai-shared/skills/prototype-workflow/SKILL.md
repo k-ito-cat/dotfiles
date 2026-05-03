@@ -1,6 +1,6 @@
 ---
 name: prototype-workflow
-description: Use when creating or revising high-quality disposable browser prototypes under project-documents/<project>/prototype. Prioritize quality and coverage over lightness to validate UI/UX gaps, screen states, UI stack, and interactions not covered by specs or design.
+description: Use when creating or revising high-quality disposable browser prototypes under project-documents/<project>/prototype. Treat prototypes as a place where specification gaps become visible, validate UI/UX states and interactions, and keep prototype behavior synchronized with specifications and design through documents-sync-workflow.
 ---
 
 # Prototype Workflow
@@ -30,17 +30,24 @@ description: Use when creating or revising high-quality disposable browser proto
 6. 見た目と操作感に必要な状態・データ・インタラクション・分岐は省略しない。
 7. API、認証、本格永続化、例外処理は原則作らない。
 8. 必要に応じて `npm run build` で確認する。
-9. プロトタイプ作成中・作成後に判明した仕様やデザインの不足を整理し、必要な正本文書を更新する。
+9. プロトタイプ作成中・作成後に、仕様書 / design 文書 / prototype の乖離を分類する。
+10. 乖離がある場合は `documents-sync-workflow` の正本判断に従って、仕様書を更新するか、prototype を仕様へ戻すか、prototype 限定の検証要素として残すか、保留にするかを決める。
 
-## 正本同期
+## Prototype Sync Gate
 
-- プロトタイプは自我を出さず、仕様書とデザインを厳守する。
-- 仕様書にない挙動、画面状態、情報、文言、導線をプロトタイプだけで確定しない。
-- 仕様書に未定義の要素をプロトタイプに反映する場合は、必ず `specs/` も更新する。
-- デザインに未定義の UI やレイアウトをプロトタイプに反映する場合は、必ず `design/` の更新要否を判断し、必要なら更新する。
-- ユーザーが明示的に気づいていなくても、AI が仕様書やデザインに記載がない事実に気づいた場合は、未定義事項として扱う。
-- 後から未定義だったことが発覚した場合も、プロトタイプだけを正として残さず、仕様書を必ずメンテナンスする。
-- 仕様書更新が必要な変更を、仕様書未更新のまま完了扱いにしない。
+- Prototype は、仕様書や design 文書では見えなかった未定義事項が最も露出しやすい工程として扱う。
+- Prototype に存在する状態、操作、文言、画面、分岐、データ、UI パターンが、仕様書や design 文書に存在しない場合は、成果物と文書の乖離として扱う。
+- 乖離を見つけた場合は、`documents-sync-workflow` の正本判断に従って、仕様書を更新するか、prototype を仕様へ戻すか、prototype 限定の検証要素として残すか、保留にするかを決める。
+- 仕様書未更新のまま prototype だけが正になっている状態を完了扱いしない。
+
+## Prototype Drift Classification
+
+Prototype 作成中・作成後は、仕様書 / design 文書 / prototype の差分を次に分類する。
+
+- 仕様書にあり、prototype にもある: 問題なし。
+- 仕様書にあるが、prototype にない: prototype 未実装、意図的対象外、または prototype 範囲外かを判断する。
+- prototype にあるが、仕様書にない: 仕様不足、prototype 都合、検証仮説、余計な機能追加のどれかを判断する。
+- prototype と仕様書が矛盾している: どちらを正とするか判断し、必要なら `documents-sync-workflow` に従ってメンテナンスする。
 
 ## 品質方針
 
