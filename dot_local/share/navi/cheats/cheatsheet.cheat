@@ -46,6 +46,8 @@ codex resume --last
 printf '%s\n' 'Ctrl+J'
 # 送信キー（Codex）
 printf '%s\n' 'Enter'
+# project-documents workflow開始トリガー（Codexに入力）
+printf '%s\n' 'pdocs'
 
 % claude
 ; == claude ==
