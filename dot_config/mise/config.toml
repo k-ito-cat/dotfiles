@@ -16,6 +16,7 @@ node = "24"
 "npm:typescript-language-server" = "latest"
 "npm:@astrojs/language-server" = "latest"
 "npm:vscode-json-languageserver" = "latest"
+"npm:@tailwindcss/language-server" = "latest"
 
 # フォーマッター
 "aqua:JohnnyMorganz/StyLua" = "latest"
