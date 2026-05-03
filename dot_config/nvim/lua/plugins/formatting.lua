@@ -18,10 +18,17 @@ return {
         return { timeout_ms = 2000, lsp_fallback = true }
       end,
       formatters_by_ft = {
+        css = { "prettier" },
+        html = { "prettier" },
+        javascript = { "prettier" },
+        javascriptreact = { "prettier" },
         lua = { "stylua" },
-        toml = { "taplo" },
         json = { "prettier" },
         jsonc = { "prettier" },
+        svelte = { "prettier" },
+        toml = { "taplo" },
+        typescript = { "prettier" },
+        typescriptreact = { "prettier" },
       },
     },
   },
