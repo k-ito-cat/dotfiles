@@ -1,6 +1,6 @@
 ---
 name: dotfiles-workflow
-description: 設定ファイル、dotfiles、shell/editor/CLI 設定、keybind、alias、function、navi、git config、~/.config 配下のファイルを編集するときに使う。chezmoi source-path が返す管理元を正本として先に確認・編集し、未管理なら chezmoi add を提案し、編集後はユーザーが止めない限り chezmoi apply まで行う。
+description: Use for dotfiles, shell/editor/CLI config, aliases, functions, keybinds, navi, git config, and ~/.config files. Edit the chezmoi source first; propose chezmoi add for unmanaged files, and run chezmoi apply unless stopped.
 ---
 
 # Dotfiles Workflow

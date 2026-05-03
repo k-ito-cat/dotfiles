@@ -1,6 +1,6 @@
 ---
 name: prototype-workflow
-description: project-documents/<project>/prototype 配下に、使い捨て前提の高品質なブラウザプロトタイプを作成・修正するときに使う。仕様・デザインで考慮できていない UI/UX 体験の穴、画面状態、UI スタック、インタラクションを具体確認するため、軽量化より品質と網羅性を優先する。
+description: Use when creating or revising high-quality disposable browser prototypes under project-documents/<project>/prototype. Prioritize quality and coverage over lightness to validate UI/UX gaps, screen states, UI stack, and interactions not covered by specs or design.
 ---
 
 # Prototype Workflow

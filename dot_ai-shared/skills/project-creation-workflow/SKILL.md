@@ -1,6 +1,6 @@
 ---
 name: project-creation-workflow
-description: monorepo-template から新規プロジェクトを作り、docs 実体を project-documents で管理するときに使う。project-documents/_template から project-documents/<project> を作成し、project/docs を symlink に置き換え、結果を確認する。明示指示がない限り push/pull はしない。
+description: Use when creating a new project from monorepo-template while managing docs in project-documents. Copy project-documents/_template to project-documents/<project>, replace project/docs with a symlink, verify the result, and do not push or pull unless explicitly asked.
 ---
 
 # Project Creation Workflow
