@@ -13,7 +13,6 @@
       "Bash(printenv)",
       "Bash(env)",
       "Read(~/.ssh/**)",
-      "Read(~/.aws/**)",
       "Read(.env)",
       "Read(.env.*)",
       "Read(./secrets/**)",
