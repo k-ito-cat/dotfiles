@@ -238,13 +238,21 @@ G
 # ツリーへ移動（neo-tree）
 \nf
 
-# Markdownプレビュー開始/停止
-:MarkdownPreviewToggle
-
 # 診断一覧（trouble）
 \xx
 # 診断一覧（現在バッファ / trouble）
 \xw
+
+% markdown
+; == Markdownビューア ==
+# Markdownを表示（leaf）
+leaf <file>
+# Markdownを自動更新で表示（leaf）
+leaf --watch <file>
+# Markdownファイルを選んで表示（leaf）
+leaf
+# leaf設定を開く
+leaf --config
 
 % chezmoi
 ; == chezmoi コマンド ==

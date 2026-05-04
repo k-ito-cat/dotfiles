@@ -4,6 +4,7 @@ node = "24"
 # npmパッケージ
 "npm:@antfu/ni" = "latest"
 "npm:@devcontainers/cli" = "latest"
+"npm:@rivolink/leaf" = "latest"     # ターミナルMDビューア
 
 # AIコードアシスタント
 "npm:@openai/codex" = "latest"
