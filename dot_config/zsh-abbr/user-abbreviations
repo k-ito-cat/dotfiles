@@ -6,6 +6,7 @@ abbr czap="chezmoi apply"
 abbr cze="chezmoi edit"
 abbr czu="chezmoi update"
 abbr lg="lazygit"
+abbr lsql="lazysql"
 abbr ops='eval "$(op signin)"'
 abbr sz="source ~/.zshrc"
 abbr yy="yazi"

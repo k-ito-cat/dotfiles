@@ -243,6 +243,15 @@ G
 # 診断一覧（現在バッファ / trouble）
 \xw
 
+% database
+; == DBクライアント ==
+# lazysqlを起動
+lsql
+# read-onlyでDB接続
+lsql --read-only <connection_url>
+# lazysql設定を表示
+cat ~/.config/lazysql/config.toml
+
 % markdown
 ; == Markdownビューア ==
 # Markdownを表示（leaf）
