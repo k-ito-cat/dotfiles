@@ -289,6 +289,13 @@ brew bundle check
 # 現在環境からBrewfileを生成（上書き）
 brew bundle dump --force
 
+% gh extension
+; == GitHub CLI 拡張 ==
+# gh拡張一覧
+gh extension list
+# gh-dashを起動
+gh dash
+
 % mise
 ; == mise ==
 # .mise.tomlに従ってインストール
@@ -299,6 +306,13 @@ mise use <tool>@<version>
 mise ls
 # 実行バイナリの参照先を確認
 mise which <tool>
+
+% api client
+; == APIクライアント ==
+# postingを起動
+posting
+# collectionを指定してpostingを起動
+posting --collection <dir>
 
 % sheldon
 ; == sheldon ==

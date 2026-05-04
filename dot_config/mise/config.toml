@@ -1,5 +1,7 @@
 [tools]
 node = "24"
+uv = "latest"
+"pipx:posting" = "latest"
 
 # npmパッケージ
 "npm:@antfu/ni" = "latest"
