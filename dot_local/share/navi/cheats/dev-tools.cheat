@@ -1,0 +1,35 @@
+% brew bundle
+; == Brew Bundle ==
+# Brewfileを指定してインストール
+brew bundle --file <Brewfile>
+# Brewfileどおりにインストール
+brew bundle install
+# Brewfileとの差分確認
+brew bundle check
+# 現在環境からBrewfileを生成（上書き）
+brew bundle dump --force
+
+% mise
+; == mise ==
+# .mise.tomlに従ってインストール
+mise install
+# ローカルでツール/バージョンを使う
+mise use <tool>@<version>
+# インストール済み一覧
+mise ls
+# 実行バイナリの参照先を確認
+mise which <tool>
+
+% api client
+; == APIクライアント ==
+# postingを起動
+posting
+# collectionを指定してpostingを起動
+posting --collection <dir>
+
+% sheldon
+; == sheldon ==
+# lockファイル更新
+sheldon lock
+# shell用のsource文字列を出力
+sheldon source

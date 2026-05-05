@@ -1,0 +1,47 @@
+% terminal
+
+; == よく使う（ターミナル） ==
+# 今いる場所
+pwd
+# 移動
+cd <dir>
+# 移動（zoxide）
+z <一部>
+# 表示（cat）
+cat <file>
+# 編集（neovim）
+nvim <file>
+
+% file search
+; == 検索（ファイル/中身） ==
+# zsh関数 v の定義を参照
+cat ~/.config/zsh/20-functions.zsh
+# ファイル名指定で開く（zsh関数）
+v <file>
+# fzfで選んで開く（zsh関数）
+v
+# ファイル名検索（fzf）
+fzf
+# 中身検索（ripgrep）
+rg <語> .
+# 検索（neovim）
+/<語>
+# 次へ（neovim）
+n
+# 前へ（neovim）
+N
+# 置換（neovim）
+:%s/前/後/g
+# 確認しながら置換（neovim）
+:%s/前/後/gc
+
+% ni
+; == ni ==
+# 依存インストール
+ni
+# 依存追加
+ni <pkg>
+# dev依存追加
+ni -D <pkg>
+# グローバル追加
+ni -g <pkg>

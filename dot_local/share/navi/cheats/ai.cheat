@@ -1,0 +1,33 @@
+% codex
+; == codex ==
+# Codexを起動
+codex
+# セッションを選んで再開
+codex resume
+# 直近セッションを即再開
+codex resume --last
+# 改行キー（Codex）
+printf '%s\n' 'Ctrl+J'
+# 送信キー（Codex）
+printf '%s\n' 'Enter'
+# project-documents workflow開始トリガー（Codexに入力）
+printf '%s\n' 'pdocs'
+
+% claude
+; == claude ==
+# Claudeを起動
+claude
+# 直前のセッションを継続
+claude --continue
+# セッションを選んで再開
+claude --resume
+# ワンショット実行
+claude -p "<prompt>"
+# モデルを指定して起動
+claude --model <model>
+
+$ model: echo -e "sonnet\nopus\nhaiku"
+
+% copilot
+; == copilot ==
+copilot

@@ -1,0 +1,68 @@
+% neovim
+; == neovim 主要 ==
+# 入力
+i
+# 戻る
+Esc
+# 保存
+:w
+# 終了
+:q
+# 保存して終了
+:wq
+# 破棄して終了
+:q!
+# 全文コピー
+:%yank +
+# 戻す
+u
+# やり直し
+Ctrl+r
+# 一番上
+gg
+# 行選択
+V
+# 一番下
+G
+
+% neovim plugin
+; == neovim プラグイン ==
+# ファイル検索（telescope）
+\ff
+# 中身検索（telescope）
+\fg
+# バッファ一覧（telescope）
+\fb
+
+# フォーマット（conform）
+\f
+
+# ツリー表示（neo-tree）
+\nt
+# ツリーへ移動（neo-tree）
+\nf
+
+# 診断一覧（trouble）
+\xx
+# 診断一覧（現在バッファ / trouble）
+\xw
+
+% database
+; == DBクライアント ==
+# lazysqlを起動
+lsql
+# read-onlyでDB接続
+lsql --read-only <connection_url>
+# lazysql設定を表示
+cat ~/.config/lazysql/config.toml
+
+% markdown
+; == Markdownビューア ==
+# Markdownを表示（leaf）
+leaf <file>
+# Markdownを自動更新で表示（leaf）
+leaf --watch <file>
+# Markdownファイルを選んで表示（leaf）
+leaf
+# leaf設定を開く
+leaf --config

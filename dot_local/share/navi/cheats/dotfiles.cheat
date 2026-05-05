@@ -1,0 +1,36 @@
+% file reference
+; == ファイル参照 ==
+# AGENTS.mdを表示
+cat ~/.local/share/chezmoi/dot_codex/AGENTS.md
+# claude settings.jsonを表示
+cat ~/.local/share/chezmoi/dot_claude/settings.json
+# zsh alias定義（chezmoi）を表示
+cat ~/.local/share/chezmoi/dot_config/zsh/10-aliases.zsh.tmpl
+# zsh functions定義（chezmoi）を表示
+cat ~/.local/share/chezmoi/dot_config/zsh/20-functions.zsh.tmpl
+# zsh keybind定義（chezmoi）を表示
+cat ~/.local/share/chezmoi/dot_config/zsh/30-keybinds.zsh.tmpl
+# zsh abbr定義（chezmoi）を表示
+cat ~/.local/share/chezmoi/dot_config/zsh-abbr/user-abbreviations
+
+% navi
+; == navi ==
+# チートシートを開いて選択後に即実行
+navi
+# チートシートを開いてコマンドを入力欄に挿入（zsh keybind）
+Ctrl+N
+
+% chezmoi
+; == chezmoi コマンド ==
+# 状態
+chezmoi status
+# 差分
+chezmoi diff
+# 反映
+chezmoi apply
+# 追加
+chezmoi add <PATH>
+# 編集
+chezmoi edit <PATH>
+# 更新（git pull + apply）
+chezmoi update

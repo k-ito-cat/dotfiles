@@ -1,0 +1,25 @@
+% docker
+; == Docker ==
+# 起動中コンテナ一覧
+docker ps
+# ログ追従
+docker logs -f <container>
+# コンテナに入る（sh）
+docker exec -it <container> sh
+
+% docker compose
+; == Docker Compose ==
+# composeファイル指定で起動
+docker compose -f <compose.yml> up -d
+# composeファイル指定で停止/削除
+docker compose -f <compose.yml> down
+# composeファイル指定で状態確認
+docker compose -f <compose.yml> ps
+# composeファイル指定でログ追従
+docker compose -f <compose.yml> logs -f
+# composeファイル指定でサービスに入る（sh）
+docker compose -f <compose.yml> exec <service> sh
+# カレントのcomposeで起動
+docker compose up -d
+# カレントのcomposeで停止/削除
+docker compose down

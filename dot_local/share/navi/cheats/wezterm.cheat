@@ -1,0 +1,31 @@
+% Wezterm key
+; == Weztermキーコマンド ==
+
+# Ctrl+Shift+C : コピー
+printf '%s\n' 'Ctrl+Shift+C : CopyTo Clipboard'
+# Ctrl+Shift+V : 貼り付け
+printf '%s\n' 'Ctrl+Shift+V : PasteFrom Clipboard'
+# Ctrl+Shift+T : 新しいタブ
+printf '%s\n' 'Ctrl+Shift+T : New Tab'
+# Ctrl+PageUp/PageDown : 前後のタブへ移動
+printf '%s\n' 'Ctrl+PageUp/PageDown : Activate Previous/Next Tab'
+# Ctrl+Shift+PageUp/PageDown : タブを左右へ並び替え
+printf '%s\n' 'Ctrl+Shift+PageUp/PageDown : Move Tab Left/Right'
+# Ctrl+Shift+N : workspace一覧/切り替え
+printf '%s\n' 'Ctrl+Shift+N : Select Workspace'
+# Ctrl+Shift+D : 横分割
+printf '%s\n' 'Ctrl+Shift+D : Split Horizontal'
+# Ctrl+Shift+E : 縦分割
+printf '%s\n' 'Ctrl+Shift+E : Split Vertical'
+# Ctrl+Shift+[ : paneローテーション（反時計回り）
+printf '%s\n' 'Ctrl+Shift+[ : Rotate Panes CounterClockwise'
+# Ctrl+Shift+] : paneローテーション（時計回り）
+printf '%s\n' 'Ctrl+Shift+] : Rotate Panes Clockwise'
+# Ctrl+Shift+←/→/↑/↓ : paneフォーカス移動（WezTermデフォルト）
+printf '%s\n' 'Ctrl+Shift+Arrow Keys : Pane Focus Move (Default)'
+# Ctrl+W : 分割ビュー閉じる
+printf '%s\n' 'Ctrl+W : Close Pane'
+# Ctrl+Shift+W : タブ閉じる
+printf '%s\n' 'Ctrl+Shift+W : Close Tab'
+# Ctrl+Shift+R : 設定再読み込み
+printf '%s\n' 'Ctrl+Shift+R : Reload Config'
