@@ -1,37 +1,49 @@
 local M = {}
 
 function M.setup()
-  local ok_configs, configs = pcall(require, "nvim-treesitter.configs")
-  if not ok_configs then
+  local ok_treesitter, treesitter = pcall(require, "nvim-treesitter")
+  if not ok_treesitter then
     vim.notify("nvim-treesitter が見つかりません", vim.log.levels.WARN)
     return
   end
 
   local parser_install_dir = vim.fn.stdpath("data") .. "/site"
-  vim.opt.runtimepath:prepend(parser_install_dir)
+  local parsers = {
+    "html",
+    "css",
+    "javascript",
+    "typescript",
+    "tsx",
+    "json",
+    "lua",
+    "markdown",
+    "markdown_inline",
+    "svelte",
+  }
+  local filetypes = {
+    "html",
+    "css",
+    "javascript",
+    "typescript",
+    "typescriptreact",
+    "json",
+    "lua",
+    "markdown",
+    "svelte",
+  }
 
-  configs.setup({
-    parser_install_dir = parser_install_dir,
-    ensure_installed = {
-      "html",
-      "css",
-      "javascript",
-      "typescript",
-      "tsx",
-      "json",
-      "lua",
-      "markdown",
-      "markdown_inline",
-      "svelte",
-    },
-    sync_install = false,
-    auto_install = true,
-    highlight = {
-      enable = true,
-    },
-    indent = {
-      enable = true,
-    },
+  treesitter.setup({
+    install_dir = parser_install_dir,
+  })
+
+  treesitter.install(parsers)
+
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = filetypes,
+    callback = function()
+      pcall(vim.treesitter.start)
+      vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+    end,
   })
 end
 
