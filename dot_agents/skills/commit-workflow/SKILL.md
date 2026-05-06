@@ -1,11 +1,11 @@
 ---
 name: commit-workflow
-description: Use when the user asks for `gcm` or `gc!`, or whenever commit splitting and commit message generation are needed. Split changes before writing messages, prefer line-level grouping when practical, and follow the Japanese conventional-commit rules used by the user.
+description: Use when the user asks for `gcm`, or whenever commit splitting and commit message generation are needed. Split changes before writing messages, prefer line-level grouping when practical, and follow the Japanese conventional-commit rules used by the user.
 ---
 
 # Commit Workflow
 
-`gcm` と `gc!` のためのコミット分割とコミットメッセージ作成手順。
+`gcm` のためのコミット分割とコミットメッセージ作成手順。
 
 ## Quick start
 
@@ -23,15 +23,15 @@ description: Use when the user asks for `gcm` or `gc!`, or whenever commit split
 
 ## Commit message rules
 
+- Conventional Commitsを遵守する
 - 形式: `<type>[(scope)][!]: <subject>`
 - type: feat / fix / docs / style / refactor / perf / test / build / ci / chore / revert
 - subject は日本語で簡潔に書く
 - 句点は付けない
 - 作業内容ではなく変更内容または変更意図を書く
 
-## gc! rules
-
+## gcm rules
 - コミット前に、対象ファイルと対応するコミット文案を一覧で提示する
-- 提示した対象範囲、コミット分割、コミットメッセージでコミットしてよいかを確認する
-- 差分にシークレット、トークン、パスワード、秘密鍵、個人情報などセキュリティリスクのある情報が含まれる場合、該当箇所を指摘しコミットしないことを提案する
-- ユーザーが分割案とコミット内容に合意した後は、ステージングとコミット実行の追加許可は不要とする
+- 差分にシークレット、トークン、パスワード、秘密鍵、個人情報などセキュリティリスクのある情報が含まれる場合、該当箇所を指摘しコミットを行わないこと
+- 提示した対象範囲、コミット分割、コミットメッセージでステージングし、コミットを行う
+- コミット後に、コミットメッセージをリスト表示し、それぞれ簡単に内容の要約を記載する。

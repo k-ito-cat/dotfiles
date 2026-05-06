@@ -6,9 +6,26 @@
 
 personality = "pragmatic"
 model = "gpt-5.5"
+sandbox_mode = "workspace-write"
+approval_policy = "on-request"
+
+[sandbox_workspace_write]
+writable_roots = []
+network_access = false
 
 [ui]
 language = "ja"
+
+# -------------------------------------------------------------------
+# Profiles
+# -------------------------------------------------------------------
+
+# codex exec用
+[profiles.commit]
+model = "gpt-5.5"
+model_reasoning_effort = "low"
+sandbox_mode = "workspace-write"
+approval_policy = "on-request"
 
 # -------------------------------------------------------------------
 # MCP servers

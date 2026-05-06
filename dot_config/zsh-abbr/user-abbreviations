@@ -3,6 +3,9 @@ abbr codexh="codex -c model_reasoning_effort='high'"
 abbr codexl="codex -c model_reasoning_effort='low'"
 abbr codexm="codex -c model_reasoning_effort='medium'"
 
+# codex exec
+abbr gcm="codex exec --profile commit 'gcm'"
+
 # chezmoi
 abbr czad="chezmoi add"
 abbr czap="chezmoi apply"
