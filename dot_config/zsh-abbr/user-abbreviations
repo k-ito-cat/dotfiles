@@ -1,10 +1,15 @@
+# codex
 abbr codexh="codex -c model_reasoning_effort='high'"
 abbr codexl="codex -c model_reasoning_effort='low'"
 abbr codexm="codex -c model_reasoning_effort='medium'"
+
+# chezmoi
 abbr czad="chezmoi add"
 abbr czap="chezmoi apply"
 abbr cze="chezmoi edit"
 abbr czu="chezmoi update"
+
+# terminal
 abbr lg="lazygit"
 abbr lsql="lazysql"
 abbr ops='eval "$(op signin)"'
