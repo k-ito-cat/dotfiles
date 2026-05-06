@@ -32,6 +32,9 @@ description: Use when documentation content may be out of sync with implementati
 - アプリ側 `docs` path
 - `project-documents/README.md`
 - `project-documents/_template/`
+- `project-documents/_template/specs/README.md`
+- `project-documents/_template/design/README.md`
+- `project-documents/_template/prototype/README.md`
 - `project-documents/<project>/`
 - 実装、設計成果物、prototype、DB schema / migration、test、生成物
 
@@ -65,6 +68,8 @@ description: Use when documentation content may be out of sync with implementati
 
 - この skill や他 skill に明記されたファイル名、ディレクトリ名、ファイル数は固定の真実源として扱わない。
 - 実際の `project-documents/_template/`、`project-documents/<project>/`、`project-documents/README.md` を確認し、差分があればどちらを正とするか判断する。
+- template 配下の親ディレクトリと各 README を優先して確認し、個別ファイル名は README の文書地図に従う。
+- specs の文書地図は `project-documents/_template/specs/README.md`、design の文書地図は `project-documents/_template/design/README.md`、prototype の方針は `project-documents/_template/prototype/README.md` を基準に確認する。
 - template が正なら、Skill 側の記述を修正する。
 - Skill の方針や品質基準が正しく、template に共通項目が欠けている場合は、template のメンテナンス候補として扱う。
 - template は安易に編集しない。決定事項となる見出し、ファイル、項目を追加する前に、なぜ共通 template に必要か、どのプロジェクトにも適用できるか、既存プロジェクトへどう影響するかを整理する。
@@ -81,7 +86,7 @@ description: Use when documentation content may be out of sync with implementati
   - 理由: 実装が正しい場合も、仕様書が正しい場合も、どちらも古い場合もある。
   - 判断には、ユーザーの意図、既存文書、実装実態、設計成果物、変更履歴、プロダクト品質への影響を使う。
 - 関連文書を横断確認する。
-  - 理由: 1 箇所だけ更新すると、product / structure / API / validation / error policy / design / README の間に新しい矛盾が生まれる。
+  - 理由: 1 箇所だけ更新すると、仕様、構造、API、validation、エラー方針、design、README の間に新しい矛盾が生まれる。
 - 更新前に合意を取る。
   - 理由: 正本判断はプロダクト判断であり、AI が勝手に確定すると認識ずれや仕様の嘘が混ざる。
 - 保留は理由付きで残す。
