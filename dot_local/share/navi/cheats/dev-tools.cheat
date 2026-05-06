@@ -33,3 +33,20 @@ posting --collection <dir>
 sheldon lock
 # shell用のsource文字列を出力
 sheldon source
+
+% ghq
+; == ghq ==
+# リポジトリをクローン（GitHub短縮形可）
+ghq get <repo>
+# SSHでクローン
+ghq get -p <repo>
+# 既存ならpullで更新
+ghq get -u <repo>
+# 管理リポジトリ一覧
+ghq list
+# フルパス付き一覧
+ghq list -p
+# ルートディレクトリ確認
+ghq root
+# 新規ローカルリポジトリ作成
+ghq create <name>
