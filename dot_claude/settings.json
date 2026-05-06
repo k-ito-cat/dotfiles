@@ -1,20 +1,30 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "model": "opus",
   "effortLevel": "high",
   "permissions": {
+    "defaultMode": "auto",
     "allow": [],
+    "ask": [
+      "Bash(git push *)",
+      "Bash(pnpm add *)",
+      "Bash(npm install *)",
+      "Bash(npm i *)",
+      "Bash(bun add *)",
+      "Bash(yarn add *)"
+    ],
     "deny": [
       "Bash(rm -rf *)",
       "Bash(curl *)",
       "Bash(wget *)",
       "Bash(sudo *)",
-      "Bash(git push *)",
       "Bash(chmod 777 *)",
       "Bash(printenv)",
       "Bash(env)",
       "Read(~/.ssh/**)",
-      "Read(.env)",
-      "Read(.env.*)",
+      "Read(~/.aws/credentials)",
+      "Read(./.env)",
+      "Read(./.env.*)",
       "Read(./secrets/**)",
       "Read(**/*.pem)",
       "Read(**/*.key)"
@@ -24,8 +34,18 @@
   "sandbox": {
     "enabled": true,
     "allowUnsandboxedCommands": false,
+    "failIfUnavailable": false,
     "filesystem": {
-      "denyRead": ["~/.aws/credentials", "~/.ssh"]
+      "allowWrite": [],
+      "denyRead": [
+        "~/.ssh",
+        "~/.aws/credentials",
+        "./.env",
+        "./.env.*",
+        "./secrets/**",
+        "**/*.pem",
+        "**/*.key"
+      ]
     }
   }
 }
