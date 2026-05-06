@@ -24,16 +24,6 @@ v
 fzf
 # 中身検索（ripgrep）
 rg <語> .
-# 検索（neovim）
-/<語>
-# 次へ（neovim）
-n
-# 前へ（neovim）
-N
-# 置換（neovim）
-:%s/前/後/g
-# 確認しながら置換（neovim）
-:%s/前/後/gc
 
 % ni
 ; == ni ==
