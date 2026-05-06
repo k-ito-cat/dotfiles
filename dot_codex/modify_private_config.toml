@@ -1,0 +1,54 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- $managed := `# chezmoi:managed:start
+# -------------------------------------------------------------------
+# Core
+# -------------------------------------------------------------------
+
+personality = "pragmatic"
+model = "gpt-5.5"
+
+[ui]
+language = "ja"
+
+# -------------------------------------------------------------------
+# MCP servers
+# -------------------------------------------------------------------
+
+[mcp_servers.notion]
+url = "https://mcp.notion.com/mcp"
+
+[mcp_servers.figma]
+url = "https://mcp.figma.com/mcp"
+
+` -}}
+
+{{- if eq .chezmoi.os "linux" -}}
+{{- $managed = printf `%s
+# FIXME: Windows/WSL環境依存のパスを直書きしている。
+# 将来的にはPencil MCPの安定した起動方法が分かったら置き換える。
+[mcp_servers.pencil]
+command = "/mnt/c/Users/kyohy/AppData/Local/Programs/Pencil/resources/app.asar.unpacked/out/mcp-server-windows-x64.exe"
+args = ["--app", "desktop"]
+
+` $managed -}}
+{{- end -}}
+
+{{- $managed = printf `%s
+# -------------------------------------------------------------------
+# Plugins
+# -------------------------------------------------------------------
+
+[plugins."gmail@openai-curated"]
+enabled = true
+
+[plugins."github@openai-curated"]
+enabled = true
+
+# -------------------------------------------------------------------
+# TUI
+# -------------------------------------------------------------------
+
+[tui.model_availability_nux]
+"gpt-5.5" = 4
+# chezmoi:managed:end` $managed -}}
+{{- .chezmoi.stdin | replaceAllRegex "(?s)# chezmoi:managed:start.*?# chezmoi:managed:end" $managed -}}
