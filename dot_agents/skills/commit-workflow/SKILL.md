@@ -1,6 +1,6 @@
 ---
 name: commit-workflow
-description: Use when the user asks for `gcm`, or whenever commit splitting and commit message generation are needed. Split changes before writing messages, prefer line-level grouping when practical, and follow the Japanese conventional-commit rules used by the user.
+description: Use when the user asks for `gcm`, or whenever commit splitting and commit message generation are needed. Split commits by purpose first, not by file or Conventional Commit type. Prefer line-level grouping when practical, and follow the Japanese conventional-commit rules used by the user.
 ---
 
 # Commit Workflow
@@ -10,16 +10,107 @@ description: Use when the user asks for `gcm`, or whenever commit splitting and 
 ## Quick start
 
 - まず差分全体を把握する
-- 変更の性質が混ざっていないか確認する
-- 必要ならファイル単位ではなく行単位でも分割を検討する
+- 変更目的を洗い出す
+- 目的が混ざっていないか確認する
+- ファイル単位ではなく行単位でも分割を検討する
+- type は分割基準ではなく、コミットメッセージ分類として扱う
+
+## Core principle
+
+コミットは「ファイル単位」でも「type 単位」でもなく、「変更目的単位」で分割する。
+
+同じファイル内の変更でも、目的が異なる場合は別コミットに分ける。
+別ファイルの変更でも、同じ目的を実現するために必要な変更であれば同じコミットにまとめてよい。
+
+Conventional Commits の type はコミット分類のために使う。
+分割の最優先基準にはしない。
+
+迷った場合は、まず「この変更は同じ目的を達成するために必要か」で判断する。
 
 ## Workflow
 
 1. 差分全体を確認する
-2. 変更のまとまりを切り分ける
-3. 機能追加、仕様変更、挙動変更、バグ修正、docs、style を混ぜない
-4. 大きい変更は途中でも動く粒度に刻む
+2. 変更目的を箇条書きで洗い出す
+3. 各変更を目的ごとのまとまりに分類する
+4. 同じファイル内に複数目的の変更がある場合は、行単位または hunk 単位で分割する
 5. 各まとまりごとにコミットメッセージを作る
+6. コミット前に、予定する分割方針を確認する
+7. 提示した対象範囲、コミット分割、コミットメッセージでステージングし、コミットする
+
+## Purpose-first split rules
+
+以下は同じコミットにまとめてよい。
+
+- ある機能追加を成立させるための実装、型定義、軽微なリファクタリング、テスト、最小限のドキュメント修正
+- あるバグ修正を成立させるための実装、回帰テスト、関連する小さな構造改善
+- ある設定変更を成立させるための設定ファイル、参照コード、説明文の変更
+- あるUI改善を成立させるためのコンポーネント修正、スタイル修正、関連する不要コード削除
+- あるリネームや移動を成立させるための参照更新
+- ある責務整理を成立させるためのファイル移動、命名変更、参照更新
+
+以下は別コミットに分ける。
+
+- 目的が異なる機能追加
+- 目的が異なるバグ修正
+- 機能追加のついでに見つけた別件の不具合修正
+- 実装変更のついでに行った無関係なリファクタリング
+- 仕様変更と、仕様に関係しない単なる整理
+- UI変更と、UIに関係しない内部処理の変更
+- 設定変更と、その設定変更に不要なアプリケーションコード変更
+- ドキュメント修正と、その説明対象ではない実装変更
+- フォーマット修正と、ロジック変更
+- ついでに直した無関係な修正
+
+## Granularity rules
+
+コミットは小さく保つが、type の違いだけを理由に機械的に分割しない。
+
+1コミットは、次の条件を満たすこと。
+
+- 1つの目的を説明できる
+- revert しても他の無関係な変更を巻き戻さない
+- subject が自然に1文で書ける
+- レビュー時に変更意図を追いやすい
+- テストや動作確認の単位として理解できる
+
+次のようなコミットは避ける。
+
+- unrelated changes
+- misc
+- update files
+- fix things
+- いろいろ修正
+- 調整
+- 対応
+- A と B を修正
+- A および B を修正
+
+## Line-level staging rules
+
+同じファイル内に複数目的の変更が混在する場合は、可能な限り行単位または hunk 単位でステージングする。
+
+行単位で安全に分けられない場合は、次のどちらかを選ぶ。
+
+- 一時的にファイルを編集して目的ごとにコミットする
+- 分割困難な理由を説明し、最小限のまとまりとしてコミットする
+
+分割困難な場合でも、無関係な変更を安易に同一コミットへ含めない。
+
+## Commit type selection
+
+type は、そのコミットの主目的で決める。
+
+同一目的のために複数種類の変更が含まれる場合でも、type は主目的に合わせる。
+
+例:
+
+- 新機能を成立させるために小さなリファクタリングを含む場合は `feat`
+- バグ修正のために構造を少し整理した場合は `fix`
+- 仕様に合わせてUIを調整した場合は、主目的に応じて `feat` または `fix`
+- ドキュメント生成のために設定を変更した場合は、主目的に応じて `docs` または `build`
+
+type が複数候補になる場合でも、変更目的が1つなら無理に分割しない。
+ただし、subject が複数目的になる場合は分割する。
 
 ## Commit message rules
 
@@ -29,9 +120,14 @@ description: Use when the user asks for `gcm`, or whenever commit splitting and 
 - subject は日本語で簡潔に書く
 - 句点は付けない
 - 作業内容ではなく変更内容または変更意図を書く
+- subject は1つの目的だけを表す
+- 複数目的を `と` や `および` で並べる subject は避ける
+- subject が複数目的になる場合はコミットを分割する
 
 ## gcm rules
-- コミット前に、対象ファイルと対応するコミット文案を一覧で提示する
+
 - 差分にシークレット、トークン、パスワード、秘密鍵、個人情報などセキュリティリスクのある情報が含まれる場合、該当箇所を指摘しコミットを行わないこと
+- コミット前に、予定するコミット分割を一覧で提示する
+- 各コミット候補には、対象ファイル、変更目的、コミットメッセージを含める
 - 提示した対象範囲、コミット分割、コミットメッセージでステージングし、コミットを行う
-- コミット後に、コミットメッセージをリスト表示し、それぞれ簡単に内容の要約を記載する。
+- コミット後に、コミットメッセージをリスト表示し、それぞれ簡単に内容の要約を記載する
