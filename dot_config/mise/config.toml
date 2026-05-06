@@ -18,7 +18,7 @@ uv = "latest"
 "aqua:tree-sitter/tree-sitter" = "latest"
 "npm:typescript-language-server" = "latest"
 "npm:@astrojs/language-server" = "latest"
-"npm:vscode-json-languageserver" = "latest"
+"npm:vscode-langservers-extracted" = "latest"
 "npm:@tailwindcss/language-server" = "latest"
 
 # フォーマッター
