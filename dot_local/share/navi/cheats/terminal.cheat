@@ -7,6 +7,20 @@ pwd
 cd <dir>
 # 移動（zoxide）
 z <一部>
+# 移動（zoxide / 複数キーワードで絞り込み）
+z <一部1> <一部2>
+# 移動（zoxide / fzfで選択）
+zi
+# 移動（zoxide / 直前のディレクトリ）
+z -
+# 一覧（zoxide / スコア順）
+zoxide query -l
+# 追加（zoxide / 手動登録）
+zoxide add <dir>
+# 削除（zoxide）
+zoxide remove <dir>
+# 編集（zoxide / DBを対話編集）
+zoxide edit
 # 表示（cat）
 cat <file>
 # 編集（neovim）
