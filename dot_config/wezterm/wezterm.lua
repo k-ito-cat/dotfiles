@@ -240,6 +240,12 @@ config.keys = {
   { key = "r", mods = "CTRL|SHIFT", action = act.ReloadConfiguration },
 }
 
+-- 起動時にフルスクリーン化（Alt+Enter相当の状態で開く）
+wezterm.on("gui-startup", function(cmd)
+  local _, _, window = mux.spawn_window(cmd or {})
+  window:gui_window():toggle_fullscreen()
+end)
+
 wezterm.on("format-tab-title", function(tab, tabs, panes, pane_config, hover, max_width)
   local title = wezterm.truncate_right(tab_title(tab), math.max(max_width - 2, 0))
   return { { Text = " " .. title .. " " } }
