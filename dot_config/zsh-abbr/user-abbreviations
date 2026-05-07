@@ -23,3 +23,10 @@ abbr lsql="lazysql"
 abbr ops='eval "$(op signin)"'
 abbr sz="source ~/.zshrc"
 abbr yy="yazi"
+
+# zellij
+abbr zj="zellij"
+abbr zja="zellij attach -c main"
+abbr zjl="zellij list-sessions"
+abbr zjk="zellij kill-session"
+abbr zjka="zellij kill-all-sessions"

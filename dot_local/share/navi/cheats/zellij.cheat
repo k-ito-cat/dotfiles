@@ -1,0 +1,179 @@
+% zellij
+
+; == セッション（CLI） ==
+# 起動（新規 or 既存にアタッチ：main）
+zellij attach -c main
+# セッション一覧
+zellij list-sessions
+# 指定セッションへアタッチ
+zellij attach <session>
+# 指定セッションを終了
+zellij kill-session <session>
+# 全セッション終了
+zellij kill-all-sessions
+# 設定ダンプ
+zellij setup --dump-config
+# レイアウトダンプ
+zellij setup --dump-layout default
+
+; == モード入口（Normal mode から） ==
+# Lockモード（全キーバインドを無効化）
+echo "Ctrl+g"
+# Paneモード
+echo "Ctrl+p"
+# Tabモード
+echo "Ctrl+t"
+# Resizeモード
+echo "Ctrl+n"
+# Moveモード
+echo "Ctrl+h"
+# Scroll/Searchモード
+echo "Ctrl+s"
+# Sessionモード
+echo "Ctrl+o"
+# Quitモード
+echo "Ctrl+q"
+
+; == Pane mode（Ctrl+p） ==
+# フォーカス移動
+echo "Ctrl+p → h/j/k/l または ←↓↑→"
+# 次/前のペインへ循環フォーカス
+echo "Ctrl+p → p または Tab"
+# 新規ペイン
+echo "Ctrl+p → n"
+# 下に分割
+echo "Ctrl+p → d"
+# 右に分割
+echo "Ctrl+p → r"
+# ペインを閉じる
+echo "Ctrl+p → x"
+# 全画面トグル
+echo "Ctrl+p → f"
+# ペイン枠表示トグル
+echo "Ctrl+p → z"
+# フローティングペイン切替
+echo "Ctrl+p → w"
+# 埋め込み/フローティング切替
+echo "Ctrl+p → e"
+# ペイン名変更へ
+echo "Ctrl+p → c"
+# Normalへ戻る
+echo "Ctrl+p → Esc または Ctrl+p"
+
+; == Tab mode（Ctrl+t） ==
+# 前のタブ
+echo "Ctrl+t → h または ←"
+# 次のタブ
+echo "Ctrl+t → l または →"
+# タブ並び替え
+echo "Ctrl+t → j/k または ↓↑"
+# 新規タブ
+echo "Ctrl+t → n"
+# タブを閉じる
+echo "Ctrl+t → x"
+# タブ名変更へ
+echo "Ctrl+t → r"
+# 同期タブトグル（全ペインへ入力同送）
+echo "Ctrl+t → s"
+# ペインを新規タブへ切り出し
+echo "Ctrl+t → b"
+# ペインを左右の隣タブへ移動
+echo "Ctrl+t → [ / ]"
+# 直前のタブへトグル
+echo "Ctrl+t → Tab"
+# 番号指定でタブ切替
+echo "Ctrl+t → 1〜9"
+# Normalへ戻る
+echo "Ctrl+t → Esc または Ctrl+t"
+
+; == Resize mode（Ctrl+n） ==
+# 縮小（方向キー）
+echo "Ctrl+n → h/j/k/l または ←↓↑→"
+# 拡大（Shift付き）
+echo "Ctrl+n → H/J/K/L"
+# 全体的に拡大
+echo "Ctrl+n → = または +"
+# 全体的に縮小
+echo "Ctrl+n → -"
+# Normalへ戻る
+echo "Ctrl+n → Esc または Ctrl+n"
+
+; == Move mode（Ctrl+h） ==
+# 次/前のペインへ移動
+echo "Ctrl+h → n または Tab / p"
+# 方向指定でペイン移動
+echo "Ctrl+h → h/j/k/l または ←↓↑→"
+# Normalへ戻る
+echo "Ctrl+h → Esc または Ctrl+h"
+
+; == Scroll mode（Ctrl+s） ==
+# 1行スクロール
+echo "Ctrl+s → ↑↓ または k/j"
+# ページスクロール
+echo "Ctrl+s → PgUp/PgDn または Ctrl+b/Ctrl+f"
+# 半ページスクロール
+echo "Ctrl+s → u / d"
+# スクロールバックをエディタで開く
+echo "Ctrl+s → e"
+# 検索モードへ
+echo "Ctrl+s → s または /"
+# Normalへ戻る
+echo "Ctrl+s → Esc または Ctrl+s"
+
+; == Search mode（Scroll → s または /） ==
+# 次の一致へ
+echo "Search → n"
+# 前の一致へ
+echo "Search → N または p"
+# 大文字小文字区別トグル
+echo "Search → c"
+# 折返しトグル
+echo "Search → w"
+# 単語一致トグル
+echo "Search → o"
+# Scrollへ戻る
+echo "Search → Esc"
+
+; == Session mode（Ctrl+o） ==
+# デタッチ
+echo "Ctrl+o → d"
+# セッションマネージャーを開く
+echo "Ctrl+o → w"
+# セッション名変更へ
+echo "Ctrl+o → c"
+# Normalへ戻る
+echo "Ctrl+o → Esc または Ctrl+o"
+
+; == Quit mode（Ctrl+q） ==
+# 確定して終了
+echo "Ctrl+q → y"
+# キャンセル
+echo "Ctrl+q → n または Esc"
+
+; == Rename系（Pane/Tab/Session 名変更中） ==
+# 確定
+echo "Rename → Enter"
+# キャンセル
+echo "Rename → Esc"
+
+; == Lock mode（Ctrl+g 解除） ==
+# Lock解除
+echo "Lock中 → Ctrl+g"
+
+; == グローバル Alt 系（Normal mode から直接） ==
+# 新規ペイン
+echo "Alt+n"
+# フォーカス移動
+echo "Alt+h/j/k/l または Alt+←↓↑→"
+# フローティングペイン切替
+echo "Alt+f"
+# タブを左右に並び替え
+echo "Alt+i / Alt+o"
+# ペイン拡大
+echo "Alt+= または Alt++"
+# ペイン縮小
+echo "Alt+-"
+# 前のスワップレイアウト
+echo "Alt+["
+# 次のスワップレイアウト
+echo "Alt+]"

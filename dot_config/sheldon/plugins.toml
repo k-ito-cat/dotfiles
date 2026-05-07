@@ -1,6 +1,15 @@
 shell = "zsh"
 
+# zsh-defer経由で遅延ロードするためのテンプレート
+[templates]
+defer = """{% for file in files %}zsh-defer -m -p -r -t 0.2 source "{{ file }}"
+{% endfor %}"""
+
 [plugins]
+
+# defer用にzsh-deferを最初に同期ロード
+[plugins.zsh-defer]
+github = "romkatv/zsh-defer"
 
 [plugins.zsh-autosuggestions]
 github = "zsh-users/zsh-autosuggestions"
@@ -20,5 +29,8 @@ github = "MichaelAquilina/zsh-you-should-use"
 [plugins.zsh-autopair]
 github = "hlissner/zsh-autopair"
 
-[plugins.zsh-syntax-highlighting]
-github = "zsh-users/zsh-syntax-highlighting"
+# zellij配下で初期化時にOSC問い合わせ応答が漏れる事象の緩和のため
+# zsh-deferで初回プロンプト後に遅延ロード（暫定対応）
+[plugins.fast-syntax-highlighting]
+github = "zdharma-continuum/fast-syntax-highlighting"
+apply = ["defer"]

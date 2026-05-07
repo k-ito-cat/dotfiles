@@ -5,31 +5,37 @@ if command -v navi >/dev/null 2>&1; then
   eval "$(navi widget zsh)"
 fi
 
-# [Ctrl+G] ghq+peco: リポジトリを選択してWezTermで開く
+# [Alt+g] ghq+peco: リポジトリを選択してWezTermで開く
 peco-src () {
   local selected_dir=$(ghq list -p | peco --prompt="repositories >" --query "$LBUFFER")
   if [ -n "$selected_dir" ]; then
+    if [ -n "$ZELLIJ" ]; then
+      # Zellij内: 別タブで開く
+      local tab_name=${selected_dir:t}
+      BUFFER="zellij action new-tab --cwd ${selected_dir:q} --name ${tab_name:q} -- ${SHELL:-/bin/zsh}"
+    else
 {{- if eq .chezmoi.os "darwin" }}
-    local cwd
-    cwd="$selected_dir"
+      local cwd
+      cwd="$selected_dir"
 
-    # Weztermで開く（macOS）
-    if wezterm cli list >/dev/null 2>&1; then
-      BUFFER="wezterm cli spawn --cwd ${cwd:q}"
-    else
-      BUFFER="wezterm start --cwd ${cwd:q}"
-    fi
+      # Weztermで開く（macOS）
+      if wezterm cli list >/dev/null 2>&1; then
+        BUFFER="wezterm cli spawn --cwd ${cwd:q}"
+      else
+        BUFFER="wezterm start --cwd ${cwd:q}"
+      fi
 {{- else }}
-    local win_cwd
-    win_cwd=$(wslpath -w "$selected_dir")
+      local win_cwd
+      win_cwd=$(wslpath -w "$selected_dir")
 
-    # Weztermで開く（WSL）
-    if wezterm.exe cli list >/dev/null 2>&1; then
-      BUFFER="wezterm.exe cli spawn --cwd ${win_cwd:q}"
-    else
-      BUFFER="wezterm.exe start --cwd ${win_cwd:q}"
-    fi
+      # Weztermで開く（WSL）
+      if wezterm.exe cli list >/dev/null 2>&1; then
+        BUFFER="wezterm.exe cli spawn --cwd ${win_cwd:q}"
+      else
+        BUFFER="wezterm.exe start --cwd ${win_cwd:q}"
+      fi
 {{- end }}
+    fi
 
     zle accept-line
   fi

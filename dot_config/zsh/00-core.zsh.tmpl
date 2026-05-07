@@ -1,5 +1,10 @@
 # ===== Core =====
 
+# ===== zellij auto-attach =====
+# WezTermでのみ固定セッション(main)に自動アタッチ（VSCode等やzellij内では発火しない）
+if [[ -z "$ZELLIJ" && "$TERM_PROGRAM" == "WezTerm" ]] && command -v zellij >/dev/null 2>&1; then
+  exec zellij attach -c main
+fi
 
 # ===== Zsh Custom =====
 
@@ -33,6 +38,7 @@ if command -v sheldon >/dev/null 2>&1; then
 fi
 
 # ===== Prompt integration =====
+
 
 {{ if eq .chezmoi.os "linux" }}
 # WezTermに作業ディレクトリ（cwd）を通知して同期する

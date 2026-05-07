@@ -2,6 +2,7 @@
 node = "24"
 uv = "latest"
 "pipx:posting" = "latest"
+"aqua:zellij-org/zellij" = "latest"
 
 # npmパッケージ
 "npm:@antfu/ni" = "latest"
