@@ -13,7 +13,9 @@ return {
       vim.api.nvim_create_autocmd("VimEnter", {
         once = true,
         callback = function()
-          vim.cmd("Neotree show reveal")
+          vim.schedule(function()
+            vim.cmd("Neotree show reveal")
+          end)
         end,
       })
     end,
