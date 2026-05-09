@@ -7,3 +7,11 @@ vim.keymap.set("n", "K", vim.lsp.buf.hover)
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
+
+vim.keymap.set("n", "<A-Down>", ":m .+1<CR>==", { silent = true })
+vim.keymap.set("n", "<A-Up>", ":m .-2<CR>==", { silent = true })
+vim.keymap.set("i", "<A-Down>", "<Esc>:m .+1<CR>==gi", { silent = true })
+vim.keymap.set("i", "<A-Up>", "<Esc>:m .-2<CR>==gi", { silent = true })
+vim.keymap.set("v", "<A-Down>", ":m '>+1<CR>gv=gv", { silent = true })
+vim.keymap.set("v", "<A-Up>", ":m '<-2<CR>gv=gv", { silent = true })
+

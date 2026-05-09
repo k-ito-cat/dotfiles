@@ -33,6 +33,10 @@ $
 V
 # 矩形選択
 Ctrl+v
+# 行を下に移動（VSCode風）
+Alt+Down
+# 行を上に移動（VSCode風）
+Alt+Up
 
 % neovim 編集
 ; == neovim 編集 ==
