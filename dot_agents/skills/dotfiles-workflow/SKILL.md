@@ -1,6 +1,6 @@
 ---
 name: dotfiles-workflow
-description: Use for dotfiles, shell/editor/CLI config, aliases, functions, keybinds, navi, git config, and ~/.config files. Edit the chezmoi source first; propose chezmoi add for unmanaged files, and run chezmoi apply unless stopped.
+description: Use for dotfiles, shell/editor/CLI config, aliases, functions, keybinds, navi, git config, and ~/.config files. Investigate first, edit the chezmoi source only after explicit user approval, propose chezmoi add for unmanaged files, and run chezmoi apply only when approved.
 ---
 
 # Dotfiles Workflow
@@ -24,18 +24,22 @@ description: Use for dotfiles, shell/editor/CLI config, aliases, functions, keyb
 
 ## 手順
 
-1. ユーザーが変更したい生成先ファイルを特定する。
-2. まず chezmoi source directory を探す。
+1. 依頼が相談、調査、可否確認、選択肢提示、レビューのいずれかを判定する。
+   - 該当する場合は読み取り調査だけを行い、編集しない。
+   - ユーザーが実装や変更を求めている場合でも、編集前ゲートを通す。
+2. ユーザーが変更したい生成先ファイルを特定する。
+3. まず chezmoi source directory を探す。
    - 生成先との対応を優先して確認する。
    - `.tmpl`、`dot_`、`private_`、`symlink_`、分割設定ファイルも確認する。
    - 見つからない場合は、大小文字違い、typo、名前の勘違いを疑って探索する。
-3. 管理対象なら chezmoi source file を編集する。
-4. 未管理なら生成先を先に編集しない。`chezmoi add <target>` を提案し、ユーザーに確認する。
-5. 管理元を編集したら、原則として次を実行する。
+4. 現状分析、選択肢、推奨案、反映範囲、変更しない範囲を整理し、ユーザーに確認する。
+5. ユーザーの明示的な OK がある場合だけ、管理対象なら chezmoi source file を編集する。
+6. 未管理なら生成先を先に編集しない。`chezmoi add <target>` を提案し、ユーザーに確認する。
+7. 管理元を編集したら、承認された範囲で次を実行する。
    - `chezmoi diff`
    - `chezmoi apply`
-6. 反映が必要な変更では、生成先も確認する。
-7. 変更した管理元ファイルと apply 結果を報告する。
+8. 反映が必要な変更では、生成先も確認する。
+9. 変更した管理元ファイルと apply 結果を報告する。
 
 ## 必須ルール
 
@@ -43,6 +47,9 @@ description: Use for dotfiles, shell/editor/CLI config, aliases, functions, keyb
 - dot config が chezmoi 管理対象の場合、更新は基本的に chezmoi 側の `.tmpl` / `dot_` / `private_` / `symlink_` 管理元を優先する。
 - 参照先としても、生成先の実ファイルより chezmoi 管理元を優先する。
 - 実ファイルを確認する場合でも、真実源は chezmoi 管理元として扱う。
+- ユーザーの明示的な OK が出るまで、`apply_patch` などによるファイル編集を行わない。
+- `chezmoi apply` は、編集方針または反映操作として承認された場合だけ実行する。
+- ユーザーのレビュー、指摘、懸念は即修正指示として扱わず、まず分析、同意点、懸念点、修正方針を提示して確認する。
 - 明示指示がない限り、`chezmoi update`、`git pull`、`git push` は実行しない。
 - 生成先ファイルの削除・置換は、事前にユーザーへ確認する。
 - zsh 変更は適切な分割ファイルに置く。
