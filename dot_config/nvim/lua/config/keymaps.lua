@@ -15,3 +15,7 @@ vim.keymap.set("i", "<A-Up>", "<Esc>:m .-2<CR>==gi", { silent = true })
 vim.keymap.set("v", "<A-Down>", ":m '>+1<CR>gv=gv", { silent = true })
 vim.keymap.set("v", "<A-Up>", ":m '<-2<CR>gv=gv", { silent = true })
 
+vim.api.nvim_create_user_command("Discard", function()
+  vim.fn.system({ "git", "restore", "--", vim.fn.expand("%:p") })
+  vim.cmd("edit!")
+end, {})

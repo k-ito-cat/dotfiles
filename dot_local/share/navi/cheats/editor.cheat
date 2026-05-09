@@ -58,6 +58,8 @@ yy
 ggdG
 # 貼り付け
 p
+# 現在ファイルの変更をHEADに戻す（VSCodeのDiscard Changes相当）
+:Discard
 
 % neovim 検索/置換
 ; == neovim 検索/置換 ==
