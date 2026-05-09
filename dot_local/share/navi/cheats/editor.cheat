@@ -60,6 +60,10 @@ ggdG
 p
 # 現在ファイルの変更をHEADに戻す（VSCodeのDiscard Changes相当）
 :Discard
+# auto-saveを一時停止/再開
+:ASToggle
+# ディスク内容で再読込（未保存変更を破棄）
+:e!
 
 % neovim 検索/置換
 ; == neovim 検索/置換 ==
