@@ -58,6 +58,16 @@ yy
 ggdG
 # 貼り付け
 p
+# 単語を書き換え（カーソル位置の単語）
+ciw
+# 段落を削除（前後の空行ごと）
+dap
+# 段落を選択
+vap
+# 引用符の中身を書き換え
+ci"
+# 括弧の中身を書き換え
+ci(
 # 現在ファイルの変更をHEADに戻す（VSCodeのDiscard Changes相当）
 :Discard
 # auto-saveを一時停止/再開
