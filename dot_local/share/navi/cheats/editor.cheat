@@ -90,9 +90,9 @@ N
 
 % neovim plugin
 ; == neovim プラグイン ==
-# ファイル検索（telescope）
+# リポジトリ内ファイル検索（telescope）
 \ff
-# 中身検索（telescope）
+# リポジトリ内の中身検索（telescope）
 \fg
 # バッファ一覧（telescope）
 \fb
@@ -109,6 +109,36 @@ N
 \xx
 # 診断一覧（現在バッファ / trouble）
 \xw
+
+# Git差分ファイル一覧（telescope）
+\gs
+# Git差分ファイル一覧（未ステージ）
+git diff --name-status
+# Git差分ファイル一覧（ステージ済み）
+git diff --cached --name-status
+# Git差分ファイル一覧（HEADとの差分）
+git diff HEAD --name-status
+# Git状態一覧
+git status --short
+
+# 次のGit hunk（gitsigns）
+]c
+# 前のGit hunk（gitsigns）
+[c
+# Git hunk preview（gitsigns）
+\hp
+# Git hunk inline preview（gitsigns）
+\hi
+# 現在行のblame（gitsigns）
+\hb
+# 現在バッファのdiff（gitsigns）
+\hd
+# 現在バッファと前リビジョンのdiff（gitsigns）
+\hD
+# blame表示を切り替え（gitsigns）
+\tb
+# word diffを切り替え（gitsigns）
+\tw
 
 % database
 ; == DBクライアント ==
