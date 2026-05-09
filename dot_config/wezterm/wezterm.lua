@@ -47,7 +47,6 @@ end
 if is_windows then
   config.default_domain = "WSL:Ubuntu"
   config.use_ime = true
-  config.allow_win32_input_mode = false
   config.ime_preedit_rendering = "System"
   config.enable_kitty_keyboard = false
 end
