@@ -3,7 +3,7 @@ abbr codexh="codex -c model_reasoning_effort='high'"
 abbr codexl="codex -c model_reasoning_effort='low'"
 abbr codexm="codex -c model_reasoning_effort='medium'"
 
-abbr gcm="codex --profile commit"
+abbr gcm="codex --profile commit gcm"
 
 # claude
 abbr claudeh="claude --model opus --effort high"
