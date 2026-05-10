@@ -1,3 +1,10 @@
+# git 
+abbr gs="git status"
+abbr gss="git status -s"
+abbr gps="git push"
+abbr gpl="git pull"
+abbr gd="git diff"
+
 # codex
 abbr codexh="codex -c model_reasoning_effort='high'"
 abbr codexl="codex -c model_reasoning_effort='low'"
