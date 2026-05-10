@@ -10,6 +10,8 @@ description: Use when the user wants to create or revise UI design, screen desig
 ## Documentation Operating Model
 
 - design docs は pixel detail の正本ではなく、UI の設計意図、主導線、状態設計、品質上外したくない観点を残す場所として扱う。
+- design docs は specs の転記先ではなく、specs で定義された目的、対象ユーザー、利用文脈、制約、未決事項を入力にして UI / UX 判断を設計する場所として扱う。
+- specs に design の入力条件が不足している場合は、UI パターン、配置、コンポーネント責務、token を推測で確定しない。
 - prototype や本実装で確認できる細部は design docs へ転記しない。
 - design docs に残すのは、UI 原則、主導線、状態設計、a11y、破壊的操作、empty / loading / error、レスポンシブ、prototype や本実装へ持ち込む判断に絞る。
 - 個人開発では、重い design file より prototype を優先してよい。ただし、prototype で採用した判断は必要最小限だけドキュメント / 仕様書に残す。
@@ -30,6 +32,8 @@ description: Use when the user wants to create or revise UI design, screen desig
    - `docs/specs/`
    - `docs/specs/README.md`
    - 必要なら `project-documents/_template/specs/README.md`
+   - UI / UX 判断に必要な design 入力条件が specs 側に定義されているか確認する
+   - 入力条件が不足している場合は、UI 案を確定せず project-documents-workflow / specs へ戻す
 2. デザイン文書群の未定義項目を確認する
    - `docs/design/`
    - `docs/design/README.md`
@@ -60,6 +64,8 @@ description: Use when the user wants to create or revise UI design, screen desig
 
 - 文書未確認のまま Pencil や画面デザインへ進まない
 - 未定義項目を勝手に補完しない
+- specs 側の design 入力条件が不足しているまま、UI パターン、配置、コンポーネント責務、token を確定しない
+- design docs を仕様要望の仮置き場にしない
 - ヒアリングで合意していない内容を推測で反映しない
 - 仕様を暗黙補完したまま画面一覧を確定しない
 - 画面一覧、画面責務、画面遷移図、ワイヤーフレームが不足していて品質や意図の判断ができない状態で、コンポーネント設計や画面デザインへ進まない
