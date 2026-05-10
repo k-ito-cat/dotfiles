@@ -1,5 +1,16 @@
 [mgr]
 show_hidden = true
+ratio = [3, 4, 13]
+
+[opener]
+leaf = [
+	{ run = "leaf %s", block = true, desc = "Leaf" },
+]
+
+[open]
+prepend_rules = [
+	{ url = "*.md", use = ["leaf", "edit"] },
+]
 
 [[plugin.prepend_fetchers]]
 id = "git"
