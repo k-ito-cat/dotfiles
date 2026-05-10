@@ -121,10 +121,12 @@ config.window_close_confirmation = "NeverPrompt"
 
 -- 透明
 if is_windows then
-  config.win32_system_backdrop = "Disable"
+  config.win32_system_backdrop = "Acrylic"
+elseif is_darwin then
+  config.macos_window_background_blur = 36
 end
-config.window_background_opacity = 1.0
-config.text_background_opacity = 1.0
+config.window_background_opacity = 0.82
+config.text_background_opacity = 0.9
 
 -- editor workspace に入る（無ければ作る）
 local function enter_editor_workspace()
