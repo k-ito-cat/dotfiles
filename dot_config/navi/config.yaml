@@ -1,20 +1,20 @@
 style:
   tag:
     color: "cyan"
-    width_percentage: 12
+    width_percentage: 10
     min_width: 8
   comment:
     color: "white"
-    width_percentage: 42
-    min_width: 14
+    width_percentage: 50
+    min_width: 20
   snippet:
     color: "blue"
-    width_percentage: 32
-    min_width: 12
+    width_percentage: 36
+    min_width: 16
 
 finder:
   command: "fzf"
+  overrides: "--height 70% --layout=reverse --border --prompt='navi> ' --no-exact"
 
 shell:
   command: "zsh"
-
