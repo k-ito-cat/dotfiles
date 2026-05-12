@@ -65,7 +65,7 @@ echo "Ctrl+p → Esc または Ctrl+p"
 echo "Ctrl+t → h または ←"
 # 次のタブ
 echo "Ctrl+t → l または →"
-# タブ並び替え
+# タブ切り替え
 echo "Ctrl+t → j/k または ↓↑"
 # 新規タブ
 echo "Ctrl+t → n"
