@@ -37,6 +37,19 @@ if command -v sheldon >/dev/null 2>&1; then
   eval "$(sheldon source)"
 fi
 
+# WSLからdockerのcompletionsが参照できないため除外（Docker DesktopからDocke engineに移行後に削除する）
+if [[ -L /usr/share/zsh/vendor-completions/_docker && ! -e /usr/share/zsh/vendor-completions/_docker ]]; then
+  fpath=(${fpath:#/usr/share/zsh/vendor-completions})
+fi
+
+# zsh標準の補完システムを初期化
+autoload -Uz compinit
+compinit
+
+if command -v ntn >/dev/null 2>&1; then
+  source <(ntn completions zsh)
+fi
+
 # ===== Prompt integration =====
 
 

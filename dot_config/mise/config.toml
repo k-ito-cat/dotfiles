@@ -8,6 +8,7 @@ uv = "latest"
 "npm:@antfu/ni" = "latest"
 "npm:@devcontainers/cli" = "latest"
 "npm:@rivolink/leaf" = "latest"     # ターミナルMDビューア
+"npm:ntn" = "latest"                # notion CLI
 
 # AIコードアシスタント
 "npm:@openai/codex" = "latest"
