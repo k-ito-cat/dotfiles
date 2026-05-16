@@ -2,7 +2,8 @@
 node = "24"
 uv = "latest"
 "pipx:posting" = "latest"
-"aqua:zellij-org/zellij" = "latest"
+# zellij 0.44.1以降で端末色問い合わせ応答がprompt/Codex TUIへ漏れたため固定
+"aqua:zellij-org/zellij" = "0.44.0"
 
 # npmパッケージ
 "npm:@antfu/ni" = "latest"
@@ -27,3 +28,6 @@ uv = "latest"
 "aqua:JohnnyMorganz/StyLua" = "latest"
 "aqua:tamasfe/taplo" = "latest"
 "npm:prettier" = "latest"
+
+[settings]
+minimum_release_age = "7d"

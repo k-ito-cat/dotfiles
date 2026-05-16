@@ -1,5 +1,8 @@
 export OP_CONFIG_DIR="$HOME/.config/op"
 
+# Ubuntuのglobal compinitはユーザー設定より先に走るため、補完初期化はzsh設定側で行う
+skip_global_compinit=1
+
 {{ if eq .chezmoi.os "linux" }}
 export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 {{ end }}

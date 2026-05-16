@@ -7,7 +7,6 @@ defer = """{% for file in files %}zsh-defer -m -p -r -t 0.2 source "{{ file }}"
 
 [plugins]
 
-# defer用にzsh-deferを最初に同期ロード
 [plugins.zsh-defer]
 github = "romkatv/zsh-defer"
 
@@ -25,12 +24,11 @@ github = "olets/zsh-abbr"
 
 [plugins.zsh-you-should-use]
 github = "MichaelAquilina/zsh-you-should-use"
+apply = ["defer"]
 
 [plugins.zsh-autopair]
 github = "hlissner/zsh-autopair"
 
-# zellij配下で初期化時にOSC問い合わせ応答が漏れる事象の緩和のため
-# zsh-deferで初回プロンプト後に遅延ロード（暫定対応）
 [plugins.fast-syntax-highlighting]
 github = "zdharma-continuum/fast-syntax-highlighting"
 apply = ["defer"]
