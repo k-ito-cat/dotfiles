@@ -34,8 +34,16 @@ cask "1password-cli"
 # ===== macOS only =====
 {{ if eq .chezmoi.os "darwin" }}
 brew "cocoapods"
-# WindowsはWindows版をwingetで導入する方針なのでbrewで入れるのはmacOSのみ
+cask "google-chrome"
 cask "raycast"
 cask "wezterm"
 cask "karabiner-elements"
+cask "docker-desktop"
+cask "notion"
+cask "figma"
+cask "1password"
+# 高速スクリーンショットツール
+cask "shottr"
+# 動画プレーヤー
+cask "iina"
 {{ end }}

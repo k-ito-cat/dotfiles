@@ -1,0 +1,101 @@
+# yaml-language-server: $schema=https://aka.ms/configuration-dsc-schema/0.2
+
+properties:
+  resources:
+    # Google Chrome
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: googleChrome
+      directives:
+        description: Install Google Chrome
+      settings:
+        id: Google.Chrome.EXE
+        source: winget
+    # WezTerm
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: wezTerm
+      directives:
+        description: Install WezTerm
+      settings:
+        id: wez.wezterm
+        source: winget
+    # Raycast
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: raycast
+      directives:
+        description: Install Raycast
+      settings:
+        id: 9PFXXSHC64H3
+        source: msstore
+    # Docker Desktop
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: dockerDesktop
+      directives:
+        description: Install Docker Desktop
+      settings:
+        id: Docker.DockerDesktop
+        source: winget
+    # Notion
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: notion
+      directives:
+        description: Install Notion
+      settings:
+        id: Notion.Notion
+        source: winget
+    # Figma
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: figma
+      directives:
+        description: Install Figma
+      settings:
+        id: Figma.Figma
+        source: winget
+    # 1Password
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: onePassword
+      directives:
+        description: Install 1Password
+      settings:
+        id: AgileBits.1Password
+        source: winget
+    # Microsoft PowerToys
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: powerToys
+      directives:
+        description: Install Microsoft PowerToys
+      settings:
+        id: Microsoft.PowerToys
+        source: winget
+    # TranslucentTB
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: translucentTb
+      directives:
+        description: Install TranslucentTB
+      settings:
+        id: 9PF4KZ2VN4W9
+        source: msstore
+    # Pencil
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: pencil
+      directives:
+        description: Install Pencil
+      settings:
+        id: Pencil.Desktop
+        source: winget
+    # Copilot Keyboard
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: copilotKeyboard
+      directives:
+        description: Install Copilot Keyboard
+      settings:
+        id: XP8M5JR6H0JVQW
+        source: msstore
+    # Google Japanese IME
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: googleJapaneseIme
+      directives:
+        description: Install Google Japanese IME
+      settings:
+        id: Google.JapaneseIME
+        source: winget
+  configurationVersion: 0.2.0

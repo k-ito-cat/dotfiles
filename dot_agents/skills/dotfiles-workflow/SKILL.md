@@ -22,6 +22,16 @@ description: Use for dotfiles, shell/editor/CLI config, aliases, functions, keyb
 - `~/.config` 配下
 - dotfile または CLI / tool の設定ファイル全般
 
+## パッケージ宣言運用
+
+- Mac / WSL / Linuxbrew 共通の CLI ツールは `Brewfile.tmpl` の共通領域を正本にする。
+- macOS の GUI アプリは、Homebrew Cask がある場合は `Brewfile.tmpl` の `darwin` ブロックを正本にする。
+- Windows ホスト側の GUI アプリは `windows/configuration.winget` を正本にする。
+- Windows ホスト側の IME や OS 固有設定は `windows/apply.ps1` を正本にする。
+- 片方の OS にしかないツールは、もう片方に無理に代替を置かない。
+- deprecated、ID 不一致、手動設定が必要なツールは、すぐ宣言へ入れず README の pending に残す。
+- `windows/` は dotfiles リポジトリ内の管理ファイルであり、chezmoi apply 対象からは `.chezmoiignore` で外す。
+
 ## 手順
 
 1. 依頼が相談、調査、可否確認、選択肢提示、レビューのいずれかを判定する。
