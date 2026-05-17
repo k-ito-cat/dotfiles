@@ -67,4 +67,11 @@ enabled = true
 [tui.model_availability_nux]
 "gpt-5.5" = 4
 # chezmoi:managed:end` $managed -}}
+{{- /* マーカー対が有れば領域を置換、無ければ末尾に $managed を追記（マーカーごと書かれるので手動マーカー不要） */ -}}
+{{- if regexMatch "(?s)# chezmoi:managed:start.*?# chezmoi:managed:end" .chezmoi.stdin -}}
 {{- .chezmoi.stdin | replaceAllRegex "(?s)# chezmoi:managed:start.*?# chezmoi:managed:end" $managed -}}
+{{- else if .chezmoi.stdin -}}
+{{- printf "%s\n\n%s\n" (trimSuffix "\n" .chezmoi.stdin) $managed -}}
+{{- else -}}
+{{- printf "%s\n" $managed -}}
+{{- end -}}
