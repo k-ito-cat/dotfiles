@@ -1,83 +1,50 @@
 # Dotfiles (chezmoi)
 
+chezmoi で管理する dotfiles。mac と WSL(Linux) で日常運用し、Windows ホスト側の GUI アプリ・OS 設定は `windows/` で別管理する。
 
-## 初回セットアップ（新しいマシン）
+## 初回セットアップ
 
-### SSH
+### mac / WSL
 
-`chezmoi init --apply git@github.com:<your>/<repo>.git`
+1. Homebrew を導入する
+   - 未導入のままだと、`chezmoi apply` 時の自動スクリプトが `brew bundle` で失敗する
+2. `brew install chezmoi`
+3. `chezmoi init --apply git@github.com:<your>/<repo>.git`
+   - 残りのツールは初回 apply の自動スクリプトが `brew bundle` / `mise install` で導入する
 
-## フロー
+### Windows ホスト
 
-### 1. 既存ファイルを管理に追加
+PowerShell で `windows/bootstrap.ps1` を実行する。詳細は `windows/README.md`。
 
-`chezmoi add <パス>`  
-例: `chezmoi add ~/.zshrc`
-
-### 2. 設定の編集
-
-`chezmoi edit <パス>`  
-テンプレ化するなら `.tmpl` を使う  
-すぐ反映したいとき: `chezmoi edit --apply <パス>`
-
-→ [chezmoi 設定ファイル](https://github.com/k-ito-cat/dotfiles/blob/main/dot_config/chezmoi/chezmoi.toml.tmpl)で編集時は VSCode を立ち上げるように設定済みなので、VSCode 上で編集を行う。
-
-### 3. 反映
-
-- 変更確認: `chezmoi diff`
-- 反映: `chezmoi apply`
-
-→ chezmoi 管理ファイルだけでなく、実際のファイルも変更される
-
-### 4. リモートへ反映
-
-1. `chezmoi cd` (= `~/.local/share/chezmoi` に移動)
-2. `git status`
-3. `git add -A`
-4. `git commit -m "update dotfiles"`
-5. `git push origin main`
-
-### 5. 別 OS/別マシンで最新を取り込み
-
-- `chezmoi update` （pull + apply を一括実行）
-- 手動の場合:
-  - `chezmoi cd` (= `~/.local/share/chezmoi` に移動)
-  - `git pull origin main`
-  - `chezmoi diff`
-  - `chezmoi apply`
-
-## よく使う確認コマンド
-
-- 管理対象の変更確認: `chezmoi status`
-- 管理対象一覧: `chezmoi managed`
-- 適用結果の確認（テンプレ展開後）: `chezmoi cat <パス>`
-
-## chezmoi update 後にやること
-
-- Brewfile が更新されたとき: `brew bundle --file ~/Brewfile`
-- mise の設定が更新されたとき: `mise install`
-- sheldon のプラグインが更新されたとき: 新しいシェルを開く
-- Neovim のプラグインが更新されたとき: `:Lazy sync`
-- WezTerm 設定が更新されたとき: `Ctrl+Shift+R` で再読み込み
-
-## 管理ディレクトリ
-
-- 管理リポジトリ（Git 管理）: `~/.local/share/chezmoi`
-- 設定ファイル（chezmoi 本体設定）: `~/.config/chezmoi/chezmoi.toml`（これも chezmoi 管理対象に含めている）
-
-## 運用
-
-- 機密情報は 1Password CLI で管理
-- OS 差分はテンプレートで分岐
-
-テンプレート例:
-
-```go-template
-{{ if eq .chezmoi.os "linux" }}
-# Linux用の設定
-{{ else if eq .chezmoi.os "darwin" }}
-# macOS用の設定
-{{ end }}
-
-
+```powershell
+powershell -ExecutionPolicy Bypass -File .\windows\bootstrap.ps1
 ```
+
+## 日常運用
+
+chezmoi の操作コマンド（`apply` / `diff` / `add` / `edit` / `update` など）は navi の dotfiles チートを参照する（`navi` または `Ctrl+N`）。
+
+### apply 時に自動実行されるもの
+
+`.chezmoiscripts/run_onchange_*` が、対象ファイルが変わったときだけ `chezmoi apply` 時に自動実行する。
+
+- Brewfile を変更したとき → `brew bundle`
+- mise 設定を変更したとき → `mise install`
+
+### 手動が必要なもの
+
+- sheldon のプラグインを追加・変更したとき → 新しいシェルを開く（既存プラグインの更新のみ `sheldon lock --update`）
+- Neovim のプラグインを追加・変更したとき → 新規プラグインは起動時に自動導入、既存プラグインの更新は `:Lazy sync`
+
+## 機密情報
+
+トークン・鍵・パスワードなどの機密情報は、リポジトリに平文で置かない。テンプレート内で機密情報が必要になった場合は、次のいずれかで参照する。
+
+- 1Password CLI 経由で参照する（chezmoi の `onepasswordRead` などを利用）
+- chezmoi 管理外のローカルファイルに置き、そこから参照する
+
+## 構成
+
+- 管理リポジトリ: `~/.local/share/chezmoi`
+- chezmoi 本体設定: `~/.config/chezmoi/chezmoi.toml`（これ自体も管理対象に含める）
+- 運用前提: mac / WSL(Linux)。Windows ホスト側は `windows/`（chezmoi 管理対象外。winget Configuration + PowerShell で管理）
