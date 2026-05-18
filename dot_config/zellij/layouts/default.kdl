@@ -1,25 +1,45 @@
 layout {
     default_tab_template {
-        children
         pane size=1 borderless=true {
             plugin location="https://github.com/dj95/zjstatus/releases/latest/download/zjstatus.wasm" {
-                format_left "{mode} #[fg=#89B4FA,bold]{session}"
-                format_center "{tabs}"
+                format_left "{mode} {tabs}"
+                format_center ""
                 format_right "{datetime}"
                 format_space ""
 
-                border_enabled "false"
+                border_enabled  "false"
+                border_char     "─"
+                border_format   "#[fg=#7fb8ff]{char}"
+                border_position "top"
 
-                mode_normal "#[bg=blue] "
-                mode_tmux "#[bg=#ffc387] "
+                hide_frame_for_single_pane "false"
 
-                tab_normal "#[fg=#6C7086] {name} "
-                tab_active "#[fg=#9399B2,bold,italic] {name} "
+                mode_normal "#[fg=#5fb3ff,bold]▌"
+                mode_locked "#[fg=#ff7b93,bold]▌"
+                mode_resize "#[fg=#ffd166,bold]▌"
+                mode_pane "#[fg=#7dd3fc,bold]▌"
+                mode_tab "#[fg=#b794f4,bold]▌"
+                mode_scroll "#[fg=#5fb3ff,bold]▌"
+                mode_enter_search "#[fg=#ffd166,bold]▌"
+                mode_search "#[fg=#ffd166,bold]▌"
+                mode_rename_tab "#[fg=#b794f4,bold]▌"
+                mode_rename_pane "#[fg=#7dd3fc,bold]▌"
+                mode_session "#[fg=#b794f4,bold]▌"
+                mode_move "#[fg=#7dd3fc,bold]▌"
+                mode_tmux "#[fg=#ff9e64,bold]▌"
 
-                datetime "#[fg=#6C7086,bold] {format} "
-                datetime_format "%Y-%m-%d %H:%M"
+                tab_normal "#[fg=#ffffff] {index} {name} "
+                tab_active "#[fg=#5fb3ff,bold] {index} {name} "
+                tab_zero_based_index "false"
+
+                datetime "#[fg=#b9d7ff,bold] {format} "
+                datetime_format "%Y-%m-%d %a %H:%M"
                 datetime_timezone "Asia/Tokyo"
             }
+        }
+        children
+        pane size=1 borderless=true {
+            plugin location="zellij:status-bar"
         }
     }
     tab
