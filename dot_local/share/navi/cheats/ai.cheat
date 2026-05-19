@@ -31,3 +31,44 @@ $ model: echo -e "sonnet\nopus\nhaiku"
 % copilot
 ; == copilot ==
 copilot
+
+% ccusage all
+; == ccusage all ==
+# 日別利用量
+bunx ccusage@latest daily
+# 週別利用量
+bunx ccusage@latest weekly
+# 月別利用量
+bunx ccusage@latest monthly
+# セッション別利用量
+bunx ccusage@latest session
+
+% ccusage claude
+; == ccusage claude ==
+# 日別利用量
+bunx ccusage@latest claude daily
+# 週別利用量
+bunx ccusage@latest claude weekly
+# 月別利用量
+bunx ccusage@latest claude monthly
+# セッション別利用量
+bunx ccusage@latest claude session
+# 5時間ブロック利用量
+bunx ccusage@latest claude blocks
+# アクティブブロック
+bunx ccusage@latest claude blocks --active
+# 日別利用量（モデル別内訳）
+bunx ccusage@latest claude daily --breakdown
+
+% ccusage codex
+; == ccusage codex ==
+# 日別利用量
+bunx ccusage@latest codex daily
+# 月別利用量
+bunx ccusage@latest codex monthly
+# セッション別利用量
+bunx ccusage@latest codex session
+# 日別利用量（standard料金で計算）
+bunx ccusage@latest codex daily --speed standard
+# 日別利用量（fast料金で計算）
+bunx ccusage@latest codex daily --speed fast
