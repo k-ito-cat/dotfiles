@@ -20,6 +20,25 @@ mise ls
 # 実行バイナリの参照先を確認
 mise which <tool>
 
+% process-compose
+; == process-compose ==
+# プロジェクトを起動
+process-compose up
+# 指定プロセスだけ起動
+process-compose up <process>
+# 指定namespaceだけ起動
+process-compose up -n <namespace>
+# プロジェクトを停止
+process-compose down
+# プロセス一覧
+process-compose process list
+# namespace一覧
+process-compose namespace list
+# 設定を検証
+process-compose up --dry-run
+
+$ namespace: echo -e "app\ntools"
+
 % api client
 ; == APIクライアント ==
 # postingを起動

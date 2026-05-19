@@ -1,6 +1,8 @@
 [tools]
 node = "24"
+bun = "latest"
 uv = "latest"
+process-compose = "latest"
 "pipx:posting" = "latest"
 # zellij 0.44.1以降で端末色問い合わせ応答がprompt/Codex TUIへ漏れたため固定
 "aqua:zellij-org/zellij" = "0.44.0"
