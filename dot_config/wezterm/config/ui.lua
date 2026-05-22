@@ -51,7 +51,11 @@ function M.apply(config, wezterm, context)
   config.hide_tab_bar_if_only_one_tab = true
 
   -- 透明
-  if context.is_darwin then
+  if context.is_windows then
+    config.window_background_opacity = 0.72
+    config.win32_system_backdrop = "Acrylic"
+    config.text_background_opacity = 0.9
+  elseif context.is_darwin then
     config.macos_window_background_blur = 20
     config.colors.compose_cursor = "#ffca58"
     config.colors.cursor_bg = "#ffca58"
@@ -59,9 +63,12 @@ function M.apply(config, wezterm, context)
     config.colors.cursor_border = "#ffca58"
     config.colors.selection_fg = "#262427"
     config.colors.selection_bg = "#ffd271"
+    config.window_background_opacity = 0.72
+    config.text_background_opacity = 1.0
+  else
+    config.window_background_opacity = 0.82
+    config.text_background_opacity = 0.9
   end
-  config.window_background_opacity = context.is_darwin and 0.72 or 0.82
-  config.text_background_opacity = context.is_darwin and 1.0 or 0.9
 end
 
 return M
