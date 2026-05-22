@@ -24,8 +24,8 @@ function M.apply(config, wezterm, context)
       "Symbols Nerd Font Mono",
       "Apple Color Emoji",
     })
-    config.font_size = 14
-    config.line_height = 1.05
+    config.font_size = 13
+    config.line_height = 1.08
   else
     config.font = wezterm.font_with_fallback({
       "JetBrains Mono",
@@ -52,10 +52,16 @@ function M.apply(config, wezterm, context)
 
   -- 透明
   if context.is_darwin then
-    config.macos_window_background_blur = 36
+    config.macos_window_background_blur = 20
+    config.colors.compose_cursor = "#ffca58"
+    config.colors.cursor_bg = "#ffca58"
+    config.colors.cursor_fg = "#262427"
+    config.colors.cursor_border = "#ffca58"
+    config.colors.selection_fg = "#262427"
+    config.colors.selection_bg = "#ffd271"
   end
-  config.window_background_opacity = 0.82
-  config.text_background_opacity = 0.9
+  config.window_background_opacity = context.is_darwin and 0.72
+  config.text_background_opacity = context.is_darwin and 1.0 or 0.9
 end
 
 return M
