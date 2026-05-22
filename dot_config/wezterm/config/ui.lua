@@ -60,7 +60,7 @@ function M.apply(config, wezterm, context)
     config.colors.selection_fg = "#262427"
     config.colors.selection_bg = "#ffd271"
   end
-  config.window_background_opacity = context.is_darwin and 0.72
+  config.window_background_opacity = context.is_darwin and 0.72 or 0.82
   config.text_background_opacity = context.is_darwin and 1.0 or 0.9
 end
 
