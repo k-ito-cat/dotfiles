@@ -6,11 +6,13 @@ codex
 codex resume
 # 直近セッションを即再開
 codex resume --last
-# 改行キー（Codex）
+# 改行キー
 printf '%s\n' 'Ctrl+J'
-# 送信キー（Codex）
+# 送信キー
 printf '%s\n' 'Enter'
-# project-documents workflow開始トリガー（Codexに入力）
+# 会話履歴をスクロール可能なoverlayで開く/閉じる
+printf '%s\n' 'Ctrl+T'
+# project-documents workflow開始トリガー（入力）
 printf '%s\n' 'pdocs'
 
 % claude
