@@ -9,6 +9,7 @@ abbr gd="git diff"
 abbr codexh="codex -c model_reasoning_effort='high'"
 abbr codexl="codex -c model_reasoning_effort='low'"
 abbr codexm="codex -c model_reasoning_effort='medium'"
+abbr codexr="codex resume"
 
 abbr gcm="codex --profile commit gcm"
 
@@ -16,6 +17,7 @@ abbr gcm="codex --profile commit gcm"
 abbr claudeh="claude --model opus --effort high"
 abbr claudel="claude --model opus --effort low"
 abbr claudem="claude --model opus --effort medium"
+abbr clauder="claude --resume"
 
 # chezmoi
 abbr czad="chezmoi add"
