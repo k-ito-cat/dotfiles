@@ -1,0 +1,28 @@
+#!/bin/sh
+
+set -eu
+
+version="v0.23.0"
+sha256="e006901223524239db618021e4cc5d17f82dc4bfae5432895ba41f03f13861ff"
+plugin_dir="$HOME/.local/share/zellij/plugins/zjstatus/$version"
+plugin_file="$plugin_dir/zjstatus.wasm"
+tmp_file="${TMPDIR:-/tmp}/zjstatus-$version.wasm"
+
+if [ -f "$plugin_file" ]; then
+  current_sha256="$(shasum -a 256 "$plugin_file" | awk '{print $1}')"
+  if [ "$current_sha256" = "$sha256" ]; then
+    exit 0
+  fi
+fi
+
+mkdir -p "$plugin_dir"
+curl -L --fail -o "$tmp_file" "https://github.com/dj95/zjstatus/releases/download/$version/zjstatus.wasm"
+
+actual_sha256="$(shasum -a 256 "$tmp_file" | awk '{print $1}')"
+if [ "$actual_sha256" != "$sha256" ]; then
+  rm -f "$tmp_file"
+  echo "zjstatus checksum mismatch: expected $sha256, got $actual_sha256" >&2
+  exit 1
+fi
+
+mv "$tmp_file" "$plugin_file"
