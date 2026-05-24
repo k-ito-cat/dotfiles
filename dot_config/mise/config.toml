@@ -20,7 +20,8 @@ process-compose = "latest"
 
 # 言語サーバー（LSP）
 "aqua:LuaLS/lua-language-server" = "latest"
-"aqua:tree-sitter/tree-sitter" = "latest"
+# aqua レジストリが darwin/arm64 で macos-x64 アセットを選ぶため ubi に切替
+"ubi:tree-sitter/tree-sitter" = "latest"
 "npm:typescript-language-server" = "latest"
 "npm:@astrojs/language-server" = "latest"
 "npm:vscode-langservers-extracted" = "latest"
