@@ -49,3 +49,7 @@ ni <pkg>
 ni -D <pkg>
 # グローバル追加
 ni -g <pkg>
+# scripts一覧から選択して実行
+nr
+# 指定scriptを実行
+nr <script>
