@@ -40,6 +40,8 @@
 - 反復的で重い手順は `~/.agents/skills` の Skill を優先する。
 - 作業前に `~/.agents/skills` を確認し、該当 Skill があれば先に参照する。
 - このファイルはコアルールの入口とし、詳細手順は Skill 側を正本にする。
+- Skill を参照・使用した場合は、その Skill に書かれた手順、必須ルール、禁止事項、完了条件を必ず遵守する。参照だけして内容を無視したり、途中の都合のよい部分だけを実行して終了してはならない。
+- Skill の指示と通常判断が衝突する場合は、Skill の指示を優先し、実行不能または不適切だと判断する場合は理由を明示してユーザー確認を取る。
 - コードを書く・変更する作業では `coding-guidelines` Skill を参照する。
 - プロジェクト文書の作成・更新・未記入項目の補完は、該当する文書系 Skill に従う。
 - 設定ファイル、dotfiles、shell/editor/CLI 設定、`~/.config` 配下を編集する場合は `dotfiles-workflow` Skill を使い、`chezmoi source-path` が返す管理元を正本として編集し、原則 `chezmoi apply` まで行う。
