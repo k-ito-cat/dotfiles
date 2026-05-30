@@ -11,7 +11,15 @@ abbr codexl="codex -c model_reasoning_effort='low'"
 abbr codexm="codex -c model_reasoning_effort='medium'"
 abbr codexr="codex resume"
 
+# skill: commit-workflow
 abbr gcm="codex --profile commit gcm"
+
+# skill: project-readiness-audit
+abbr pra="codex --profile pra 'Use $project-readiness-audit to run a full audit for this project.'"
+abbr prac="codex --profile pra 'Use $project-readiness-audit to run a change audit for this project.'"
+abbr prar="codex --profile pra 'Use $project-readiness-audit to run a release audit for this project.'"
+abbr pras="codex --profile pra 'Use $project-readiness-audit to run a security audit for this project.'"
+abbr prad="codex --profile pra 'Use $project-readiness-audit to run a docs audit for this project.'"
 
 # claude
 abbr claudeh="claude --model opus --effort high"
