@@ -8,7 +8,7 @@
 
 ## 読むもの
 
-- `docs/specs/legal.md`, `security.md`, `observability.md`, `dependencies.md`, `release.md`
+- `legal.md`, `security.md`, `observability.md`, `dependencies.md`, `release.md`
 - auth/profile/account code
 - analytics/error reporting/monitoring config
 - cookie/storage usage

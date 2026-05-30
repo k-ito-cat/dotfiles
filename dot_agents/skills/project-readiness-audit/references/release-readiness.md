@@ -4,11 +4,11 @@
 
 公開前・リリース前に、全 PJ 共通で落としやすいリスクを監査する。リリースフローそのものを定義せず、公開してよい状態かを確認する。
 
-PJ 固有の公開対象、判断者、リリースフロー、確認環境、rollback 手順、告知方針は `docs/specs/release.md` に残す。
+PJ 固有の公開対象、判断者、リリースフロー、確認環境、rollback 手順、告知方針は `release.md` に残す。
 
 ## 読むもの
 
-- `docs/specs/release.md`, `acceptance.md`, `domain.md`, `infra.md`, `operations.md`, `observability.md`, `legal.md`, `security.md`
+- `release.md`, `domain.md`, `infra.md`, `observability.md`, `legal.md`, `security.md`, `qa.md`, `test.md`
 - deploy/hosting config, CI/CD workflow
 - DNS/domain/mail DNS docs
 - app routes, 404/500, auth flow, major user journeys

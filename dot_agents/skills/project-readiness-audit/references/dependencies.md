@@ -2,15 +2,15 @@
 
 ## 目的
 
-外部 package、SaaS、SDK、provider、GitHub Action、CLI などの依存が、公開・運用・供給網リスクを増やしていないかを監査する。
+外部 package、SaaS、SDK、provider、GitHub Action、CLI などの依存が、公開・保守・供給網リスクを増やしていないかを監査する。
 
-新規 package 追加の詳細評価は `package-addition-check` skill を併用する。この reference は project readiness の文脈で、依存全体と運用を確認する。
+新規 package 追加の詳細評価は `package-addition-check` skill を併用する。この reference は project readiness の文脈で、依存全体と保守方針を確認する。
 
 ## 読むもの
 
 - `package.json`, lockfile, workspace config
 - CI/CD workflow and GitHub Actions
-- `docs/specs/dependencies.md`, `tech.md`, `security.md`, `legal.md`, `operations.md`
+- `dependencies.md`, `tech.md`, `security.md`, `legal.md`
 - external SDK/API/provider 設定
 - Renovate/Dependabot config
 
@@ -48,7 +48,7 @@
 ### 外部 service risk
 
 - provider 障害時の影響と代替/縮退があるか。
-- cost、rate limit、data residency、DPA、privacy、SLA を確認しているか。
+- cost、rate limit、data residency、DPA、privacy、障害時の影響を確認しているか。
 - secret/API key の管理境界があるか。
 - webhook や callback endpoint の security を確認しているか。
 

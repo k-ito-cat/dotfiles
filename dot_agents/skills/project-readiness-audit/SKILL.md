@@ -1,11 +1,11 @@
 ---
 name: project-readiness-audit
-description: Audit project readiness across security, release, public environment variables, privacy/legal triggers, dependencies, QA/test, observability, operations, and web-client risks. Use when reviewing project-documents specs/templates, preparing a service release, checking whether common checklist items are satisfied, or deciding whether a concern belongs in a reusable audit skill instead of PJ-specific docs.
+description: Audit project readiness across security, release, public environment variables, privacy/legal triggers, dependencies, QA/test, observability, and web-client risks. Use when reviewing project-documents specs/templates, preparing a service release, checking whether common checklist items are satisfied, or deciding whether a concern belongs in a reusable audit skill instead of PJ-specific docs.
 ---
 
 # Project Readiness Audit
 
-プロジェクトを公開・変更・レビューする前に、全 PJ 共通で見るべき品質、セキュリティ、公開準備、運用リスクを監査する。
+プロジェクトを公開・変更・レビューする前に、全 PJ 共通で見るべき品質、セキュリティ、公開準備、観測性、復旧リスクを監査する。
 
 この skill は仕様を定義しない。`docs/specs` に書くべき PJ 固有判断と、全 PJ 共通の監査観点を分離し、実装・設定・CI・env・package・docs を横断して「満たしているか」を確認する。
 
@@ -31,27 +31,27 @@ description: Audit project readiness across security, release, public environmen
 
 ## Reference Routing
 
-- セキュリティ全般、認証、認可、Cookie、CSP、CORS、秘密情報、PII、監査ログ: [security.md](references/security.md)
-- client に公開される env、`VITE_`、`NEXT_PUBLIC_`、`PUBLIC_`、bundle 混入: [public-env.md](references/public-env.md)
-- 公開前チェック、DNS、HTTPS、メール DNS、SEO、rollback、feature flag: [release-readiness.md](references/release-readiness.md)
-- 個人情報、Cookie、外部送信、分析、課金、規約、プライバシーポリシー: [privacy-legal.md](references/privacy-legal.md)
-- npm/package、外部 SaaS、SDK、lockfile、更新運用、供給網リスク: [dependencies.md](references/dependencies.md)
-- QA 観点、テスト戦略、境界値、状態遷移、回帰、AI へのテスト依頼前確認: [qa-test.md](references/qa-test.md)
-- ログ、監視、アラート、Runbook、インシデント、運用初動: [observability-ops.md](references/observability-ops.md)
-- Web client 特有の storage、CSRF、URL、upload、analytics、a11y、performance: [web-client.md](references/web-client.md)
+- セキュリティ全般、認証、認可、Cookie、CSP、CORS、秘密情報、PII、監査ログ: `security.md`
+- client に公開される env、`VITE_`、`NEXT_PUBLIC_`、`PUBLIC_`、bundle 混入: `public-env.md`
+- 公開前チェック、DNS、HTTPS、メール DNS、SEO、rollback、feature flag: `release-readiness.md`
+- 個人情報、Cookie、外部送信、分析、課金、規約、プライバシーポリシー: `privacy-legal.md`
+- npm/package、外部 SaaS、SDK、lockfile、更新運用、供給網リスク: `dependencies.md`
+- QA 観点、テスト戦略、境界値、状態遷移、回帰、AI へのテスト依頼前確認: `qa-test.md`
+- ログ、監視、アラート、障害検知、初動、復旧: `observability-ops.md`
+- Web client 特有の storage、CSRF、URL、upload、analytics、a11y、performance: `web-client.md`
 
 ## 監査で見る情報源
 
 対象に応じて、次を広く確認する。
 
-- `docs/README.md`, `docs/specs/README.md`, 関連 specs
+- `README.md`, `specs/README.md`, 関連 specs
 - `package.json`, lockfile, workspace 設定
 - framework config: Vite, Next.js, SvelteKit, Astro, Vercel, Netlify など
 - `.env.example`, `.env.*.example`, `.env.1password`, CI secret 設定の参照記述
 - auth/session/middleware/router/API/client code
 - DB schema, migration, validation schema, OpenAPI, generated client
 - CI/CD workflow, deploy config, hosting config
-- README, runbook, release docs, monitoring docs
+- README, release docs, monitoring docs
 
 秘密情報そのものを要求しない。実値が必要に見えても、名前、配置、参照方法、公開境界、検証方法だけを見る。
 
