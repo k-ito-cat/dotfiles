@@ -27,6 +27,8 @@ description: Use before adding or recommending a new package, dependency, global
 4. セキュリティ情報を確認する。
    - GitHub Security Advisories、npm advisory、OSV、公式 issue / discussion、直近のセキュリティニュースを確認する。
    - 既知脆弱性、乗っ取り、悪性リリース、撤回、deprecated 情報がないか確認する。
+   - 既知脆弱性がある場合は、影響を受けるバージョン範囲、修正済みバージョン、導入予定バージョンが影響範囲に入るかを明示する。
+   - 修正済みバージョンが確認できない場合は、原則として追加しないか保留に寄せる。
    - 公式情報で確認できない場合は、その旨を明示し、補助情報は推測として扱う。
 
 5. install scripts と配布物を確認する。
@@ -53,15 +55,15 @@ description: Use before adding or recommending a new package, dependency, global
 
 ## 判定
 
-- **追加しない**: 標準機能、既存依存、自作で足りる。身元や保守状態に不安がある。install scripts や依存数が重い。
-- **保留**: 目的は妥当だが、公式情報、maintainer、脆弱性、固定方法の確認が不足している。
+- **追加しない**: 標準機能、既存依存、自作で足りる。身元や保守状態に不安がある。install scripts や依存数が重い。導入予定バージョンが既知脆弱性の影響範囲に入る。
+- **保留**: 目的は妥当だが、公式情報、maintainer、脆弱性、固定方法の確認が不足している。脆弱性の修正済みバージョンが確認できない。
 - **追加可**: 目的が明確で、公式 identity、maintainer、security、install scripts、依存量、固定方法を確認済み。
 
 ## 回答形式
 
 回答では、事実と判断を分ける。
 
-- 確認済み事実: 公式情報、package identity、maintainer、install scripts、依存数、publish / issue 状況。
-- リスク: typosquatting、保守停滞、install scripts、依存過多、直近 publish、既知脆弱性。
+- 確認済み事実: 公式情報、package identity、maintainer、install scripts、依存数、publish / issue 状況、既知脆弱性の影響バージョン範囲と修正済みバージョン。
+- リスク: typosquatting、保守停滞、install scripts、依存過多、直近 publish、既知脆弱性、導入予定バージョンが影響範囲に入る可能性。
 - 推奨判断: 追加可、保留、追加しない。
 - 導入条件: exact version、lockfile、ignore scripts、監視方法、代替案。
