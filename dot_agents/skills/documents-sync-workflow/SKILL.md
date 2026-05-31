@@ -28,7 +28,7 @@ description: Use when documentation content may be out of sync with implementati
 ## Scope
 
 - この workflow は、既にある内容・成果物・実態の同期と整合性維持を扱う。
-- 新規プロジェクト文書を対話で育てる主導は `project-documents-workflow` が扱う。
+- 新規プロジェクト文書を対話で育てる主導は `project-documents-setup-workflow` が扱う。
 - 画面設計や UI 設計そのものは `design-workflow` が扱う。
 - prototype の実装は `prototype-workflow` が扱う。
 - アプリケーションコード修正そのものは、この workflow の主目的ではない。

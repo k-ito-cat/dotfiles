@@ -1,9 +1,9 @@
 ---
-name: project-documents-workflow
+name: project-documents-setup-workflow
 description: Use when the user says `pdocs`, `project-docs`, or wants to set up or evolve project documentation under project-documents. Set up documentation from project-documents/_template when needed, connect the app repository's `docs` path with a symlink, read docs/README.md as the operating contract, then use the template README files as the document map and guide user interviews to fill only necessary specifications in a development-safe order.
 ---
 
-# Project Documents Workflow
+# Project Documents Setup Workflow
 
 project-documents 運用の入口として、ドキュメント実体の用意、アプリリポジトリとの symlink 接続、必要な仕様書の対話的な具体化を進める。
 

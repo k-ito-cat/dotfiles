@@ -33,7 +33,7 @@ description: Use when the user wants to create or revise UI design, screen desig
    - `docs/specs/README.md`
    - 必要なら `project-documents/_template/specs/README.md`
    - UI / UX 判断に必要な design 入力条件が specs 側に定義されているか確認する
-   - 入力条件が不足している場合は、UI 案を確定せず project-documents-workflow / specs へ戻す
+   - 入力条件が不足している場合は、UI 案を確定せず project-documents-setup-workflow / specs へ戻す
 2. デザイン文書群の未定義項目を確認する
    - `docs/design/`
    - `docs/design/README.md`
