@@ -21,6 +21,7 @@ description: Use for dotfiles, shell/editor/CLI config, aliases, functions, keyb
 - git config / global ignore
 - `~/.config` 配下
 - dotfile または CLI / tool の設定ファイル全般
+- `~/.agents/skills`
 
 ## パッケージ宣言運用
 
@@ -41,6 +42,8 @@ description: Use for dotfiles, shell/editor/CLI config, aliases, functions, keyb
 3. まず chezmoi source directory を探す。
    - 生成先との対応を優先して確認する。
    - `.tmpl`、`dot_`、`private_`、`symlink_`、分割設定ファイルも確認する。
+   - `~/.agents/skills/<skill>` を変更する場合は、生成先を直接編集せず、`dot_agents/skills/<skill>` の有無を先に確認する。
+   - Skill 名を変更する場合は、生成先の rename だけで済ませず、`dot_agents/skills/<old>` の rename、frontmatter `name`、関連 Skill からの参照、`agents/openai.yaml` も同時に確認する。
    - 見つからない場合は、大小文字違い、typo、名前の勘違いを疑って探索する。
 4. 現状分析、選択肢、推奨案、反映範囲、変更しない範囲を整理し、ユーザーに確認する。
 5. ユーザーの明示的な OK がある場合だけ、管理対象なら chezmoi source file を編集する。
@@ -55,6 +58,7 @@ description: Use for dotfiles, shell/editor/CLI config, aliases, functions, keyb
 
 - chezmoi 管理元がある場合、生成先 dotfile を正本として扱わない。
 - dot config が chezmoi 管理対象の場合、更新は基本的に chezmoi 側の `.tmpl` / `dot_` / `private_` / `symlink_` 管理元を優先する。
+- `~/.agents/skills` 配下は実ファイルが存在しても、chezmoi 管理対象の可能性が高い。`chezmoi source-path` が新名で失敗した場合も、旧名・表記ゆれ・`dot_agents/skills` を探索してから未管理と判断する。
 - 参照先としても、生成先の実ファイルより chezmoi 管理元を優先する。
 - 実ファイルを確認する場合でも、真実源は chezmoi 管理元として扱う。
 - ユーザーの明示的な OK が出るまで、`apply_patch` などによるファイル編集を行わない。
