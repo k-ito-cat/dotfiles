@@ -28,6 +28,8 @@ UI/UX 判断や画面責務は design docs に残す。client の一般監査観
 - localStorage/sessionStorage/IndexedDB/cache に PII や secret を保存していないか。
 - theme、view setting、feature flag など public state と user data を分けているか。
 - shared device や account switch で前ユーザーの情報が残らないか。
+- iOS Safari ITP の影響を理解しているか (1st-party でない場合の cookie 制限、JS で書き込んだ localStorage / cookie が 7 日でクリアされる挙動)。長期保持が必要なデータの戦略があるか。
+- third-party cookie 廃止を前提に、認証や session を 1st-party cookie や server session 経由で扱う設計になっているか。
 
 ### API client
 
@@ -64,6 +66,16 @@ UI/UX 判断や画面責務は design docs に残す。client の一般監査観
 - 初期 bundle、画像、font、route splitting、heavy computation、list virtualization を確認しているか。
 - loading/error/empty state が性能劣化時にも破綻しないか。
 - client-side analytics や third-party script が Core Web Vitals を悪化させていないか。
+- 画像にレイアウトシフト防止 (`width`/`height` 属性または `aspect-ratio`) が設定されているか。
+- 表示サイズより過度に大きい画像を配信していないか (適切な解像度 / 形式の選択、`srcset` や CDN 変換の活用)。
+- 静的アセット (画像、JS、CSS、font) に CDN キャッシュが効いているか。
+
+### Visual robustness
+
+- 長いユーザー入力値 (タイトル、URL、表示名、コメント) でレイアウトが崩れないか。
+- スクロールバー表示時と非表示時で横幅レイアウトがズレないか (`scrollbar-gutter: stable` 等)。
+- OS / ブラウザ別のデフォルトフォントで見た目が大きく崩れないか (Mac / Windows / iOS / Android の差を意識)。
+- dark mode、ハイコントラストモード、reduced motion など preference 切替時に主要導線が破綻しないか。
 
 ## 危険パターン
 

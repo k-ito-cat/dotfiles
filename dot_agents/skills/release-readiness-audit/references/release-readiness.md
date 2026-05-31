@@ -51,9 +51,16 @@ PJ 固有の公開対象、判断者、リリースフロー、確認環境、ro
 
 ### SEO / crawling / metadata
 
-- robots、sitemap、canonical、noindex、OGP、favicon、manifest の要否を確認しているか。
-- private/preview/staging が index されないか。
+- robots、sitemap、canonical、noindex、OGP、favicon、apple-touch-icon、manifest の要否を確認しているか。
+- `<html lang>` が正しく指定されているか (多言語 PJ では locale ごとに変えているか)。
+- title タグと meta description が全ページに設定されているか (テンプレ + 動的生成のフォールバック含む)。
+- OGP (og:title / og:description / og:image / og:url) と twitter:card が設定されているか。動的画像生成の方針があるか。
+- private/preview/staging が index されないか (環境別の noindex / robots.txt / Basic 認証)。
+- エラーページ (404 / 500) が適切な HTTP status code を返し、または noindex 付与で検索結果に混入しないか。
+- 検索結果ページ、フィルタ後の一覧ページ、無限スクロール等が重複コンテンツや薄いコンテンツとして index されないか (noindex / canonical)。
 - public page が必要な場合、最低限の meta があるか。
+- 公開時に Google Search Console / Bing Webmaster Tools への登録と所有権検証が完了しているか。
+- ユーザー依存データ (ログイン後画面、user-specific response) を CDN / KV / shared cache に永続化していないか。キャッシュキーに user 識別子が含まれているか、または `Cache-Control: private` が効いているか。
 
 ### Accessibility / performance
 
