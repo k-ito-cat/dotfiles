@@ -1,7 +1,0 @@
-interface:
-  display_name: "Project Readiness Audit"
-  short_description: "Audit release, security, env, QA, ops risks."
-  default_prompt: "Use $project-readiness-audit to audit this project for release readiness, security, public env, privacy, dependency, QA, and observability risks."
-
-policy:
-  allow_implicit_invocation: true

@@ -1,11 +1,11 @@
 ---
-name: project-readiness-audit
-description: Audit project readiness across security, release, public environment variables, privacy/legal triggers, dependencies, QA/test, observability, and web-client risks. Use when reviewing project-documents specs/templates, preparing a service release, checking whether common checklist items are satisfied, or deciding whether a concern belongs in a reusable audit skill instead of PJ-specific docs.
+name: release-readiness-audit
+description: Audit release and launch readiness across security, public environment variables, privacy/legal triggers, dependencies, QA/test, observability, web-client risks, and operational blockers before exposing a service to users. Use when reviewing project-documents specs/templates, preparing a service release, checking whether common checklist items are satisfied, or deciding whether a concern belongs in a reusable audit skill instead of PJ-specific docs.
 ---
 
-# Project Readiness Audit
+# Release Readiness Audit
 
-プロジェクトを公開・変更・レビューする前に、全 PJ 共通で見るべき品質、セキュリティ、公開準備、観測性、復旧リスクを監査する。
+サービスをユーザーに公開・リリースする前に、全 PJ 共通で見るべき品質、セキュリティ、公開準備、観測性、復旧リスクを監査する。
 
 この skill は仕様を定義しない。`docs/specs` に書くべき PJ 固有判断と、全 PJ 共通の監査観点を分離し、実装・設定・CI・env・package・docs を横断して「満たしているか」を確認する。
 
