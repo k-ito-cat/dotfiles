@@ -42,6 +42,14 @@ properties:
       settings:
         id: Notion.Notion
         source: winget
+    # Obsidian
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: obsidian
+      directives:
+        description: Install Obsidian
+      settings:
+        id: Obsidian.Obsidian
+        source: winget
     # Figma
     - resource: Microsoft.WinGet.DSC/WinGetPackage
       id: figma
