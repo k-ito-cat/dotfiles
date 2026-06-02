@@ -1,4 +1,6 @@
 #!/bin/sh
 
 # Brewfile hash: {{ include "Brewfile.tmpl" | sha256sum }}
-brew bundle --file="$HOME/Brewfile"
+# apply時の発火は多くの場合Brewfileへの新規追加なので、既存パッケージ更新は避けて新規インストールだけ行う。
+# 明示的にbrew bundleを実行したときのauto-updateは通常どおりHomebrewに任せる。
+HOMEBREW_NO_AUTO_UPDATE=1 brew bundle --file="$HOME/Brewfile"
