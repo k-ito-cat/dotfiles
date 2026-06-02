@@ -34,6 +34,30 @@ properties:
       settings:
         id: Docker.DockerDesktop
         source: winget
+    # Codex
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: codex
+      directives:
+        description: Install Codex
+      settings:
+        id: 9PLM9XGG6VKS
+        source: msstore
+    # ChatGPT
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: chatGpt
+      directives:
+        description: Install ChatGPT
+      settings:
+        id: 9NT1R1C2HH7J
+        source: msstore
+    # Claude
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: claude
+      directives:
+        description: Install Claude
+      settings:
+        id: Anthropic.Claude
+        source: winget
     # Notion
     - resource: Microsoft.WinGet.DSC/WinGetPackage
       id: notion
