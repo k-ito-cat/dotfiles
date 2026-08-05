@@ -6,9 +6,9 @@ abbr gpl="git pull"
 abbr gd="git diff"
 
 # codex
-abbr codexh="codex -c model_reasoning_effort='high'"
-abbr codexl="codex -c model_reasoning_effort='low'"
-abbr codexm="codex -c model_reasoning_effort='medium'"
+abbr codexh="codex --profile codexh"
+abbr codexl="codex --profile codexl"
+abbr codexm="codex --profile codexm"
 abbr codexr="codex resume"
 
 # skill: commit-workflow
