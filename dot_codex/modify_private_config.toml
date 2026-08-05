@@ -20,9 +20,11 @@ language = "ja"
 # -------------------------------------------------------------------
 
 [mcp_servers.notion]
+enabled = false
 url = "https://mcp.notion.com/mcp"
 
 [mcp_servers.figma]
+enabled = false
 url = "https://mcp.figma.com/mcp"
 
 ` -}}
