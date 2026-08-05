@@ -10,6 +10,14 @@ properties:
       settings:
         id: Google.Chrome.EXE
         source: winget
+    # Brave
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: brave
+      directives:
+        description: Install Brave
+      settings:
+        id: Brave.Brave
+        source: winget
     # WezTerm
     - resource: Microsoft.WinGet.DSC/WinGetPackage
       id: wezTerm
@@ -65,6 +73,22 @@ properties:
         description: Install Notion
       settings:
         id: Notion.Notion
+        source: winget
+    # Spotify
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: spotify
+      directives:
+        description: Install Spotify
+      settings:
+        id: Spotify.Spotify
+        source: winget
+    # Discord
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: discord
+      directives:
+        description: Install Discord
+      settings:
+        id: Discord.Discord
         source: winget
     # Obsidian
     - resource: Microsoft.WinGet.DSC/WinGetPackage
