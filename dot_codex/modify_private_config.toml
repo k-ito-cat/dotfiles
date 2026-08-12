@@ -55,6 +55,10 @@ enabled = true
 # TUI
 # -------------------------------------------------------------------
 
+[tui]
+status_line = ["model-with-reasoning", "current-dir", "weekly-limit", "context-used"]
+status_line_use_colors = true
+
 [tui.model_availability_nux]
 "gpt-5.5" = 4
 # chezmoi:managed:end` $managed -}}
