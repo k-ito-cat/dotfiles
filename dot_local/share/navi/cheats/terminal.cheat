@@ -53,3 +53,22 @@ ni -g <pkg>
 nr
 # 指定scriptを実行
 nr <script>
+
+% hunk
+; == hunk ==
+# 作業ツリー全体をレビュー（未追跡ファイルを含む）
+hunk diff
+# 作業ツリーの変更を自動更新しながらレビュー
+hunk diff --watch
+# 最新コミットをレビュー
+hunk show
+# 指定したコミットをレビュー
+hunk show <revision>
+# キー一覧を表示
+printf '%s\n' '?'
+# 終了
+printf '%s\n' 'q'
+# 分割表示
+printf '%s\n' '1'
+# 縦積み表示
+printf '%s\n' '2'

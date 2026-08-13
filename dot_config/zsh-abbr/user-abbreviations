@@ -4,6 +4,9 @@ abbr gss="git status -s"
 abbr gps="git push"
 abbr gpl="git pull"
 abbr gd="git diff"
+abbr hd="hunk diff"
+abbr hdw="hunk diff --watch"
+abbr hs="hunk show"
 
 # codex
 abbr codexh="codex --profile codexh"

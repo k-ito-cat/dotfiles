@@ -1,0 +1,5 @@
+theme = "github-dark-default"
+mode = "stack"
+line_numbers = true
+wrap_lines = false
+transparent_background = true
