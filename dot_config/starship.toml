@@ -41,6 +41,9 @@ symbol = " "
 style = "bold purple"
 format = "[$symbol$branch]($style) "
 
+[git_status]
+use_git_executable = true
+
 [nodejs]
 symbol = " "
 style = "bold green"
@@ -59,4 +62,3 @@ disabled = true
 success_symbol = "[❯](bold green)"
 error_symbol = "[❯](bold red)"
 vimcmd_symbol = "[❮](bold yellow)"
-
