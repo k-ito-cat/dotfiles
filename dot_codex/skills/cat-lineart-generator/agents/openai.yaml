@@ -1,0 +1,6 @@
+interface:
+  display_name: "猫線画ジェネレーター"
+  short_description: "同一個体の抽象猫線画を透過 PNG で生成・検証する"
+  default_prompt: "Use $cat-lineart-generator to create a left-facing side-view cat sitting calmly."
+policy:
+  allow_implicit_invocation: false
