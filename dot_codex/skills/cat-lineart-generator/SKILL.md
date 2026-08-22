@@ -1,6 +1,6 @@
 ---
 name: cat-lineart-generator
-description: Generate a transparent PNG of one consistent stylized feline line-art character in a user-requested pose. Use only when explicitly invoked for this reusable cat asset; do not use for unrelated cat images.
+description: Generate a transparent PNG of one consistent sophisticated feline line-art character in a user-requested pose. Use only when explicitly invoked for this reusable cat asset; do not use for unrelated cat images.
 ---
 
 # 猫線画ジェネレーター
@@ -56,16 +56,16 @@ description: Generate a transparent PNG of one consistent stylized feline line-a
 Use case: illustration-story
 Asset type: reusable UI/content cat asset
 Input images: <available references and their roles>
-Primary request: The same stylized feline character in a new pose. Do not reuse or infer a previous pose; derive the action, orientation, and viewing angle only from this request.
-Identity and proportions: Standard-build fur-agnostic feline form, neither slender nor chubby; slightly elongated torso; small head; moderately slim limbs; simple triangular ears. Draw no eyes and no nose. A single short, minimal mouth line is allowed; do not add other facial marks. Keep the same body proportions, torso thickness, head size, limb thickness, ear shape, tail thickness, and tail anatomy across all outputs. Tail centerline length, from tail base to tip along its curve, is 1.00 times torso centerline length, from neck base to tail base, with only ±5% tolerance. Tail direction and curvature may change, but anatomical length may not.
-Style/medium: Minimal stylized feline character line art; smooth clean continuous contours; marker-like monoline with a consistent black stroke about 0.7% of the canvas short edge; rounded caps and joins; no brush-pressure variation, tapering, dry-brush texture, or calligraphic stroke. Very limited internal detail; no fill; no shading; no gradients; no hatching; no texture; no fur rendering.
+Primary request: The same sophisticated feline line-art character in a new pose. Do not reuse or infer a previous pose; derive the action, orientation, and viewing angle only from this request.
+Identity and proportions: A consistent, balanced feline form with a slightly elongated torso, modest head, moderately slim limbs, and natural triangular ears. Stylization is allowed when it serves visual balance, gesture, and elegance; it must not become baby-animal, chibi, mascot-like, or softly cartoonish. Keep paws and head proportionate, avoiding exaggerated roundness. Draw no eyes and no nose. A single short, quiet mouth line is allowed; do not add other facial marks. Keep the same body proportions, torso thickness, head size, limb thickness, ear shape, tail thickness, and tail anatomy across all outputs. Tail centerline length, from tail base to tip along its curve, is 1.00 times torso centerline length, from neck base to tail base, with only ±5% tolerance. Tail direction and curvature may change, but anatomical length may not.
+Style/medium: A sophisticated, restrained contemporary feline line illustration with a calm, slightly aloof character. It should feel like an art-book or editorial illustration: elegant, graphic, and visually intentional rather than warm, cute, or playful. Favor elongated proportion, controlled asymmetry, a sculptural silhouette, and generous negative space over literal anatomical detail or cartoon expression. Use smooth, clean continuous contours; marker-like monoline with a consistent black stroke about 0.7% of the canvas short edge; rounded caps and joins; no brush-pressure variation, tapering, dry-brush texture, or calligraphic stroke. Use restrained internal detail only; no fill; no shading; no gradients; no hatching; no texture; no fur rendering.
 Line pattern: Use `continuous-outline` by default. When the user explicitly requests `separated-silhouette`, draw each anatomical form as an independent open silhouette contour. Keep the body, tail, and any separately articulated limbs visually related but never connect, overlap, or cross their contour strokes. Leave deliberate clean gaps at anatomical junctions, using the same monoline weight and rounded caps. Retain every other Style/medium requirement.
 Pose: <current request only>
 View and direction: <current request only>
 Composition/framing: One isolated cat. Choose the canvas aspect ratio to fit the cat's pose rather than forcing a square canvas. Keep ears, paws, body, and tail fully visible.
 Scene/backdrop: Fully transparent background.
-Constraints: Natural feline proportions with a friendly, gently stylized character silhouette; preserve the defined standard body build and tail ratios; no prior pose carry-over.
-Avoid: background, white backdrop, ground line, floor, shadow, props, text, decorative elements, hair strands, eyes, nose, realistic facial rendering, sketchy or repeated strokes.
+Constraints: A visually refined, restrained, and elegant feline silhouette; preserve the defined body build and tail ratios; no prior pose carry-over.
+Avoid: friendly character design, approachable mascot tone, cute, playful charm, mascot character, logo-like simplification, rounded simplified silhouette, soft cartoon appeal, chibi, baby-animal proportions, oversized head, oversized rounded paws, overly symmetrical front-facing icon composition, cartoon expression, children's-book cuteness, decorative facial features, background, white backdrop, ground line, floor, shadow, props, text, decorative elements, hair strands, eyes, nose, realistic facial rendering, sketchy or repeated strokes.
 ```
 
 生成後は、保存前に透過状態だけを確認する。成果物の見た目や構図の受け入れ検査・再生成は行わない。
