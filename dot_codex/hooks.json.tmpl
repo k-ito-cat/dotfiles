@@ -1,0 +1,17 @@
+{
+  "description": "Route cat image generation requests to the dedicated cat line-art skill.",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 {{ .chezmoi.homeDir }}/.codex/hooks/cat_lineart_router.py",
+            "timeout": 3,
+            "additionalContextLimit": 500
+          }
+        ]
+      }
+    ]
+  }
+}
