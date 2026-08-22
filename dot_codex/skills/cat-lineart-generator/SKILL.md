@@ -9,10 +9,12 @@ description: Generate a transparent PNG of one consistent sophisticated feline l
 
 ## 入力の扱い
 
-可変なのは `POSE`、`VIEW`、`DIRECTION`、シーン上の前提、必要時だけ頭の角度・尻尾の姿勢・接地基準線との関係・四肢位置である。線パターンは既定の `continuous-outline` を維持し、ユーザーが明示した場合だけ `separated-silhouette` に切り替える。固定仕様は聞き直さない。
+可変なのは `POSE`、`VIEW`、`DIRECTION`、シーン上の前提、必要時だけ頭の角度・尻尾の姿勢・接地基準線との関係・四肢位置、線パターン、透過検証の実行有無である。固定仕様は聞き直さない。
 
 - 画像生成の前に必ず、猫の状態・動作、視点・向き、シーン上の前提、構図を確認する。ユーザーがすでに指定している場合は、聞き直す代わりにその内容を生成設計へ記載する。
 - 結果を左右する項目が未指定なら、一問ずつ確認する。例: 「横向き・正面・斜めのどれにしますか？」
+- 線パターンが未指定なら、`continuous-outline`（連続輪郭）と `separated-silhouette`（分離シルエット）のどちらにするか確認する。ユーザーがすでに指定している場合は聞き直さない。
+- 透過検証の実行有無が未指定なら、検証するかスキップするか確認する。ユーザーがすでに指定している場合は聞き直さない。
 - 尻尾の姿勢がポーズから決まらない場合は、立てる・体に添える・脚に巻く・横へ伸ばす・下げるのどれかを確認する。続けて、描かない接地基準線に対して接する・上に保つ・下へ出してよいのどれかを確認する。
 - 現在の要求だけからポーズを決める。過去の生成や参照画像のポーズを再利用・推測しない。
 - 固定仕様の変更、尻尾比率の変更、複数個体化は、明示的な変更依頼として扱う。
@@ -27,7 +29,8 @@ description: Generate a transparent PNG of one consistent sophisticated feline l
 - 構図（全身を切らないこと）
 - 使用する参照画像と各画像の役割
 - 固定仕様（体型、尻尾、顔パーツ、線画表現）
-- 線パターン（明示指定時のみ）
+- 線パターン（`continuous-outline` または `separated-silhouette`）
+- 透過検証（実行またはスキップ）
 - 生成プロンプト案
 
 承認前に `imagegen` を呼び出さない。承認後は、承認された設計に沿ってプロンプトを調整し、固定仕様または明示された可変条件以外を追加しない。
@@ -68,24 +71,24 @@ Constraints: A visually refined, restrained, and elegant feline silhouette; pres
 Avoid: friendly character design, approachable mascot tone, cute, playful charm, mascot character, logo-like simplification, rounded simplified silhouette, soft cartoon appeal, chibi, baby-animal proportions, oversized head, oversized rounded paws, overly symmetrical front-facing icon composition, cartoon expression, children's-book cuteness, decorative facial features, background, white backdrop, ground line, floor, shadow, props, text, decorative elements, hair strands, eyes, nose, realistic facial rendering, sketchy or repeated strokes.
 ```
 
-生成後は、保存前に透過状態だけを確認する。成果物の見た目や構図の受け入れ検査・再生成は行わない。
+生成後は、ユーザーが選択した場合だけ保存前に透過状態を確認する。スキップを選択した場合は検証コマンドを呼ばず、透過状態を保証しない。いずれの場合も成果物の見た目や構図の受け入れ検査・再生成は行わない。
 
-出力 PNG のローカルパスを特定したら、まず次を実行して透過状態を確認する。
+透過検証を実行する場合、出力 PNG のローカルパスを特定したら、まず次を実行して透過状態を確認する。
 
 ```sh
 python3 scripts/validate_and_save_png.py <generated-png-path> --check
 ```
 
-`needs_transparency_edit` が `true` の場合は、その画像を `view_image` で確認してから `imagegen` の編集対象にする。編集では、猫の線・形・構図を一切変えず、背景だけを完全な透明背景にするよう依頼する。透明化編集は 1 回だけ行い、再出力を同じコマンドで確認する。再出力も透過を確認できなければ、保存せずに失敗理由を報告してユーザーの指示を待つ。
+`needs_transparency_edit` が `true` の場合は、その画像を `view_image` で確認してから `imagegen` の編集対象にする。編集では、猫の線・形・構図を一切変えず、背景だけを完全な透明背景にするよう依頼する。透明化編集は 1 回だけ行い、再出力を同じコマンドで確認する。再出力も透過を確認できなければ、保存せずに失敗理由を報告してユーザーの指示を待つ。透過検証をスキップした場合、この編集フローも行わない。
 
 ## 検証と保存
 
-選んだ生成 PNG のローカルパスを特定して、次を実行する。
+透過検証を実行する場合は、選んだ生成 PNG のローカルパスを特定して、次を実行する。
 
 ```sh
 python3 scripts/validate_and_save_png.py <generated-png-path> --name <descriptive-kebab-case-name>
 ```
 
-`--check` は出力の透過状態だけを JSON で報告し、保存はしない。通常実行では、8-bit RGBA PNG・四辺の完全透明を検査してから、OS の Downloads に非上書きコピーする。RGBA または透明辺の検証に失敗した場合は、上記の透明化編集を 1 回だけ行う。透明化後も失敗した場合、または保存に失敗した場合は、別形式への変換・背景の除去・別保存先へのフォールバックはしない。失敗理由を報告し、ユーザーの指示を待つ。保存は外部ディレクトリへの書き込みなので、実行環境の承認が必要なら直前に取得する。
+`--check` は出力の透過状態だけを JSON で報告し、保存はしない。通常実行では、8-bit RGBA PNG・四辺の完全透明を検査してから、OS の Downloads に非上書きコピーする。RGBA または透明辺の検証に失敗した場合は、上記の透明化編集を 1 回だけ行う。透明化後も失敗した場合、または保存に失敗した場合は、別形式への変換・背景の除去・別保存先へのフォールバックはしない。失敗理由を報告し、ユーザーの指示を待つ。透過検証をスキップした場合は、検証結果を報告せず、スキップしたことを最終報告に記載する。保存は外部ディレクトリへの書き込みなので、実行環境の承認が必要なら直前に取得する。
 
 最終報告には、使用した参照画像の役割、最終プロンプト、検証結果、保存先を含める。
