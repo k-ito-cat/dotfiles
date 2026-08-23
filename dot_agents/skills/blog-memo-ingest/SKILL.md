@@ -1,20 +1,25 @@
 ---
 name: blog-memo-ingest
-description: Use when adding a user-provided memo verbatim into an Astro Markdown blog draft, choosing an existing post or proposing a new post with slug, title, categories, and frontmatter before editing.
+description: Use when adding a user-provided memo into an Astro Markdown blog draft's ## メモ section, choosing an existing post or proposing a new post with slug, title, categories, and frontmatter before editing, and letting the user pick how the memo text itself gets transcribed (verbatim, reformatted, or edited).
 ---
 
 # Blog Memo Ingest
 
-ユーザーから渡されたメモを、Astro Markdown Blog の記事メモ欄へ一語一句変えずに転記するための workflow。
+ユーザーから渡されたメモを、Astro Markdown Blog の記事メモ欄へ転記するための workflow。転記の仕方（原文のまま／体裁を整える／加筆・修正を含める）はユーザーに選ばせる。
 
 対象リポジトリは `astro-markdown-blog` を想定する。別リポジトリで使う場合は、同等の Markdown 記事構成、frontmatter、メモ欄見出しがあるか確認してから使う。
 
 ## Hard Rules
 
-- メモ本文は要約、整形、校正、表記ゆれ修正、Markdown 化をしない。
-- ユーザーが渡したメモ本文は、一語一句同じ状態で `## メモ` 欄へ入れる。
+- このスキルは `## メモ` 欄への転記だけを行う。本文（`## メモ` より上の部分）への書き込み・加筆・要約は行わない。新規記事作成時も本文は `ここに本文を書く` のプレースホルダのままにする。
+- `## メモ` 欄への転記方法は、ユーザーに次の3モードから選ばせる。
+  - `原文のまま`: 要約、整形、校正、表記ゆれ修正、Markdown 化を一切行わず、一語一句同じ状態で入れる。
+  - `体裁を整える`: 内容・意味・情報量を変えずに、見出し、箇条書き、改行などの体裁だけ整える。文意の追加・削除はしない。
+  - `加筆・修正を含める`: 内容の加筆・修正・言い回しの変更を伴う編集を許可する。この場合、元のメモ原文を併記して残すかどうかを都度ユーザーに確認する。
+- モードが未指定・未回答の場合は `原文のまま` をデフォルトとする。
+- このモード選択は `## メモ` 欄への転記にのみ適用する。記事本文をどう書くかの方針とは独立に扱う（本文の執筆方針は別途「編集方針」の確認で決める）。
 - 対象記事が未確定の場合は、候補を出してユーザーに確認する。
-- 既存記事への追記、新規記事作成、frontmatter 提案のいずれも、編集前にユーザーの明示的な OK を得る。
+- 既存記事への追記、新規記事作成、frontmatter 提案、`## メモ` 転記モードの選択のいずれも、編集前にユーザーの明示的な OK を得る。
 - 新規記事を作る場合は、タイトル、slug、カテゴリ、frontmatter を提案し、承認後に作成する。
 - `## メモ` の固定見出しを使う。
 - メモ欄は1記事につき1つだけにする。
@@ -33,10 +38,14 @@ description: Use when adding a user-provided memo verbatim into an Astro Markdow
 執筆状態は `writingStatus` で管理する。
 
 - `writing`: 進行中
-- `planned-high`: 進行予定高
-- `planned-mid`: 進行予定中
+- `planned`: 進行予定
 - `todo`: 未着手
 - `done`: 執筆完了
+
+優先度は `priority` で管理する（必須）。
+
+- `high` / `medium` / `low`: 優先度
+- `none`: 未設定
 
 メモ欄は次の形式にする。
 
@@ -49,21 +58,24 @@ description: Use when adding a user-provided memo verbatim into an Astro Markdow
 ## Workflow
 
 1. ユーザーが追加したいメモ本文を確定する。
-2. `src/content/posts/blog/**/*.md` から関連しそうな既存記事を探す。
+2. 確定したメモ本文をそのままユーザーに提示し、内容に過不足がないか確認する。
+3. `## メモ` 欄への転記モードをユーザーに選ばせる（原文のまま／体裁を整える／加筆・修正を含める）。
+   - 「加筆・修正を含める」を選んだ場合は、元のメモ原文を併記して残すかどうかも確認する。
+4. `src/content/posts/blog/**/*.md` から関連しそうな既存記事を探す。
    - タイトル、slug、カテゴリ、本文中の語を広めに検索する。
    - 指示されたファイルや用語が見当たらない場合は、大小文字、typo、表記ゆれを疑って探索する。
-3. 既存記事候補と新規作成案を提示する。
-4. ユーザーに対象を確認する。
+5. 既存記事候補と新規作成案を提示する。
+6. ユーザーに対象を確認する。
    - 既存記事に追記
    - 新規記事を作成
    - ユーザーが別ファイルを指定
-5. 編集方針を確認する。
-6. ユーザーの OK 後にだけ Markdown を編集する。
-7. `npm run posts:board` を実行して、`status` / `writingStatus` / メモ欄状態を確認する。
+7. 編集方針を確認する。
+8. ユーザーの OK 後にだけ Markdown を編集する。
+9. `npm run posts:board` を実行して、`status` / `writingStatus` / メモ欄状態を確認する。
 
 ## 既存記事へ追記する場合
 
-対象ファイルに `## メモ` 欄がある場合は、その中の末尾へ追記する。
+対象ファイルに `## メモ` 欄がある場合は、その中の末尾へ、選択されたモードで転記したメモ本文を追記する。
 
 ```md
 ## メモ
@@ -72,12 +84,12 @@ description: Use when adding a user-provided memo verbatim into an Astro Markdow
 
 ---
 
-追加メモを一語一句そのまま
+追加メモ（選択モードで転記したもの）
 ```
 
-`---` は複数メモを区切るために追加してよい。ユーザーのメモ本文そのものは変更しない。
+`---` は複数メモを区切るために追加してよい。
 
-対象ファイルに `## メモ` 欄がない場合は、Markdown 末尾に `## メモ` 欄を作成し、メモ本文をそのまま入れる。
+対象ファイルに `## メモ` 欄がない場合は、Markdown 末尾に `## メモ` 欄を作成し、選択されたモードで転記したメモ本文を入れる。
 
 `## メモ` 見出しが複数ある場合は `BROKEN_MEMO` として扱い、修正方針を提示してユーザー確認を取る。
 
@@ -88,9 +100,13 @@ description: Use when adding a user-provided memo verbatim into an Astro Markdow
 - `title`
 - `slug`
 - `categories`
+- `tags`
 - `status`
 - `writingStatus`
+- `priority`
 - 作成先ファイルパス
+
+`categories`・`tags`・`status`・`writingStatus`・`priority` は zod スキーマ（`src/content.config.ts`）で必須のため、値の中身に関わらずキー自体を frontmatter に必ず定義する。特に `tags` は `min(1)` の enum 配列で空配列を許さないため、デフォルト値では埋められない。適したタグが既存候補にあればそれを提案し、無理に当てはまらないものを入れない。既存候補に適したものがなければ、その旨をユーザーに伝えて確認する。
 
 デフォルト値:
 
@@ -99,6 +115,7 @@ thumbnail: "/images/thumbnail/noimage.webp"
 githubUrl: ""
 status: "draft"
 writingStatus: "todo"
+priority: "none"
 ```
 
 `publishedAt` と `updatedAt` は作業日の JST 日付にする。
@@ -114,8 +131,11 @@ thumbnail: "/images/thumbnail/noimage.webp"
 githubUrl: ""
 categories:
   - 提案カテゴリ
+tags:
+  - 提案タグ
 status: "draft"
 writingStatus: "todo"
+priority: "none"
 ---
 ```
 
@@ -126,7 +146,7 @@ writingStatus: "todo"
 
 ## メモ
 
-ユーザーのメモ本文を一語一句そのまま
+選択されたモードで転記したメモ本文
 ```
 
 ## 提案時の注意
@@ -135,5 +155,7 @@ writingStatus: "todo"
 - カテゴリは `src/constants/categories.ts` と `public/admin/config.yml` の既存候補から選ぶ。
 - 既存カテゴリに合うものがない場合は、勝手に新規カテゴリを追加せず、カテゴリ追加案として提示してユーザー確認を取る。
 - 新規カテゴリを提案する場合は、カテゴリ名、理由、影響ファイルを示す。
+- タグは `src/constants/tags.ts` と `public/admin/config.yml` の既存候補から、内容に合うものだけ選ぶ。無理に当てはめない。
+- 既存タグに合うものがない場合は、勝手に新規タグを追加せず、タグ追加案として提示するか、ユーザーに直接タグを確認する。
 - メモ本文に秘密情報、トークン、個人情報らしき内容がある場合は、転記前にユーザーへ確認する。
-- Notion から取得した本文でも、意味を変えず、情報量を減らさず、原文を保持する。
+- Notion から取得した本文も、選択された転記モードに従う。「原文のまま」「体裁を整える」では、意味を変えず、情報量を減らさず、原文の内容を保持する。
