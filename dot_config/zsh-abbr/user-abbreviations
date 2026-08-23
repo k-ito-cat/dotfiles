@@ -28,6 +28,9 @@ abbr prad="codex --profile pra 'Use $project-readiness-audit to run a docs audit
 abbr claudeh="claude --model opus --effort high"
 abbr claudel="claude --model opus --effort low"
 abbr claudem="claude --model opus --effort medium"
+abbr claudes="claude --model sonnet"
+abbr claudef="claude --model fable"
+abbr claudek="claude --model claude-haiku-4-5-20251001"
 abbr clauder="claude --resume"
 
 # chezmoi
