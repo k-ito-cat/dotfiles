@@ -6,6 +6,7 @@
     "defaultMode": "auto",
     "allow": [],
     "ask": [
+      "Bash(rm -rf *)",
       "Bash(git push *)",
       "Bash(pnpm add *)",
       "Bash(npm install *)",
@@ -14,7 +15,6 @@
       "Bash(yarn add *)"
     ],
     "deny": [
-      "Bash(rm -rf *)",
       "Bash(curl *)",
       "Bash(wget *)",
       "Bash(sudo *)",
@@ -33,6 +33,7 @@
   },
   "sandbox": {
     "enabled": true,
+    "autoAllowBashIfSandboxed": false,
     "allowUnsandboxedCommands": false,
     "failIfUnavailable": false,
     "filesystem": {
