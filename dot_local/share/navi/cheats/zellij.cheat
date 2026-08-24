@@ -51,7 +51,7 @@ echo "Ctrl+p → x"
 echo "Ctrl+p → f"
 # ペイン枠表示トグル
 echo "Ctrl+p → z"
-# フローティングペイン切替
+# フローティングペイン表示/非表示（Pane mode）
 echo "Ctrl+p → w"
 # 埋め込み/フローティング切替
 echo "Ctrl+p → e"
@@ -165,7 +165,7 @@ echo "Lock中 → Ctrl+g"
 echo "Alt+n"
 # フォーカス移動
 echo "Alt+h/j/k/l または Alt+←↓↑→"
-# フローティングペイン切替
+# フローティングペイン表示/非表示（Normal mode）
 echo "Alt+f"
 # タブを左右に並び替え
 echo "Alt+i / Alt+o"
