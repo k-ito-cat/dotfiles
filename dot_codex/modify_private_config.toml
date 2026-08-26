@@ -8,6 +8,10 @@ personality = "pragmatic"
 sandbox_mode = "workspace-write"
 approval_policy = "on-request"
 
+[memories]
+use_memories = false
+generate_memories = false
+
 [sandbox_workspace_write]
 writable_roots = []
 network_access = false
