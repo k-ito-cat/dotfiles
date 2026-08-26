@@ -62,9 +62,6 @@ enabled = true
 [tui]
 status_line = ["model-with-reasoning", "current-dir", "weekly-limit", "context-used"]
 status_line_use_colors = true
-
-[tui.model_availability_nux]
-"gpt-5.5" = 4
 # chezmoi:managed:end` $managed -}}
 {{- /* マーカー対が有れば領域を置換、無ければ末尾に $managed を追記（マーカーごと書かれるので手動マーカー不要） */ -}}
 {{- if regexMatch "(?s)# chezmoi:managed:start.*?# chezmoi:managed:end" .chezmoi.stdin -}}
