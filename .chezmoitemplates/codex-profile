@@ -1,0 +1,11 @@
+{{- /* Codexプロファイル設定の共通ロジック。
+       Codexは--profile起動時にtrust承認結果を[projects."path"]としてプロファイル設定へ書き足す。
+       chezmoiが管理するのは先頭のキー群だけにして、テーブルヘッダ以降はCodexが書いた内容をそのまま残す。
+       管理キーをテーブルより後ろに置くとTOML上そのテーブルのキーになるため、必ず先頭へ出す。
+       引数: managed=管理するキー群 / stdin=現在のファイル内容 */ -}}
+{{- $rest := regexFind `(?ms)^\[.*` .stdin -}}
+{{- if $rest -}}
+{{- printf "%s\n\n%s\n" .managed (trimSuffix "\n" $rest) -}}
+{{- else -}}
+{{- printf "%s\n" .managed -}}
+{{- end -}}

@@ -1,0 +1,5 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- $managed := `model_reasoning_effort = "high"
+sandbox_mode = "read-only"
+approval_policy = "never"` -}}
+{{- includeTemplate "codex-profile" (dict "managed" $managed "stdin" .chezmoi.stdin) -}}
