@@ -4,8 +4,9 @@ bun = "latest"
 uv = "latest"
 process-compose = "latest"
 "pipx:posting" = "latest"
-# zellij 0.44.1以降で端末色問い合わせ応答がprompt/Codex TUIへ漏れたため固定
-"aqua:zellij-org/zellij" = "0.44.0"
+# 0.44.1で入ったhost query forwardingにより端末色問い合わせ応答がprompt/Codex TUIへ漏れ0.44.0に固定していた。
+# zjstatus v0.25.0(zellij-tile 0.45.0ビルド)と揃えるため0.45.1へ。漏れが再発したらexplicit_theme_hueで対処し、駄目なら0.44.0へ戻す
+"aqua:zellij-org/zellij" = "0.45.1"
 
 # npmパッケージ
 "npm:@antfu/ni" = "latest"

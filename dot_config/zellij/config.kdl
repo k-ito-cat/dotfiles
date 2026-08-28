@@ -131,6 +131,13 @@ session_serialization true
 
 theme "tokyo-night-blue"
 
+// 端末へのテーマ問い合わせを止めてdark固定にする(0.45で追加)
+explicit_theme_hue "dark"
+
+// 0.45の新既定。zjstatus側(layouts/default.kdl)とも揃える
+pane_frame_style "titles"
+stacked_pane_list false
+
 ui {
     pane_frames {
         rounded_corners true
