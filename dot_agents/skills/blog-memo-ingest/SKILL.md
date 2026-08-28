@@ -42,6 +42,7 @@ description: Use when adding a user-provided memo into an Astro Markdown blog dr
 - `writing`: 進行中
 - `planned`: 進行予定
 - `todo`: 未着手
+- `on_hold`: 保留
 - `done`: 執筆完了
 
 優先度は `priority` で管理する（必須）。
@@ -131,7 +132,7 @@ description: Use when adding a user-provided memo into an Astro Markdown blog dr
 ```yaml
 thumbnail: "/images/thumbnail/noimage.webp"
 githubUrl: ""
-status: "draft"
+status: "private"
 writingStatus: "todo"
 priority: "none"
 ```
@@ -151,7 +152,7 @@ categories:
   - 提案カテゴリ
 tags:
   - 提案タグ
-status: "draft"
+status: "private"
 writingStatus: "todo"
 priority: "none"
 ---
