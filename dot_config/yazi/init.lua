@@ -1,5 +1,6 @@
 th.git = th.git or {}
-th.git.modified = ui.Style():fg("yellow"):bold()
+th.git.unstaged = ui.Style():fg("yellow"):bold()
+th.git.staged = ui.Style():fg("green"):bold()
 th.git.added = ui.Style():fg("green"):bold()
 th.git.untracked = ui.Style():fg("magenta"):bold()
 th.git.deleted = ui.Style():fg("red"):bold()
