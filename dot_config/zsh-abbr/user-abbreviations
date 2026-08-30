@@ -44,6 +44,7 @@ abbr lg="lazygit"
 abbr lsql="lazysql"
 abbr ops='eval "$(op signin)"'
 abbr sz="source ~/.zshrc"
+abbr tb="terminal-browser"
 abbr yy="yazi"
 
 # zellij

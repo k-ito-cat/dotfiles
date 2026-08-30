@@ -1,0 +1,108 @@
+#!/bin/bash
+# Plugin: terminal-browser
+# Official GitHub: https://github.com/zenbu-labs/terminal-browser
+
+set -euo pipefail
+
+version="v0.7.3"
+
+case "$(uname -s)-$(uname -m)" in
+  Darwin-arm64)
+    target="darwin-arm64"
+    ;;
+  Darwin-x86_64)
+    if [ "$(/usr/sbin/sysctl -n hw.optional.arm64 2>/dev/null || true)" = 1 ]; then
+      target="darwin-arm64"
+    else
+      echo "terminal-browser does not support Intel macOS" >&2
+      exit 1
+    fi
+    ;;
+  Linux-x86_64 | Linux-amd64)
+    target="linux-x64"
+    ;;
+  Linux-aarch64 | Linux-arm64)
+    target="linux-arm64"
+    ;;
+  *)
+    echo "terminal-browser does not support $(uname -s) $(uname -m)" >&2
+    exit 1
+    ;;
+esac
+
+case "$target" in
+  darwin-arm64)
+    sha256="4d8f2a00109497da8222b746365d55fadd1c0e76dab16564191ccefa6868ebbc"
+    ;;
+  linux-x64)
+    sha256="f7ffae405e123ea583a54351fcb1b13f5058a19cc7c27423c31525bccaea1eb9"
+    ;;
+  linux-arm64)
+    sha256="49aa78993fa9ccba99e4ae8104096d75cad378768e21712d0bcfb350c683f02f"
+    ;;
+esac
+download_url="https://terminal-browser.sh/install/dl/stable/$version/terminal-browser-$target.tar.gz"
+
+data_home="${XDG_DATA_HOME:-$HOME/.local/share}"
+bin_home="${XDG_BIN_HOME:-$HOME/.local/bin}"
+state_home="${XDG_STATE_HOME:-$HOME/.local/state}"
+app_dir="$data_home/terminal-browser/app"
+receipt="$state_home/terminal-browser/skills.links"
+tmp_dir="$(mktemp -d)"
+
+cleanup() {
+  rm -rf "$tmp_dir"
+}
+trap cleanup EXIT
+
+tarball="$tmp_dir/terminal-browser.tar.gz"
+curl -fL --retry 3 --retry-delay 2 --progress-bar "$download_url" -o "$tarball"
+
+if command -v sha256sum >/dev/null 2>&1; then
+  actual_sha256="$(sha256sum "$tarball" | awk '{print $1}')"
+else
+  actual_sha256="$(shasum -a 256 "$tarball" | awk '{print $1}')"
+fi
+
+if [ "$actual_sha256" != "$sha256" ]; then
+  echo "terminal-browser checksum mismatch: expected $sha256, got $actual_sha256" >&2
+  exit 1
+fi
+
+rm -rf "$app_dir.new"
+mkdir -p "$app_dir.new"
+tar -xzf "$tarball" -C "$app_dir.new" --strip-components 1
+pkill -f 'terminal-browser/app/browser/dist/main\.js' 2>/dev/null || true
+rm -rf "$app_dir"
+mv "$app_dir.new" "$app_dir"
+
+mkdir -p "$bin_home"
+{
+  printf '%s\n' '#!/bin/sh'
+  printf 'exec "%s/bin/terminal-browser" "$@"\n' "$app_dir"
+} > "$bin_home/terminal-browser"
+chmod +x "$bin_home/terminal-browser"
+
+if [ -f "$receipt" ]; then
+  while read -r skill_link; do
+    [ -n "$skill_link" ] || continue
+    [ -L "$skill_link" ] || continue
+    case "$(readlink "$skill_link")" in
+      "$app_dir"/*)
+        rm -f "$skill_link"
+        ;;
+    esac
+  done < "$receipt"
+  rm -f "$receipt"
+fi
+
+if [ "$(uname -s)" = Linux ]; then
+  missing_libraries="$(ldd "$app_dir/electron/electron" 2>/dev/null | awk '/not found/{print $1}' | sort -u)"
+  if [ -n "$missing_libraries" ]; then
+    echo "warning: terminal-browser is missing system libraries:" >&2
+    printf '  %s\n' $missing_libraries >&2
+    echo "sudo apt-get install libnss3 libgtk-3-0 libasound2t64 libgbm1" >&2
+  fi
+fi
+
+echo "installed terminal-browser $(cat "$app_dir/VERSION")"

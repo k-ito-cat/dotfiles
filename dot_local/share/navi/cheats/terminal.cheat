@@ -26,6 +26,35 @@ cat <file>
 # 編集（neovim）
 nvim <file>
 
+% terminal-browser
+; == terminal-browser ==
+# URLを開く
+terminal-browser open <url>
+# ローカルファイルをfile URLで開く
+terminal-browser open "file://$(realpath <file>)"
+# 起動中のブラウザを一覧表示
+terminal-browser ls
+# 全ブラウザを終了
+terminal-browser shutdown
+# ブラウザ操作用CLIを開く
+terminal-browser action
+# 終了キー
+printf '%s\n' 'macOS: Ctrl+Q / Ctrl+C | Linux: Ctrl+Q'
+# 新しいタブ
+printf '%s\n' 'macOS: Cmd+T | Linux: Ctrl+T'
+# URLを編集
+printf '%s\n' 'macOS: Cmd+L | Linux: Ctrl+L'
+# コマンドパレット
+printf '%s\n' 'macOS: Cmd+P | Linux: Ctrl+K / Alt+K'
+# ページ内検索
+printf '%s\n' 'macOS: Cmd+Shift+F | Linux: Ctrl+Shift+F'
+# 再読み込み
+printf '%s\n' 'macOS: Cmd+R | Linux: Ctrl+R'
+# 戻る / 進む
+printf '%s\n' 'macOS: Cmd+[ / Cmd+] | Linux: Ctrl+[ / Ctrl+]'
+# ポップアップやオーバーレイを閉じる
+printf '%s\n' 'Esc'
+
 % file search
 ; == 検索（ファイル/中身） ==
 # zsh関数 v の定義を参照
