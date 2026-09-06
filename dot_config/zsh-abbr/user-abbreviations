@@ -12,6 +12,7 @@ abbr hs="hunk show"
 abbr codexh="codex --profile codexh"
 abbr codexl="codex --profile codexl"
 abbr codexm="codex --profile codexm"
+abbr codexa="codex --profile codexa"
 abbr codexr="codex resume"
 
 # skill: commit-workflow
