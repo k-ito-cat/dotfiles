@@ -38,7 +38,10 @@
     "allowUnsandboxedCommands": false,
     "failIfUnavailable": false,
     "filesystem": {
-      "allowWrite": [],
+      "allowWrite": [
+        "~/.local/share/chezmoi",
+        "~/src"
+      ],
       "denyRead": [
         "~/.ssh",
         "~/.aws/credentials",
