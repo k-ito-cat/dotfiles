@@ -141,7 +141,10 @@ def main() -> int:
     parser.add_argument("source", type=Path)
     parser.add_argument("--name")
     parser.add_argument("--check", action="store_true")
+    parser.add_argument("--skip-validation", action="store_true")
     args = parser.parse_args()
+    if args.check and args.skip_validation:
+        parser.error("--check and --skip-validation cannot be used together")
     if not args.check and not args.name:
         parser.error("--name is required unless --check is used")
 
@@ -171,16 +174,27 @@ def main() -> int:
             )
         )
         return 0
-    if raw is None:
-        fail("expected an 8-bit RGBA PNG")
-    validate_transparent_edges(width, height, raw)
+    if not args.skip_validation:
+        if raw is None:
+            fail("expected an 8-bit RGBA PNG")
+        validate_transparent_edges(width, height, raw)
 
     downloads = downloads_directory()
     if not downloads.is_dir():
         fail(f"Downloads directory does not exist: {downloads}")
     destination = destination_path(downloads, args.name)
     shutil.copy2(source, destination)
-    print(json.dumps({"saved_to": str(destination), "width": width, "height": height}, ensure_ascii=False))
+    print(
+        json.dumps(
+            {
+                "saved_to": str(destination),
+                "width": width,
+                "height": height,
+                "validation_skipped": args.skip_validation,
+            },
+            ensure_ascii=False,
+        )
+    )
     return 0
 
 

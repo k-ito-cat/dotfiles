@@ -9,7 +9,7 @@ IMAGE_PATTERN = re.compile(
     r"画像|イラスト|絵|線画|描(?:い|く|き|画)|生成|\b(?:image|illustration|draw|sketch|generate)\b",
     re.IGNORECASE,
 )
-SKILL_PATH = Path(__file__).parents[1] / "skills/cat-lineart-generator/SKILL.md"
+SKILL_PATH = Path.home() / ".agents/skills/cat-lineart-generator/SKILL.md"
 
 
 def main() -> int:
@@ -32,7 +32,7 @@ def main() -> int:
                 "The user explicitly requests a cat image. Before generating, read "
                 f"{SKILL_PATH} in full, then read and follow the imagegen skill it requires. "
                 "Treat cat-lineart-generator as explicitly invoked for this request and follow its "
-                "required generation-design approval step before calling image generation."
+                "generation-design and approval requirements before calling image generation."
             ),
         }
     }
