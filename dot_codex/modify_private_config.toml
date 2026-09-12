@@ -7,6 +7,7 @@
 personality = "pragmatic"
 sandbox_mode = "workspace-write"
 approval_policy = "on-request"
+service_tier = "default"
 
 [memories]
 use_memories = false
@@ -53,6 +54,24 @@ args = ["--app", "desktop"]
 enabled = true
 
 [plugins."github@openai-curated"]
+enabled = true
+
+[plugins."documents@openai-primary-runtime"]
+enabled = true
+
+[plugins."pdf@openai-primary-runtime"]
+enabled = true
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = true
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = true
+
+[plugins."template-creator@openai-primary-runtime"]
+enabled = true
+
+[plugins."browser@openai-bundled"]
 enabled = true
 
 # -------------------------------------------------------------------
