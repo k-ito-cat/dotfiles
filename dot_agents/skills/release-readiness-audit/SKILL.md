@@ -1,20 +1,20 @@
 ---
 name: release-readiness-audit
-description: Audit release and launch readiness across security, public environment variables, privacy/legal triggers, dependencies, QA/test, observability, web-client risks, and operational blockers before exposing a service to users. Use when reviewing project-documents specs/templates, preparing a service release, checking whether common checklist items are satisfied, or deciding whether a concern belongs in a reusable audit skill instead of PJ-specific docs.
+description: Audit release and launch readiness across security, public environment variables, privacy/legal triggers, dependencies, QA/test, observability, web-client risks, and operational blockers before exposing a service to users. Use when reviewing project-documents spec/templates, preparing a service release, checking whether common checklist items are satisfied, or deciding whether a concern belongs in a reusable audit skill instead of PJ-specific docs.
 ---
 
 # Release Readiness Audit
 
 サービスをユーザーに公開・リリースする前に、全 PJ 共通で見るべき品質、セキュリティ、公開準備、観測性、復旧リスクを監査する。
 
-この skill は仕様を定義しない。`docs/specs` に書くべき PJ 固有判断と、全 PJ 共通の監査観点を分離し、実装・設定・CI・env・package・docs を横断して「満たしているか」を確認する。
+この skill は仕様を定義しない。`docs/spec` に書くべき PJ 固有判断と、全 PJ 共通の監査観点を分離し、実装・設定・CI・env・package・docs を横断して「満たしているか」を確認する。
 
 ## 前提
 
 - 個人開発を主対象にする。チーム向けの承認フローや厳格な役割分担は、必要な場合だけ PJ 側 docs に残す。
 - 全 PJ で共通するチェックリストや診断観点は docs に定義しない。この skill に置く。
-- PJ 固有の採用方針、例外、責任者、実際の窓口、公開範囲、未決事項、リスク受容だけを `docs/specs` に残す。
-- 監査結果によって PJ 固有判断が必要になった場合だけ、関連 specs の更新候補として報告する。
+- 固有の要求・例外・未決事項は要求文書、設計判断・リスク受容は必要なADR、実際の窓口・手動手順は運用文書へ分担する。
+- 監査結果によって PJ 固有判断が必要になった場合だけ、関連 spec の更新候補として報告する。
 
 ## 使い方
 
@@ -22,7 +22,7 @@ description: Audit release and launch readiness across security, public environm
    - `change audit`: 実装差分、PR、設計変更の監査
    - `release audit`: 公開前、リリース前の監査
    - `security audit`: セキュリティ重点監査
-   - `docs audit`: specs/template に共通チェックが残っていないかの監査
+   - `docs audit`: spec/template に共通チェックが残っていないかの監査
    - `full audit`: 複数領域を横断する監査
 2. 対象リポジトリ、`docs` symlink、`project-documents/<project>`、実装、設定、package、CI、env サンプルを確認する。
 3. 必要な reference だけ読む。
@@ -39,12 +39,20 @@ description: Audit release and launch readiness across security, public environm
 - QA 観点、テスト戦略、境界値、状態遷移、回帰、AI へのテスト依頼前確認: `qa-test.md`
 - ログ、監視、アラート、障害検知、初動、復旧: `observability-ops.md`
 - Web client 特有の storage、CSRF、URL、upload、analytics、a11y、performance: `web-client.md`
+- hosting、IaC、環境分離、network、storage、domain、DNS、証明書: `infrastructure-domain.md`
+- 多言語、locale、翻訳、format、RTL、fallback: `internationalization.md`
+
+## 文書の参照と保存先
+
+プロダクトREADMEを入口に、今回必要な要求・設定・成果物・ADR・運用手順を辿る。referencesのファイル名は論点の例であり、その文書の存在・作成を必須にしない。新規プロダクトではspec/base / spec/optionalの採用条件に従う。
+
+設計判断はまずADRへ、具体定義は成果物へ振り分ける。監査対象領域が存在するだけでは領域別文書を作らない。独立した説明や手動手順が必要な場合だけ任意文書を採用する。
 
 ## 監査で見る情報源
 
 対象に応じて、次を広く確認する。
 
-- `README.md`, `specs/README.md`, 関連 specs
+- `README.md`, `spec/README.md`, 関連 spec
 - `package.json`, lockfile, workspace 設定
 - framework config: Vite, Next.js, SvelteKit, Astro, Vercel, Netlify など
 - `.env.example`, `.env.*.example`, `.env.1password`, CI secret 設定の参照記述

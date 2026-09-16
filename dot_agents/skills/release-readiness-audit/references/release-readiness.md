@@ -4,7 +4,7 @@
 
 公開前・リリース前に、全 PJ 共通で落としやすいリスクを監査する。リリースフローそのものを定義せず、公開してよい状態かを確認する。
 
-PJ 固有の公開対象、判断者、リリースフロー、確認環境、rollback 手順、告知方針は `release.md` に残す。
+固有の公開範囲・条件は要求、実行処理はCI等、採用判断はADR、確認環境・判断者・手動の復旧や告知手順は必要な運用文書へ分担する。プロダクトREADMEから参照し、release.mdの作成を前提にしない。
 
 ## 読むもの
 
@@ -15,6 +15,20 @@ PJ 固有の公開対象、判断者、リリースフロー、確認環境、ro
 - monitoring/logging config
 
 ## 公開前監査
+
+### Project-specific release policy
+
+共通チェックでは決められないため、必要なプロジェクトだけ次を明示する。
+
+- release の種類、対象範囲、公開可否の単位
+- branch、PR、merge、force push の扱い
+- release candidate、環境、承認、tag、deploy、rollback の流れ
+- version 規則、SemVer 採用有無、pre-release/build metadata、bump authority
+- merge または release を止める CI gate
+- feature flag、canary、A/B test、kill switch の採否と責任
+- changelog と利用者向け告知の要否
+- 公開直後の監視時間、確認項目、問題発生時の判断
+- release 後の振り返りや記録を行う条件
 
 ### 環境 / deploy
 

@@ -39,7 +39,7 @@ Vite 公式 docs では `VITE_` prefix の env は client source に露出する
    - ambiguous: `KEY`, `TOKEN`, `SECRET`, `PRIVATE`, `ADMIN`, `WEBHOOK`, `PASSWORD`, `DSN`
 4. client code で参照している env を確認する。
 5. build output や generated files に secret 名や値が入りうる経路を確認する。
-6. docs に PJ 固有の env 管理方針があるか確認する。
+6. envの編集元・公開境界・固有の制約を設定と必要なADR・説明から確認する。
 
 ## 危険パターン
 
@@ -86,5 +86,5 @@ Low:
   - 確認した事実: `.env.example` に `VITE_XXX_SECRET` がある
   - リスク: Vite では `VITE_` prefix の値は client source へ露出する
   - 推奨: server-only env に移し、client は backend API 経由で利用する
-  - docs 更新要否: `security.md` または `infra.md` に env 境界を残す
+  - docs 更新要否: 設定を修正し、設定だけでは伝わらない境界・例外があれば説明を補う。設計判断の記録が必要ならADRへ接続する
 ```

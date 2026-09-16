@@ -19,7 +19,7 @@
 ### 依存の棚卸し
 
 - runtime dependency と dev dependency が分かれているか。
-- 外部 SaaS/SDK/provider が `dependencies.md` にカタログ化されているか。
+- 外部SaaS/SDK/providerを設定・実装・必要な運用情報から把握できるか。dependencies.mdへのカタログ転記は要求しない。
 - auth、payment、mail、monitoring、analytics、storage など運用影響が大きい依存を把握しているか。
 - 個別 npm package 一覧を docs に転記していないか。正本は package manager 管理ファイルにする。
 
@@ -63,6 +63,6 @@
 ## docs に残すべきもの
 
 - 依存方針、採用しない基準、単一障害点への考え方
-- 外部 SaaS/SDK/provider カタログ
-- Renovate/Dependabot 方針、automerge 条件、更新頻度
+- 設定・実装から分からない外部SaaS/SDK/providerの制約や運用情報
+- 更新設定への参照。採用判断はADRへ、設定で表現できる条件や頻度は転記しない
 - 例外、保留、リスク受容
