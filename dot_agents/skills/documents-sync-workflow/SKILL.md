@@ -11,8 +11,10 @@ description: Use when documentation content may be out of sync with implementati
 
 ## Documentation Operating Model
 
-- ドキュメント / 仕様書は、詳細仕様の正本ではなく、品質保証、プロダクト意図、設計思想、判断軸、責務境界、詳細の正本、未決事項、更新条件を残す場所として扱う。
-- 詳細仕様は code、OpenAPI、schema、migration、test、prototype などの実行可能または検証可能な成果物を正本とする。
+- 文書は必要な要求・説明を保持する。設計判断はADR、実装上の定義は成果物へ分担し、specをすべての判断の集約先にしない。
+- 詳細の編集元と生成物を区別する。実装やテストが要求に対して正しいとは限らない。prototypeを自動的に正本にはしない。
+- 情報の置き場所はdocs READMEから共通運用へ辿る。要求、設計判断、実装上の定義、デザイン、運用手順、未決事項を分ける。設計判断はまずADRへの移譲を検討し、現在の判断だからという理由でspecへ再掲しない。依存一覧・構成ツリー・実装済み詳細を再作成しない。
+- 未実装の設計と未決事項は引き継ぎ先が確認できるまで保持する。Storybook は任意の後続作業とし、components の情報は対象実装・stories・説明への対応と表示・操作を確認できた範囲だけ移す。
 - 実装差分、prototype 差分、test 差分を見つけても、即ドキュメント / 仕様書更新とは判断しない。
 - 更新が必要なのは、方針、スコープ、責務境界、設計思想、品質上の最低ライン、詳細の正本、未決事項が変わった場合に限る。
 - 空欄を埋めること、実装済み詳細を転記すること、網羅性を上げることを同期の目的にしない。
@@ -29,7 +31,7 @@ description: Use when documentation content may be out of sync with implementati
 
 - この workflow は、既にある内容・成果物・実態の同期と整合性維持を扱う。
 - 新規プロジェクト文書を対話で育てる主導は `project-documents-setup-workflow` が扱う。
-- 画面設計や UI 設計そのものは `design-workflow` が扱う。
+- 画面設計や UI 設計の新しい判断は `project-documents-interview` が扱う。既に合意した役割分担の移行のために、仕様の再ヒアリングを一律には要求しない。
 - prototype の実装は `prototype-workflow` が扱う。
 - アプリケーションコード修正そのものは、この workflow の主目的ではない。
 
@@ -41,7 +43,7 @@ description: Use when documentation content may be out of sync with implementati
 - `project-documents/README.md`
 - `project-documents/_template/`
 - `project-documents/_template/README.md`
-- `project-documents/_template/specs/README.md`
+- `project-documents/_template/spec/README.md`
 - `project-documents/_template/design/README.md`
 - `project-documents/_template/prototype/README.md`
 - `project-documents/<project>/`
@@ -55,6 +57,8 @@ description: Use when documentation content may be out of sync with implementati
    - docs 配下を扱う場合は、先に `docs/README.md` または `project-documents/_template/README.md` の docs 全体の正本分担と更新条件を確認する。
 2. ドキュメントに書かれた内容と実態を照合する。
 3. 乖離を分類する。
+   - ファイル名ではなく記述ごとに分類する。設計判断はADR移譲を検討し、引き継ぎ後に独立した情報がなければ任意文書・雛形も不要とする。
+   - 文書を縮小する場合は、元の記述と引き継ぎ先を対応づける。理由・制約・禁止事項・未決事項を落とさず、元の情報が確認できた範囲だけ重複を除く。Git 履歴だけを退避先にしない。
    - ドキュメントが古い
    - 成果物が仕様から逸脱している
    - 成果物が詳細仕様の正本であり、ドキュメント更新は不要
@@ -68,14 +72,14 @@ description: Use when documentation content may be out of sync with implementati
 4. どちらを正とするか判断する。
    - ドキュメントを更新する
    - 成果物を仕様へ戻す
-   - 成果物を詳細の正本とし、ドキュメントには設計意図と正本の所在だけ残す
+   - 成果物を詳細の編集元とし、READMEから案内する。設計判断はADRへ分担し、独立した文書を残す必要があるか判定する
    - template をメンテナンスする
    - Skill 記述をメンテナンスする
    - プロジェクト固有差分として扱う
    - 仮決めまたは保留にする
 5. 更新対象、更新理由、反映内容、波及先、保留事項を整理してユーザーの合意を得る。
 6. 合意した内容だけを反映する。
-7. 更新後に関連文書と成果物を横断確認し、残った乖離を報告する。
+7. 更新後に関連文書と成果物を横断確認し、情報の引き継ぎ、参照先、残った乖離を報告する。行数だけでなく、変更時に手動更新・確認する場所が減ったか確認する。
 
 ## Template Consistency
 
@@ -83,12 +87,12 @@ description: Use when documentation content may be out of sync with implementati
 - 実際の `project-documents/_template/`、`project-documents/<project>/`、`project-documents/README.md` を確認し、差分があればどちらを正とするか判断する。
 - template 配下の親ディレクトリと各 README を優先して確認し、個別ファイル名は README の文書地図に従う。
 - docs 全体の運用原則、各ディレクトリの役割、正本の分担、更新条件は `project-documents/_template/README.md` を基準に確認する。
-- specs の文書地図は `project-documents/_template/specs/README.md`、design の文書地図は `project-documents/_template/design/README.md`、prototype の方針は `project-documents/_template/prototype/README.md` を基準に確認する。
+- spec の文書地図は `project-documents/_template/spec/README.md`、design の文書地図は `project-documents/_template/design/README.md`、prototype の方針は `project-documents/_template/prototype/README.md` を基準に確認する。
 - template が正なら、Skill 側の記述を修正する。
 - Skill の方針や品質基準が正しく、template に共通項目が欠けている場合は、template のメンテナンス候補として扱う。
 - template は安易に編集しない。決定事項となる見出し、ファイル、項目を追加する前に、なぜ共通 template に必要か、どのプロジェクトにも適用できるか、既存プロジェクトへどう影響するかを整理する。
 - ただし、template に項目が存在しないことでプロダクト品質、仕様の整合性、実装判断、メンテナビリティが落ちる恐れがある場合は、ユーザーの合意を得て template のメンテナンスを行う。
-- template をメンテナンスする場合は、現プロジェクトのドキュメント構成と `project-documents/_template/` の構成が矛盾しないように揃える。
+- template変更時はspec/base / spec/optionalの採用条件と既存プロダクトの実態を確認する。同じファイル構成への強制同期はしない。移行途中は元情報と未完了範囲を記録する。
 - template に反映しないプロジェクト固有の項目は、対象プロジェクト固有の判断として扱い、template へ一般化しない。
 
 ## Hard Rules
@@ -101,7 +105,7 @@ description: Use when documentation content may be out of sync with implementati
   - 判断には、ユーザーの意図、既存文書、実装実態、設計成果物、変更履歴、プロダクト品質への影響を使う。
 - 詳細仕様の転記を同期とみなさない。
   - 理由: endpoint 詳細、schema field、validation の具体値、migration、UI 細部、test で担保できる具体挙動をドキュメントへ転記すると、二重管理になり腐りやすい。
-  - それらは成果物を正本とし、ドキュメント / 仕様書には設計意図、判断軸、正本の所在、未決事項だけを残す。
+  - それらは該当成果物へ分担し、設計判断はADR、必要な要求はspec、所在の案内はREADMEへ接続する。元の文書を存続させるために説明を作らない。
 - 関連文書を横断確認する。
   - 理由: 1 箇所だけ更新すると、仕様、構造、API、validation、エラー方針、design、README の間に新しい矛盾が生まれる。
 - 更新前に合意を取る。

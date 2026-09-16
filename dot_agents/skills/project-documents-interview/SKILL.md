@@ -1,11 +1,11 @@
 ---
 name: project-documents-interview
-description: Use when the user wants to fill, organize, or evolve project documents, specs, design documents, requirements, or unanswered docs sections through structured interviews after project-documents setup is complete. Use for requests like docsを埋めたい, 仕様を埋めたい, デザイン文書を埋めたい, 要件を整理したい, or prototype前に前提を固めたい.
+description: Use when the user wants to fill, organize, or evolve project documents, spec, design documents, requirements, or unanswered docs sections through structured interviews after project-documents setup is complete. Use for requests like docsを埋めたい, 仕様を埋めたい, デザイン文書を埋めたい, 要件を整理したい, or prototype前に前提を固めたい.
 ---
 
 # Project Documents Interview
 
-setup 済みの project-documents に対して、`specs/` と `design/` をヒアリング形式で具体化する。
+setup 済みの project-documents に対して、`spec/` と `design/` をヒアリング形式で具体化する。
 
 この skill の目的は、template の空欄を埋めることではない。専門家観点で論点を網羅的に発見し、各論点を `決定`、`仮決定`、`後で判断`、`不要`、`別文書へ送る`、`prototypeで検証` に分類し、品質、意図、判断の再現に必要な内容だけを文書化する。
 
@@ -20,22 +20,20 @@ setup が未完了、`docs` path の正本が不明、または project-document
 
 ## Operating Model
 
-- `docs/README.md` を docs 全体の正本分担と更新条件の正本として扱う。
-- `docs/specs/README.md` と `docs/design/README.md` を、対象文書、責務、フォーマット、スタブ運用の正本として扱う。
+- 情報の置き場所はdocs READMEから共通運用へ辿る。要求、設計判断、実装上の定義、デザイン、運用手順、未決事項を分ける。設計判断はまずADRへの移譲を検討し、現在の判断だからという理由でspecへ再掲しない。依存一覧・構成ツリー・実装済み詳細を再作成しない。
+- 未実装の設計と未決事項は引き継ぎ先が確認できるまで保持する。Storybook は任意の後続作業とし、components の情報は対象実装・stories・説明への対応と表示・操作を確認できた範囲だけ移す。
+
+- `docs/README.md`をプロダクト固有の文書地図とし、共通運用への参照に従う。
+- 文書の型と採用条件は共通templateの `spec/README.md` に従う。既存の分割文書はプロダクトREADMEから辿り、任意文書を一律に要求しない。
 - `design/` はデザインファイル作成のためではなく、prototype と実装が迷わないための UI / UX 判断の正本として扱う。
-- `prototype/` は検証道具であり正本ではない。採用する判断だけを `specs/` または `design/` に戻す。
+- `prototype/`は検証道具。採用する要求はspec、デザインはdesign、設計判断はADRへ接続する。
 - code、OpenAPI、schema、migration、test、生成物が正本になる詳細を docs に転記しない。
 - ユーザー回答をそのまま転記しない。仕様表現に整え、矛盾、品質リスク、粒度、正本分担を確認してから反映する。
 - ユーザー合意前にファイル編集しない。
 
 ## Required Start Checks
 
-最初に次を読む。
-
-1. `docs/README.md`
-2. `docs/specs/README.md`
-3. `docs/design/README.md`
-4. `docs/prototype/README.md`
+最初にdocs/README.mdを読み、共通運用と今回の論点に必要な要求・デザイン・成果物へ進む。新規文書を採用する時にcatalogを参照する。全雛形・全仕様書・全ADRを一括読込しない。
 
 その後、既存文書の状態を確認し、対象項目を次に分類する。
 
@@ -46,6 +44,8 @@ setup が未完了、`docs` path の正本が不明、または project-document
 - `out-of-scope`: この workflow では扱わない
 
 ## Interview Modes
+
+既に合意した運用方針に沿う情報の移動・重複整理だけなら `documents-sync-workflow` を使う。新しい仕様判断が必要な論点だけ、このヒアリングへ戻す。
 
 start checks の後、必ず作業モードを決める。ユーザーが明示していない場合は、既存文書の状態を見て推奨モードを提示し、確認してから進める。
 
@@ -107,16 +107,19 @@ Reorganize Mode の確認フォーマット:
 
 必ずこの順序で進める。後続フェーズで前提不足が見つかったら、前のフェーズへ戻る。
 
+## Reference Routing
+
+全 reference を一括で読まない。現在のフェーズで必要なものだけ読む。
+
+- プロダクト定義、スコープ、機能・品質要求、用語、未決事項: `references/product-and-requirements.md`
+- アーキテクチャ、API契約、validation、error、実装規則: `references/architecture-and-contracts.md`
+- デザイン基礎、画面・状態、部品、pattern、token、デザインレビュー: `references/design-review.md`
+
 ### Phase 1: Core Spec Foundation
 
 目的: design と requirements に進むための土台を作る。
 
-読む順序:
-
-1. `specs/core/product.md`
-2. `specs/core/scope.md`
-3. `specs/core/glossary.md`
-4. `specs/core/tech.md`
+参照先: プロダクトREADMEから目的・価値・スコープの文書を辿り、`references/product-and-requirements.md` の必要な観点だけ使う。必要な用語・技術前提は既存の文書・設定・ADRを参照する。
 
 主なヒアリング観点:
 
@@ -129,16 +132,13 @@ Reorganize Mode の確認フォーマット:
 - サービス名、主要用語、操作語彙、表記揺れ禁止
 - 既に決まっている技術前提と、今は決めない技術領域
 
-`core/tech.md` は深掘りしすぎない。UI / UX、prototype、実装判断に影響する技術前提だけ扱う。
+技術前提はUI / UX、prototype、実装判断に影響する範囲だけ確認する。設計判断はADRへ分担し、tech.mdを作る前提にしない。
 
 ### Phase 2: Functional Scope
 
 目的: 作るものと、失敗すると価値や品質が落ちる範囲を決める。
 
-読む順序:
-
-1. `specs/requirements/functional.md`
-2. `specs/requirements/non-functional.md`
+参照先: 要求の入口と、今回必要な機能・品質条件の本文。分割方式はプロダクトREADMEに従い、`references/product-and-requirements.md` の必要な観点だけ使う。
 
 主なヒアリング観点:
 
@@ -154,14 +154,9 @@ Reorganize Mode の確認フォーマット:
 
 ### Phase 3: Design Input Spec
 
-目的: `design/` に進むための specs 側入力条件を揃える。
+目的: `design/` に進むための spec 側入力条件を揃える。
 
-確認元:
-
-- `specs/core/product.md`
-- `specs/core/scope.md`
-- `specs/requirements/functional.md`
-- `specs/requirements/non-functional.md`
+確認元: プロダクト定義・スコープ・関連する機能要求と品質条件。ファイル配置はプロダクトREADMEから辿る。
 
 必ず確認する入力条件:
 
@@ -175,23 +170,13 @@ Reorganize Mode の確認フォーマット:
 - design 側で判断してよい範囲
 - prototype で検証すべき仮説
 
-不足している場合は `design/` へ進まず、specs 側で追加ヒアリングする。
+不足している場合は `design/` へ進まず、spec 側で追加ヒアリングする。
 
 ### Phase 4: Design Documents
 
 目的: prototype と実装が迷わない UI / UX 判断を残す。
 
-読む順序:
-
-1. `design/DESIGN.md`
-2. `design/foundations.md`
-3. `design/hig.md`
-4. `design/screens.md`
-5. `design/layouts.md`
-6. `design/ui-patterns.md`
-7. `design/components.md`
-8. `design/tokens.md`
-9. `design/checklist.md`
+参照先: designの入口から今回必要な原則・画面・状態・部品・トークンの説明へ進み、`references/design-review.md` の必要な観点だけ使う。UIプロダクトでは原則の文書化が必要だが、全デザイン雛形の採用は要求しない。
 
 主なヒアリング観点:
 
@@ -207,54 +192,33 @@ Reorganize Mode の確認フォーマット:
 - コンポーネント分類、必要な範囲、prototype に必要な範囲
 - token 運用方針、値の正本、実装との同期方法
 
-`tokens.md` で実装値を決めるのは、prototype または実装で必要な最低限に留める。`design/checklist.md` は最後の確認観点であり、判断の正本にしない。
+tokenの意味と使い分けを文書化し、移行済みの実装値は転記しない。共通チェックはSkillへ分担し、既存の固有チェックは引き継ぎ確認まで保持する。
 
-### Phase 5: Technical / Area Specs
+### Phase 5: Technical / Area Decisions
 
-目的: design と requirements で見えた技術、品質、運用論点を必要な範囲だけ specs へ戻す。
+目的: 必要な技術・品質・運用論点を確認し、保存先を決める。文書の存在や新設を目的にしない。
 
-読む候補:
+参照先: `references/architecture-and-contracts.md` のうち、今回の技術境界に関係する観点だけ使う。
 
-- `specs/area/architecture.md`
-- `specs/area/structure.md`
-- `specs/area/api.md`
-- `specs/area/validation.md`
-- `specs/area/error-policy.md`
-- `specs/area/security.md`
-- `specs/area/test.md`
-- `specs/area/qa.md`
-- `specs/area/observability.md`
-- `specs/area/dependencies.md`
-- `specs/area/coding-guidelines.md`
+- API: 契約の編集元と生成方向、validation境界、エラー、互換性、検証。
+- DB・アーキテクチャ: 業務要求、責務・依存境界、整合性、通信、障害分離。
+- 入力・UI: 状態、保存・復元、失敗時体験。
+- 外部サービス・依存: 採用判断、制約、更新と安全性。
+- 実装規則: 検査設定で表現できる部分と固有の文章規則。
 
-発火条件:
+要求・ADR・成果物へ振り分け、それでも独立した説明が必要な場合だけcatalogから文書を採用する。既存のapi.mdやstructure.mdを存続させるために役割を作らない。
 
-- API がある: `api.md`, `validation.md`, `error-policy.md`, `test.md`
-- DB、責務境界、依存方向がある: `architecture.md`, `structure.md`, `security.md`
-- 入力フォームがある: `validation.md`, `error-policy.md`, `design/ui-patterns.md`
-- 外部サービス、外部パッケージ、SaaS がある: `dependencies.md`, `security.md`, 必要なら `gate/legal.md`
-- 本番公開予定がある: `observability.md`, `qa.md`, `gate/release.md`
-- 実装規約がぶれそう: `coding-guidelines.md`
+### Phase 6: Release / Operational Concerns
 
-### Phase 6: Gate Specs
+目的: 該当する公開・運用論点を確認する。共通監査はrelease-readiness-auditの必要なreferenceを使う。
 
-目的: 発火条件に入った公開、法務、インフラ、多言語論点だけ扱う。
+- 個人情報・Cookie・OAuth・メール・外部送信・分析・課金: 固有要求、公開文書、例外と未決事項。
+- 本番公開・バージョニング・告知・rollback: CI等の定義、固有の実行条件と手動手順。
+- ドメイン・DNS・証明書、hosting・環境分離・network・secret: 構成定義、判断、残る手動運用。
+- 多言語・locale・文言・RTL: 対象範囲、デザイン、文言リソース、設計判断。
+- 監視・ログ・復旧: 品質要求、設定、初動と復旧手順。
 
-読む候補:
-
-- `specs/gate/legal.md`
-- `specs/gate/release.md`
-- `specs/gate/domain.md`
-- `specs/gate/infra.md`
-- `specs/gate/i18n.md`
-
-発火条件:
-
-- 個人情報、Cookie、OAuth、メール、外部送信、分析、課金、規約、プライバシーポリシー: `legal.md`
-- 本番公開、バージョニング、告知、rollback: `release.md`
-- 独自ドメイン、DNS、メール DNS、証明書: `domain.md`
-- hosting、環境分離、network、secret 管理: `infra.md`
-- 多言語、locale、文言リソース、RTL: `i18n.md`
+監査が必要であることと、領域別文書が必要であることを区別する。
 
 ### Phase 7: Quality Cross-check
 
@@ -309,7 +273,7 @@ Reorganize Mode の確認フォーマット:
 
 次を検出した場合、即座に文書へ反映しない。懸念、影響、選択肢、推奨案を提示してユーザー確認を取る。
 
-- 既存 specs / design / prototype / 実装方針と矛盾する
+- 既存 spec / design / prototype / 実装方針と矛盾する
 - 一般的な設計原則、UX 原則、ソフトウェア品質観点から大きく外れる
 - ISO/IEC 25010 系の品質観点で品質劣化につながる
 - ISO 9241-210 系の human-centered design 観点で利用者理解や利用文脈が不足している

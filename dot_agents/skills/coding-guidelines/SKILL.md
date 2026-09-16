@@ -1,20 +1,20 @@
 ---
 name: coding-guidelines
-description: Use when writing or modifying code in any language. Universal implementation principles — change scope discipline, consistency with existing code, readability, correctness, testing and verification, dependency and compatibility judgment, security basics, and dummy data conventions. Project-specific conventions live in project-documents specs, not here.
+description: Use when writing or modifying code in any language. Universal implementation principles — change scope discipline, consistency with existing code, readability, correctness, testing and verification, dependency and compatibility judgment, security basics, and dummy data conventions. Project-specific conventions live in project-documents spec, not here.
 ---
 
 # Coding Guidelines
 
 コードを書く・変更するときに、どのプロジェクトでも成り立つ上位原則を固定する。
 
-プロジェクト単位の具体規約（スタイル、命名ケース、フレームワーク作法など）は project-documents の spec を正本とし、この skill には置かない。この skill は上位原則のみを扱う。
+プロジェクト単位の具体規約は、機械検査できるものを設定で表し、固有の文章規則だけをプロダクトREADMEから辿る文書に残す。この skill には置かない。この skill は上位原則のみを扱う。
 
 ## 変更スコープの規律
 
 - 1つの作業で目的を混ぜない。機能追加・仕様変更・挙動変更・バグ修正は分ける。
 - 最小差分を保つ。依頼範囲外の「ついで改修」「ついで最適化」をしない。
 - デッドコードやコメントアウトした残骸を残さない。
-- コメントは追加しない。既存のコメントは削除せず維持する。
+- コメントはコードだけでは伝わらない局所的な理由・制約・例外・変更時の注意に限る。処理内容の言い換えや仕様書の転記はしない。既存コメントは不用意に削除せず、変更との整合を確認する。
 
 ## 既存コードへの一貫性
 

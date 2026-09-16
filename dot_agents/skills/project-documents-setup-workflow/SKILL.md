@@ -1,6 +1,6 @@
 ---
 name: project-documents-setup-workflow
-description: Use when the user says `pdocs`, `project-docs`, or wants to set up or evolve project documentation under project-documents. Set up documentation from project-documents/_template when needed, connect the app repository's `docs` path with a symlink, read docs/README.md as the operating contract, then hand off structured specs/design document interviews to project-documents-interview after setup and inspection are complete.
+description: Use when the user says `pdocs`, `project-docs`, or wants to set up or evolve project documentation under project-documents. Set up documentation from project-documents/_template when needed, connect the app repository's `docs` path with a symlink, read docs/README.md as the operating contract, then hand off structured spec/design document interviews to project-documents-interview after setup and inspection are complete.
 ---
 
 # Project Documents Setup Workflow
@@ -11,8 +11,10 @@ project-documents 運用の入口として、ドキュメント実体の用意�
 
 - ドキュメント / 仕様書は、詳細仕様の正本ではなく、開発判断の道しるべとして扱う。
 - 目的は、メンテナンスコストを下げつつ、プロダクト品質を維持し、ドキュメント / 仕様書が実装と乖離して腐ることを防ぐこと。
-- ドキュメント / 仕様書には、品質保証、プロダクト意図、設計思想、判断軸、責務境界、詳細の正本、未決事項、更新条件を残す。
-- 詳細仕様は code、OpenAPI、schema、migration、test、prototype などの実行可能または検証可能な成果物を正本とする。
+- 文書の役割と採用条件は共通運用とcatalogに従う。specをすべての判断の集約先にしない。
+- 詳細の編集元と生成物を区別する。実装やテストが要求に対して正しいとは限らない。prototypeを自動的に正本にはしない。
+- 情報の置き場所はdocs READMEから共通運用へ辿る。要求、設計判断、実装上の定義、デザイン、運用手順、未決事項を分ける。設計判断はまずADRへの移譲を検討し、現在の判断だからという理由でspecへ再掲しない。依存一覧・構成ツリー・実装済み詳細を再作成しない。
+- 未実装の設計と未決事項は引き継ぎ先が確認できるまで保持する。Storybook は任意の後続作業とし、components の情報は対象実装・stories・説明への対応と表示・操作を確認できた範囲だけ移す。
 - UI / UX に影響する仕様変更では、design docs を更新する前に、仕様書側で目的、対象ユーザー、利用文脈、MVP 範囲、対象画面、制約、未決事項などの design 入力条件を整理する。
 - 空欄を埋めること、網羅性を上げること、実装済み詳細を転記することを目的にしない。
 - 仕様書に置いた項目は空欄のまま残さない。不要な項目は置かず、未決事項は保留理由、影響範囲、再確認タイミング、判断に必要な情報を残す。
@@ -39,7 +41,7 @@ project-documents 運用の入口として、ドキュメント実体の用意�
 - 運用方針: `project-documents/README.md`
 - ドキュメントひな形: `project-documents/_template/`
 - docs 全体の運用原則: `project-documents/_template/README.md`
-- 仕様文書地図: `project-documents/_template/specs/README.md`
+- 仕様文書地図: `project-documents/_template/spec/README.md`
 - デザイン文書地図: `project-documents/_template/design/README.md`
 - プロトタイプ方針: `project-documents/_template/prototype/README.md`
 - プロジェクトドキュメント実体: `project-documents/<project>/`
@@ -52,7 +54,7 @@ project-documents 運用の入口として、ドキュメント実体の用意�
    - 原則はリポジトリ名を使う。
    - ユーザー指定があればそれを優先する。
 3. `project-documents` リポジトリの場所を確認する。
-4. `project-documents/README.md`、`_template/`、`_template/README.md`、`_template/specs/README.md`、`_template/design/README.md`、`_template/prototype/README.md` を確認する。
+4. `project-documents/README.md`、`_template/`、`_template/README.md`、`_template/spec/README.md`、`_template/design/README.md`、`_template/prototype/README.md` を確認する。
 5. `project-documents/<project>` の有無を確認する。
 6. アプリ側 `docs` path の状態を確認する。
    - 存在しない
@@ -64,25 +66,27 @@ project-documents 運用の入口として、ドキュメント実体の用意�
 
 setup が未完了の場合だけ行う。
 
-1. `project-documents/_template` を `project-documents/<project>` にコピーする。
+1. `project-documents/_template/project-readme.md` を `<project>/README.md`、`_template/spec/base/` のproduct.md・requirements.mdを `<project>/spec/` に用意する。READMEの共通運用・採用条件への参照と `spec/base/` のリンクを配置先に合わせる。雛形全体をコピーしない。
+   - 任意の仕様文書は `_template/spec/optional/` から採用条件と必要性を確認して追加する。designはspecとは独立した領域で、UIがある場合は必須。`_template/design/` から入口と原則を用意し、その他の配下文書は必要なものだけ採用する。
+   - 任意文書の不存在は欠陥とは限らない。必要な情報がADR・成果物で完結するなら作らない。
 2. アプリ側の `docs` path を `project-documents/<project>` への symlink にする。
 3. symlink 先と標準構成を確認する。
 4. setup が終わったら仕様書の中身をすぐ埋めず、Phase 2 に進む。
 
 ## Phase 2: Inspect
 
-setup 済み、または既存ドキュメントがある場合はここから始める。
+setup 済み、または既存ドキュメントがある場合はここから始める。以下は存在と役割を確認する候補であり、全作成・全文読込の必須リストではない。プロダクトREADMEから必要な情報へ進む。
 
 - `docs/`
 - `docs/README.md`
-- `docs/specs/`
+- `docs/spec/`
 - `docs/design/`
 - `docs/diagrams/`
 - `docs/pencil/`
 - `docs/prototype/`
 - `project-documents/README.md`
 - `project-documents/_template/README.md`
-- `project-documents/_template/specs/README.md`
+- `project-documents/_template/spec/README.md`
 - `project-documents/_template/design/README.md`
 - `project-documents/_template/prototype/README.md`
 
@@ -99,14 +103,14 @@ setup 済み、または既存ドキュメントがある場合はここから�
 setup と inspect が完了したら、仕様書や design docs の中身をこの workflow で埋め始めない。次の条件を満たす場合は `project-documents-interview` に切り替える。
 
 - ユーザーが docs、仕様書、spec、design docs、要件、未定義項目を埋めたいと言っている
-- prototype 作成前に specs / design の前提を固めたい
+- prototype 作成前に spec / design の前提を固めたい
 - setup 済みの project-documents に対してヒアリングで文書を具体化したい
 
 handoff 時は、次を短く伝える。
 
 - setup / inspect 済みであること
 - 確認した docs path と project-documents 実体
-- `docs/README.md`、`docs/specs/README.md`、`docs/design/README.md`、`docs/prototype/README.md` を読む必要があること
+- `docs/README.md`から今回必要な要求・デザイン・成果物を辿ること。存在しない任意文書を作成・読込必須にしない
 - 以後は `project-documents-interview` のフェーズ順に、ヒアリング形式で進めること
 
 ## Documentation Quality Gate
@@ -172,9 +176,9 @@ handoff 時は、次を短く伝える。
 
 ## UI / UX Impact Gate
 
-仕様変更が UI / UX に影響する場合は、design docs を仕様の転記先として扱わない。先に specs 側で design の入力条件を確認する。
+仕様変更が UI / UX に影響する場合は、design docs を仕様の転記先として扱わない。先に spec 側で design の入力条件を確認する。
 
-specs 側で確認する入力条件:
+spec 側で確認する入力条件:
 
 - その機能や変更が必要な理由
 - 対象ユーザー
@@ -202,11 +206,11 @@ specs 側で確認する入力条件:
 
 この workflow は、仕様書として決めるべき前提を整理するためのもの。成果物そのものを作る段階に入ったら、目的に応じた workflow に切り替える。
 
-- specs / design docs をヒアリング形式で具体化する段階になったら `project-documents-interview` に切り替える。
+- spec / design docs をヒアリング形式で具体化する段階になったら `project-documents-interview` に切り替える。
 - 仕様や設計の穴をブラウザ上の操作感で検証する必要が出たら `prototype-workflow` に切り替える。
 - 実装後の変更内容を既存文書へ反映するだけなら `documents-sync-workflow` に切り替える。
 - schema、migration、ERD、テーブル責務、制約設計の妥当性をレビューする段階なら `db-design-review` に切り替える。
-- docs 全体の運用原則は `_template/README.md`、個別ファイル名は `_template/specs/README.md` と `_template/design/README.md` を正本とし、この skill 内の例示を固定の真実源として扱わない。
+- docs 全体の運用原則は `_template/README.md`、個別ファイル名は `_template/spec/README.md` と `_template/design/README.md` を正本とし、この skill 内の例示を固定の真実源として扱わない。
 
 ## Hard Rules
 

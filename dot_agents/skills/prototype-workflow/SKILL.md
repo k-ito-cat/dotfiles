@@ -1,6 +1,6 @@
 ---
 name: prototype-workflow
-description: Use when creating or revising high-quality disposable browser prototypes under project-documents/<project>/prototype. Treat the prototype README and template prototype directory as the source for setup details, expose specification gaps, validate UI/UX states and interactions, and classify drift between prototype, specifications, and design without automatically making the prototype authoritative.
+description: Use when creating or revising high-quality disposable browser prototypes in a project's prototype directory under project-documents. Treat the prototype README and template prototype directory as the source for setup details, expose specification gaps, validate UI/UX states and interactions, and classify drift between prototype, specifications, and design without automatically making the prototype authoritative.
 ---
 
 # Prototype Workflow
@@ -17,10 +17,12 @@ description: Use when creating or revising high-quality disposable browser proto
 
 ## Documentation Operating Model
 
+- prototype のギャラリーは、本番コンポーネントと stories の正本を代替しない。未実装の components 記述は保持し、本番実装への引き継ぎ条件は docs の design README に従う。
+
 - prototype は仕様書の代替ではなく、体験確認と仕様判断のための検証材料として扱う。
-- 仕様書は現時点で合意された判断、prototype は体験検証の証拠、本実装は最終挙動の正本として扱う。
+- 要求・デザインは期待する体験、ADRは設計判断、prototypeは検証材料、実装は現在の挙動を示す。実装を自動的に正しい要求とは扱わない。
 - prototype の細部をそのまま仕様書や design 文書へ転記しない。
-- ドキュメント / 仕様書には、prototype で何を検証するか、何を採用したか、何を捨てたか、本実装へ持ち込む判断、未決事項だけを残す。
+- 検証目的・未検証のリスクはprototype README、採用する要求はspec、デザインはdesign、設計判断はADRへ分担する。specへの一律再掲はしない。
 - 仕様、スコープ、責務境界、品質上の最低ライン、詳細の正本、未決事項が変わった場合だけ、関連するドキュメント / 仕様書を更新する。
 
 ## 正本
@@ -29,14 +31,14 @@ description: Use when creating or revising high-quality disposable browser proto
 - 正本テンプレート: `project-documents/_template/prototype/`
 - docs 全体の運用原則: `project-documents/_template/README.md`
 - プロトタイプ方針: `project-documents/_template/prototype/README.md`
-- 仕様文書地図: `project-documents/_template/specs/README.md`
+- 仕様文書地図: `project-documents/_template/spec/README.md`
 - デザイン文書地図: `project-documents/_template/design/README.md`
 
 ## 手順
 
 1. 対象プロジェクトと確認したい体験、画面状態、操作導線を特定する。
 2. `docs/README.md` を確認し、docs 全体の正本分担、更新条件、prototype から戻す基準を確認する。
-3. 関連する `specs/` と `design/` を確認し、各 README の文書地図に従ってプロトタイプで扱う範囲の正本を特定する。
+3. プロダクトREADMEから今回必要な要求・デザイン・ADRを辿る。全雛形の読込や任意文書の新設は要求しない。
 4. `project-documents/<project>/prototype/` がなければ、`project-documents/_template/prototype/` から用意する。
 5. `prototype/README.md` に目的、確認観点、未検証のリスクを短く残す。
 6. `Vite + Svelte 5 + UnoCSS + @lucide/svelte` を標準として実装する。
@@ -51,8 +53,8 @@ description: Use when creating or revising high-quality disposable browser proto
 - Prototype は、仕様書や design 文書では見えなかった未定義事項が最も露出しやすい工程として扱う。
 - Prototype に存在する状態、操作、文言、画面、分岐、データ、UI パターンが、仕様書や design 文書に存在しない場合は、すぐに文書更新せず、乖離として分類する。
 - 乖離を見つけた場合は、仕様書が正か、prototype の判断を採用するか、prototype 限定の検証要素として残すか、保留にするかを決める。
-- prototype の判断を採用する場合は、採用した判断、本実装へ持ち込むこと、未決事項をドキュメント / 仕様書へ最小限だけ残す。
-- 仕様書未更新のまま prototype だけが採用判断の正になっている状態を完了扱いしない。
+- prototypeの判断を採用する場合は、要求・デザイン・ADRの適切な保存先へ接続する。既存の仕様書に同じ判断を必ず再掲しない。
+- prototypeだけが採用判断の保存先になっている状態を完了扱いしない。
 
 ## Prototype Drift Classification
 
@@ -66,7 +68,7 @@ Prototype 作成中・作成後は、仕様書 / design 文書 / prototype の�
 乖離時の判断:
 
 - 仕様書が正しい場合は、prototype を修正、対象外化、または破棄する。
-- prototype がより良い判断を示している場合は、仕様書または design 文書を更新してから、その判断を正とする。
+- prototypeの判断を採用する場合は、要求・design・ADRの適切な保存先へ合意した内容を反映してから正とする。
 - まだ判断できない場合は、未決事項として保留理由、影響範囲、判断タイミングを残す。
 
 ## 品質方針
