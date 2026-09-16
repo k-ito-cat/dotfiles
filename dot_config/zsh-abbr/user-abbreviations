@@ -48,6 +48,11 @@ abbr sz="source ~/.zshrc"
 abbr tb="terminal-browser"
 abbr yy="yazi"
 
+# adrs
+abbr adl="adrs list -l"
+abbr ads="adrs search"
+abbr adh="adrs doctor"
+
 # zellij
 abbr zj="zellij"
 abbr zja="zellij attach -c main"

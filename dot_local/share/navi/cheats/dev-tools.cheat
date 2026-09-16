@@ -69,3 +69,37 @@ ghq list -p
 ghq root
 # 新規ローカルリポジトリ作成
 ghq create <name>
+
+% adrs
+; == adrs ==
+# ADR一覧（番号・status・日付・タイトル）
+adrs list -l
+# statusで絞り込み
+adrs list -l --status <status>
+# 日付以降で絞り込み
+adrs list -l --since <date>
+# 全文検索
+adrs search <query>
+# タイトルのみ検索
+adrs search -t <query>
+# 大文字小文字を区別して検索
+adrs search -c <query>
+# リポジトリ健全性チェック（連番重複・リンク切れ・必須節）
+adrs doctor
+# 指定ルールを抑制してチェック
+adrs doctor --ignore <rule>
+# 目次をMarkdownで出力
+adrs generate toc
+# 関係グラフをGraphviz形式で出力
+adrs generate graph
+# mdbookを生成
+adrs generate book
+# 設定内容を表示
+adrs config
+# 別ディレクトリを対象に実行
+adrs -C <dir> list -l
+# よく使う操作のクイックリファレンス
+adrs cheatsheet
+
+$ status: echo -e "proposed\naccepted\ndeprecated\nsuperseded\nrejected\ndraft"
+$ rule: echo -e "ADR004\nADR005\nADR007\nADR013\nADR017"
