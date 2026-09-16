@@ -40,7 +40,9 @@
     "filesystem": {
       "allowWrite": [
         "~/.local/share/chezmoi",
-        "~/src"
+        "~/src",
+        "~/.npm",
+        "~/.config"
       ],
       "denyRead": [
         "~/.ssh",
