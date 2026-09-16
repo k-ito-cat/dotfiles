@@ -1,6 +1,6 @@
 ---
 name: adr-workflow
-description: Use when the user says `adr`, wants to record an architecture/design decision, or explicitly migrate past decisions into ADRs. Reconstruct evidence into MADR, choose the project or master location, confirm before writing, and use adrs for lifecycle operations.
+description: Use when a durable design, architecture, technology, tooling, documentation, or operating-policy decision is accepted, changed, rejected, or superseded—even if the user does not say ADR (e.g. 「これでいく」「方針が固まった」「採用する」「見送る」). Also use for explicit ADR requests and historical decision migration. Exclude mere research, work logs, and reversible implementation details. Reconstruct evidence into MADR, confirm before writing, and use adrs for lifecycle operations.
 ---
 
 # ADR Workflow
@@ -12,8 +12,11 @@ description: Use when the user says `adr`, wants to record an architecture/desig
 ## Trigger
 
 - ユーザーが `adr` と言った
-- 会話の中で設計判断、技術選定、方針が確定し、それを残したい
+- 会話の中で、継続的な設計、技術選定、ツール選定、文書運用、開発運用の方針が確定、変更、却下された。ユーザーがADRへの記録を明示していなくても対象とする
 - 過去に捨てた案を記録しておきたい
+- 過去の判断を既存文書、Git履歴、保存された会話記録からADRへ移行したい
+
+発火はADR候補の確認を開始する条件であり、作成を確定する条件ではない。「書く条件」に該当するかを判定し、ユーザーの確認前には書き込まない。
 
 ## Role
 
@@ -56,6 +59,7 @@ description: Use when the user says `adr`, wants to record an architecture/desig
    - Decision Outcome: 採用した案と、会話で示された理由。
    - Consequences: 得たもの、失ったもの、覆すべき条件。
    - Confirmation: 判断への準拠を確認できるtest、review、doctorなどが会話にある場合だけ書く。
+   - 履歴移行では、判断内容を確認したcommit hash、既存文書、保存された会話の日付を`More Information`へ残す。ローカル環境固有の絶対pathは恒久的な出典にしない。
    - 素材がない任意節は、形式のために推測で埋めず削除する。判断に不可欠な情報が足りない場合はユーザーへ質問する。
 
 7. 下書きを提示して確認を取る。
@@ -84,8 +88,9 @@ description: Use when the user says `adr`, wants to record an architecture/desig
 - **会話に出ていない選択肢を Considered Options に書かない。** 一般的にありそうな代替案を補って埋めない。偽の検討履歴は ADR の価値を破壊する。
 - **決定時点で知らなかったことを Context に書かない。** 後から分かった事実を混ぜると、なぜその判断が妥当だったかが読めなくなる。
 - 会話に判断の経緯が無い場合（別セッションで決めた、口頭で決めた）は、推測で再構成せずユーザーに聞く。答えが得られない項目は未記入のままにせず、何が不明かを本文に残す。
-- 過去の ADR の判断内容を編集しない。訂正も追記ではなく新しい ADR で行う。status / linkの変更と、ユーザーが明示的に承認したformat migrationによるmetadata・見出しの機械変換だけは例外とし、意味を変えない。
-- 実装済み詳細の説明だけでADRを作らない。既存の設計判断の移譲はユーザーが求めた場合に行い、既存文書、Git履歴、保存された会話記録から確認できた情報だけで再構成する。仮決定を確定に変えず、理由・比較案・決定日を推測しない。元情報は引き継ぎ確認まで保持し、非ADRの保全記録も選べる。
+- 過去の ADR の判断内容を編集しない。訂正も追記ではなく新しい ADR で行う。status / linkの変更と、ユーザーが明示的に承認したformat migrationによるmetadata・見出しの機械変換だけは例外とし、意味を変えない。ただし、未完了・未commitの履歴移行で、下書きが証拠やユーザー判断と矛盾すると判明した場合は、誤った再構成を履歴として残さず、確認済みの証拠に合わせて下書きを訂正する。
+- 実装済み詳細の説明だけでADRを作らない。既存の設計判断の移譲はユーザーが求めた場合に行い、既存文書、Git履歴、保存された会話記録から確認できた情報だけで再構成する。仮決定を確定に変えず、理由・比較案・決定日を推測しない。元情報は引き継ぎ確認まで保持する。
+- 移行中の対応表や検証メモは一時的な作業資料とし、`decisions/`へ非ADR文書として恒久保存しない。判断は判断ごとにADRへ、要求・デザイン・実装上の定義・運用手順はそれぞれの正本へ移し、対応確認後に作業資料を廃止する。
 - 過去分を無断でADR化しない。明示的な依頼がある場合は既存文書を優先し、記憶に基づく場合はそのことと不明点を明記する。本文全体の確認を省略しない。
 - 通常は1回の実行で1つのADRだけを扱う。ユーザーが履歴の一括移行を明示した場合は、判断ごとの対応表、status、日付根拠、削除する移行元をまとめて提示して承認を得たうえで、複数ADRを一括処理できる。1ファイル1判断の原則は維持する。
 - 対象に`adrs.toml`がある場合は`adrs`を作成・status・link・診断の入口とする。CLIが利用できない場合、手書きへ無断で切り替えずユーザーへ報告する。
