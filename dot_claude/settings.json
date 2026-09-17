@@ -5,6 +5,10 @@
   "autoMemoryEnabled": false,
   "permissions": {
     "defaultMode": "auto",
+    "additionalDirectories": [
+      "~/.local/share/chezmoi",
+      "~/src/github.com/k-ito-cat/project-documents"
+    ],
     "allow": [],
     "ask": [
       "Bash(rm -rf *)",
