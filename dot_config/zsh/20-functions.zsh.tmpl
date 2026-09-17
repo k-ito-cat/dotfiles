@@ -44,14 +44,20 @@ peco-src () {
 # [peco-src] zle: widgetとして登録
 zle -N peco-src
 
-# [v] fzf+nvim: fzfで選んだファイルをneovimで開く
+# [v] fzf+nvim: パスを直接、またはfzfで検索したファイルをneovimで開く
 v() {
-  local f
+  local f query
   if [ "$#" -gt 0 ]; then
-    nvim "$@"
-    return
+    if [ "$#" -eq 1 ] && [ -e "$1" ]; then
+      nvim "$1"
+      return
+    fi
+
+    query="$*"
+    f="$(fzf --walker=file,dir,follow,hidden --query "$query" --select-1 --exit-0)" || return
+  else
+    f="$(fzf --walker=file,dir,follow,hidden)" || return
   fi
 
-  f="$(fzf --walker=file,dir,follow,hidden)" || return
   [ -n "$f" ] && nvim "$f"
 }
