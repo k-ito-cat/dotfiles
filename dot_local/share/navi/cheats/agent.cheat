@@ -1,0 +1,17 @@
+% agent
+
+; == codex ==
+; モデルの用途はOpenAI公式の説明に準拠
+# Codexをモデルとeffortを選んで起動
+codex -m <codex_model> -c model_reasoning_effort=<codex_effort>
+
+$ codex_model: printf '%s\n' 'gpt-6-astra    最も要求の厳しい作業向けのフロンティア性能' 'gpt-6-sol      コーディングと日常業務の主力モデル' 'gpt-6-luna     簡単なタスク向けの高速・安価なモデル' 'gpt-5.6-sol    旧世代。複雑な作業向けのコーディングモデル' 'gpt-5.6-terra  旧世代。平易な作業向けのバランス型モデル' 'gpt-5.6-luna   旧世代。高速で効率的なモデル' --- --column 1 --prevent-extra
+$ codex_effort: echo -e "low\nmedium\nhigh\nxhigh\nmax\nultra" --- --prevent-extra
+
+; == claude ==
+; モデルの用途はClaude Code公式docs（model-config）のalias説明に準拠
+# Claudeをモデルとeffortを選んで起動
+claude --model <claude_model> --effort <claude_effort>
+
+$ claude_model: printf '%s\n' 'opus    複雑な推論タスク向け' 'sonnet  日常のコーディングタスク向け' 'haiku   単純なタスク向けの高速・効率モデル' 'fable   最も難しく長時間かかるタスク向け' --- --column 1 --prevent-extra
+$ claude_effort: echo -e "low\nmedium\nhigh\nxhigh\nmax" --- --prevent-extra
