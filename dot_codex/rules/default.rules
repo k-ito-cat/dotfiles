@@ -1,3 +1,4 @@
 prefix_rule(pattern=["chezmoi"], decision="allow")
+prefix_rule(pattern=["git", "add"], decision="allow")
 prefix_rule(pattern=["npm", "run", "build"], decision="allow")
 prefix_rule(pattern=["npx", "-y", "modern-web-guidance@latest"], decision="allow")

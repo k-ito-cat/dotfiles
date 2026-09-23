@@ -15,6 +15,7 @@
     ],
     "allow": [
       "Bash(chezmoi *)",
+      "Bash(git add *)",
       "Bash(npm run build)",
       "Bash(npx -y modern-web-guidance@latest *)"
     ],
