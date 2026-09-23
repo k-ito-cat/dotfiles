@@ -67,6 +67,8 @@ ghq list
 ghq list -p
 # ルートディレクトリ確認
 ghq root
+# 今日のコミットをghq管理リポジトリとchezmoiから表示
+git today
 # 新規ローカルリポジトリ作成
 ghq create <name>
 
