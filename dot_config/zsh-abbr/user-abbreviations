@@ -9,14 +9,13 @@ abbr hdw="hunk diff --watch"
 abbr hs="hunk show"
 
 # codex
-abbr codexh="codex --profile codexh"
-abbr codexl="codex --profile codexl"
-abbr codexm="codex --profile codexm"
-abbr codexa="codex --profile codexa"
 abbr codexr="codex resume"
 
 # skill: commit-workflow
 abbr gcm="codex --profile commit gcm"
+
+# skill: japanese-tech-writing
+abbr ww="codex --profile writing-review 'ブログ添削。対象は %。確認を通さず、レビュー後に本文への挿入を開始してください。'"
 
 # skill: project-readiness-audit
 abbr pra="codex --profile pra 'Use $project-readiness-audit to run a full audit for this project.'"
@@ -26,12 +25,6 @@ abbr pras="codex --profile pra 'Use $project-readiness-audit to run a security a
 abbr prad="codex --profile pra 'Use $project-readiness-audit to run a docs audit for this project.'"
 
 # claude
-abbr claudeh="claude --model opus --effort high"
-abbr claudel="claude --model opus --effort low"
-abbr claudem="claude --model opus --effort medium"
-abbr claudes="claude --model sonnet"
-abbr claudef="claude --model fable"
-abbr claudek="claude --model claude-haiku-4-5-20251001"
 abbr clauder="claude --resume"
 
 # chezmoi
