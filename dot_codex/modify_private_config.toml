@@ -16,9 +16,29 @@ generate_memories = false
 [sandbox_workspace_write]
 # 起動したPJと、その一部として置かれたsymlink先を編集可能にする。
 # 複数PJで共有するchezmoiとproject-documentsも追加で許可する。
+# chezmoi apply の反映先となる管理ディレクトリも許可する。
 writable_roots = [
   "/Users/ito_kyohei/.local/share/chezmoi",
   "/Users/ito_kyohei/src/github.com/k-ito-cat/project-documents",
+  "/Users/ito_kyohei/.agents/skills",
+  "/Users/ito_kyohei/.claude",
+  "/Users/ito_kyohei/.codex",
+  "/Users/ito_kyohei/.config/chezmoi",
+  "/Users/ito_kyohei/.config/hunk",
+  "/Users/ito_kyohei/.config/karabiner",
+  "/Users/ito_kyohei/.config/lazysql",
+  "/Users/ito_kyohei/.config/leaf",
+  "/Users/ito_kyohei/.config/mise",
+  "/Users/ito_kyohei/.config/navi",
+  "/Users/ito_kyohei/.config/nvim",
+  "/Users/ito_kyohei/.config/process-compose",
+  "/Users/ito_kyohei/.config/sheldon",
+  "/Users/ito_kyohei/.config/wezterm",
+  "/Users/ito_kyohei/.config/yazi",
+  "/Users/ito_kyohei/.config/zellij",
+  "/Users/ito_kyohei/.config/zsh",
+  "/Users/ito_kyohei/.config/zsh-abbr",
+  "/Users/ito_kyohei/.local/share/navi",
 ]
 network_access = false
 

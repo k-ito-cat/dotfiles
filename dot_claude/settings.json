@@ -11,11 +11,31 @@
     "defaultMode": "auto",
     "additionalDirectories": [
       "~/.local/share/chezmoi",
-      "~/src/github.com/k-ito-cat/project-documents"
+      "~/src/github.com/k-ito-cat/project-documents",
+      "~/.agents/skills",
+      "~/.claude",
+      "~/.codex",
+      "~/.config/chezmoi",
+      "~/.config/hunk",
+      "~/.config/karabiner",
+      "~/.config/lazysql",
+      "~/.config/leaf",
+      "~/.config/mise",
+      "~/.config/navi",
+      "~/.config/nvim",
+      "~/.config/process-compose",
+      "~/.config/sheldon",
+      "~/.config/wezterm",
+      "~/.config/yazi",
+      "~/.config/zellij",
+      "~/.config/zsh",
+      "~/.config/zsh-abbr",
+      "~/.local/share/navi"
     ],
     "allow": [
       "Bash(chezmoi *)",
       "Bash(git add *)",
+      "Bash(hunk session *)",
       "Bash(npm run build)",
       "Bash(npx -y modern-web-guidance@latest *)"
     ],
@@ -53,7 +73,26 @@
     "filesystem": {
       "allowWrite": [
         "~/.local/share/chezmoi",
-        "~/src/github.com/k-ito-cat/project-documents"
+        "~/src/github.com/k-ito-cat/project-documents",
+        "~/.agents/skills",
+        "~/.claude",
+        "~/.codex",
+        "~/.config/chezmoi",
+        "~/.config/hunk",
+        "~/.config/karabiner",
+        "~/.config/lazysql",
+        "~/.config/leaf",
+        "~/.config/mise",
+        "~/.config/navi",
+        "~/.config/nvim",
+        "~/.config/process-compose",
+        "~/.config/sheldon",
+        "~/.config/wezterm",
+        "~/.config/yazi",
+        "~/.config/zellij",
+        "~/.config/zsh",
+        "~/.config/zsh-abbr",
+        "~/.local/share/navi"
       ],
       "denyRead": [
         "~/.ssh",
