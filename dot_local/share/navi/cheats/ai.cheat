@@ -12,8 +12,6 @@ printf '%s\n' 'Ctrl+J'
 printf '%s\n' 'Enter'
 # 会話履歴をスクロール可能なoverlayで開く/閉じる
 printf '%s\n' 'Ctrl+T'
-# project-documents workflow開始トリガー（入力）
-printf '%s\n' 'pdocs'
 
 % claude
 ; == claude ==
