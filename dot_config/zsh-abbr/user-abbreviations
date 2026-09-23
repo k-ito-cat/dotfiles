@@ -12,18 +12,16 @@ abbr hs="hunk show"
 # codex
 abbr codexr="codex resume"
 
-# skill: commit-workflow
+# Codex workflow launchers
 abbr gcm="codex --profile commit gcm"
 
-# skill: japanese-tech-writing
-abbr ww="codex --profile writing-review"
+abbr ww="codex --profile writing-review 'Before editing, ask only for missing details about the text type and scope, intended audience, purpose, and desired depth of editing. Wait for the reply, then use the japanese-tech-writing skill and follow its scope and workflow.'"
 
-# skill: release-readiness-audit
-abbr pra="codex --profile project-readiness-audit 'Use $release-readiness-audit to run a full audit for this project.'"
-abbr prac="codex --profile project-readiness-audit 'Use $release-readiness-audit to run a change audit for this project.'"
-abbr prar="codex --profile project-readiness-audit 'Use $release-readiness-audit to run a release audit for this project.'"
-abbr pras="codex --profile project-readiness-audit 'Use $release-readiness-audit to run a security audit for this project.'"
-abbr prad="codex --profile project-readiness-audit 'Use $release-readiness-audit to run a docs audit for this project.'"
+abbr pra="codex --profile project-readiness-audit 'Use the release-readiness-audit skill to run a full audit for this project. Inspect it read-only, follow the requested scope, and report in the skill format.'"
+abbr prac="codex --profile project-readiness-audit 'Use the release-readiness-audit skill to run a change audit for this project. Inspect it read-only, follow the requested scope, and report in the skill format.'"
+abbr prar="codex --profile project-readiness-audit 'Use the release-readiness-audit skill to run a release audit for this project. Inspect it read-only, follow the requested scope, and report in the skill format.'"
+abbr pras="codex --profile project-readiness-audit 'Use the release-readiness-audit skill to run a security audit for this project. Inspect it read-only, follow the requested scope, and report in the skill format.'"
+abbr prad="codex --profile project-readiness-audit 'Use the release-readiness-audit skill to run a docs audit for this project. Inspect it read-only, follow the requested scope, and report in the skill format.'"
 
 # claude
 abbr clauder="claude --resume"

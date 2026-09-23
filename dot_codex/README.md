@@ -1,6 +1,6 @@
 # Codex profile
 
-profile は用途別の abbr コマンドに登録しています。通常は対応する abbr コマンドから起動します。
+profile を直接起動しても初回メッセージが渡らないため、対応する abbr からの起動を推奨。
 
 | abbr コマンド | 用途 | skill | profile |
 | --- | --- | --- | --- |

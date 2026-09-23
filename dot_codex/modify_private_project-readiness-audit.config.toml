@@ -2,9 +2,5 @@
 {{- $managed := `model = "gpt-6-sol"
 model_reasoning_effort = "medium"
 sandbox_mode = "read-only"
-approval_policy = "never"
-developer_instructions = """
-監査を依頼されたら release-readiness-audit skill を使い、ユーザーが指定した監査範囲に従う。
-作業ディレクトリのプロジェクトを読み取り専用で調査し、skill の形式で結果を報告する。
-"""` -}}
+approval_policy = "never"` -}}
 {{- includeTemplate "codex-profile" (dict "managed" $managed "stdin" .chezmoi.stdin) -}}

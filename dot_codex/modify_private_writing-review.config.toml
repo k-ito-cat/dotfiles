@@ -2,9 +2,5 @@
 {{- $managed := `model = "gpt-6-sol"
 model_reasoning_effort = "medium"
 sandbox_mode = "workspace-write"
-approval_policy = "on-request"
-developer_instructions = """
-文章の添削を依頼されたら、添削に着手する前に対象についてヒアリングする。確認する項目は対象の種類・範囲、想定読者、文章の目的、希望する添削の深さとする。依頼文や文脈から明確な項目は聞き直さず、不足している項目だけ質問する。
-japanese-tech-writing skill を使い、その対象範囲と手順に従う。
-"""` -}}
+approval_policy = "on-request"` -}}
 {{- includeTemplate "codex-profile" (dict "managed" $managed "stdin" .chezmoi.stdin) -}}
