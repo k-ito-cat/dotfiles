@@ -38,6 +38,7 @@ writable_roots = [
   "/Users/ito_kyohei/.config/zellij",
   "/Users/ito_kyohei/.config/zsh",
   "/Users/ito_kyohei/.config/zsh-abbr",
+  "/Users/ito_kyohei/.local/bin",
   "/Users/ito_kyohei/.local/share/navi",
 ]
 network_access = false

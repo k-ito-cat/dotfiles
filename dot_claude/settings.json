@@ -30,6 +30,7 @@
       "~/.config/zellij",
       "~/.config/zsh",
       "~/.config/zsh-abbr",
+      "~/.local/bin",
       "~/.local/share/navi"
     ],
     "allow": [
@@ -92,6 +93,7 @@
         "~/.config/zellij",
         "~/.config/zsh",
         "~/.config/zsh-abbr",
+        "~/.local/bin",
         "~/.local/share/navi"
       ],
       "denyRead": [
