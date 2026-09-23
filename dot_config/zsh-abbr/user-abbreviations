@@ -15,14 +15,14 @@ abbr codexr="codex resume"
 abbr gcm="codex --profile commit gcm"
 
 # skill: japanese-tech-writing
-abbr ww="codex --profile writing-review 'ブログ添削。対象は %。確認を通さず、レビュー後に本文への挿入を開始してください。'"
+abbr ww="codex --profile writing-review"
 
-# skill: project-readiness-audit
-abbr pra="codex --profile pra 'Use $project-readiness-audit to run a full audit for this project.'"
-abbr prac="codex --profile pra 'Use $project-readiness-audit to run a change audit for this project.'"
-abbr prar="codex --profile pra 'Use $project-readiness-audit to run a release audit for this project.'"
-abbr pras="codex --profile pra 'Use $project-readiness-audit to run a security audit for this project.'"
-abbr prad="codex --profile pra 'Use $project-readiness-audit to run a docs audit for this project.'"
+# skill: release-readiness-audit
+abbr pra="codex --profile project-readiness-audit 'Use $release-readiness-audit to run a full audit for this project.'"
+abbr prac="codex --profile project-readiness-audit 'Use $release-readiness-audit to run a change audit for this project.'"
+abbr prar="codex --profile project-readiness-audit 'Use $release-readiness-audit to run a release audit for this project.'"
+abbr pras="codex --profile project-readiness-audit 'Use $release-readiness-audit to run a security audit for this project.'"
+abbr prad="codex --profile project-readiness-audit 'Use $release-readiness-audit to run a docs audit for this project.'"
 
 # claude
 abbr clauder="claude --resume"
