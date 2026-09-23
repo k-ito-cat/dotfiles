@@ -10,8 +10,13 @@ cat ~/.local/share/chezmoi/dot_config/zsh/10-aliases.zsh.tmpl
 cat ~/.local/share/chezmoi/dot_config/zsh/20-functions.zsh.tmpl
 # zsh keybind定義（chezmoi）を表示
 cat ~/.local/share/chezmoi/dot_config/zsh/30-keybinds.zsh.tmpl
-# zsh abbr定義（chezmoi）を表示
-cat ~/.local/share/chezmoi/dot_config/zsh-abbr/user-abbreviations
+
+% zsh-abbr
+; == zsh-abbr コマンド ==
+# ロード済みのabbr一覧（略語と展開後）
+abbr list
+# ロード済みのabbr定義を定義文の形で表示
+abbr L
 
 % navi
 ; == navi ==

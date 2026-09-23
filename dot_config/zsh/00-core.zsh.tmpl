@@ -33,6 +33,9 @@ fi
 
 # ===== Plugins =====
 
+# zsh-abbr: 展開後、マーカー(%)の位置へカーソルを移動する。sheldon読み込み前に設定する必要がある
+ABBR_SET_EXPANSION_CURSOR=1
+
 if command -v sheldon >/dev/null 2>&1; then
   eval "$(sheldon source)"
 fi
