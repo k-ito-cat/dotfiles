@@ -17,7 +17,8 @@ process-compose = "latest"
 
 # AIコードアシスタント
 "npm:@openai/codex" = "latest"
-"npm:@anthropic-ai/claude-code" = "latest"
+# Claude Code は postinstall でプラットフォーム固有バイナリを配置するため、当該パッケージだけ実行を許可する
+"npm:@anthropic-ai/claude-code" = { version = "latest", allow_builds = ["@anthropic-ai/claude-code"] }
 "npm:@github/copilot" = "latest"
 
 # 言語サーバー（LSP）
@@ -36,3 +37,8 @@ process-compose = "latest"
 
 [settings]
 minimum_release_age = "7d"
+# 公式ベンダー直販かつモデル追随のため即日取得したい2つだけ7dルールから除外する
+minimum_release_age_excludes = [
+  "npm:@openai/codex",
+  "npm:@anthropic-ai/claude-code",
+]
