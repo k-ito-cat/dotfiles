@@ -13,7 +13,11 @@
       "~/.local/share/chezmoi",
       "~/src/github.com/k-ito-cat/project-documents"
     ],
-    "allow": [],
+    "allow": [
+      "Bash(chezmoi *)",
+      "Bash(npm run build)",
+      "Bash(npx -y modern-web-guidance@latest *)"
+    ],
     "ask": [
       "Bash(rm -rf *)",
       "Bash(git push *)",
@@ -48,9 +52,7 @@
     "filesystem": {
       "allowWrite": [
         "~/.local/share/chezmoi",
-        "~/src",
-        "~/.npm",
-        "~/.config"
+        "~/src/github.com/k-ito-cat/project-documents"
       ],
       "denyRead": [
         "~/.ssh",
