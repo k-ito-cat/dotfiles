@@ -1,4 +1,0 @@
-{{- /* chezmoi:modify-template */ -}}
-{{- $managed := `model = "gpt-5.6-sol"
-model_reasoning_effort = "high"` -}}
-{{- includeTemplate "codex-profile" (dict "managed" $managed "stdin" .chezmoi.stdin) -}}
