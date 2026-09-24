@@ -42,10 +42,7 @@ description: Use when documentation content may be out of sync with implementati
 - アプリ側 `docs` path
 - `project-documents/README.md`
 - `project-documents/_template/`
-- `project-documents/_template/README.md`
-- `project-documents/_template/spec/README.md`
-- `project-documents/_template/design/README.md`
-- `project-documents/_template/prototype/README.md`
+- `project-documents/README.md` の「入口」に並ぶ文書（共通運用、ステータス、雛形カタログ、各領域のREADME）。この一覧を確認範囲とし、下位の文書から辿って範囲を決めない。
 - `project-documents/<project>/`
 - 実装、設計成果物、prototype、DB schema / migration、test、生成物
 
@@ -87,7 +84,7 @@ description: Use when documentation content may be out of sync with implementati
 - 実際の `project-documents/_template/`、`project-documents/<project>/`、`project-documents/README.md` を確認し、差分があればどちらを正とするか判断する。
 - template 配下の親ディレクトリと各 README を優先して確認し、個別ファイル名は README の文書地図に従う。
 - docs 全体の運用原則、各ディレクトリの役割、正本の分担、更新条件は `project-documents/_template/README.md` を基準に確認する。
-- spec の文書地図は `project-documents/_template/spec/README.md`、design の文書地図は `project-documents/_template/design/README.md`、prototype の方針は `project-documents/_template/prototype/README.md` を基準に確認する。
+- 各領域の文書地図と方針は、`project-documents/README.md` の「入口」に並ぶ各領域のREADMEを基準に確認する。
 - template が正なら、Skill 側の記述を修正する。
 - Skill の方針や品質基準が正しく、template に共通項目が欠けている場合は、template のメンテナンス候補として扱う。
 - template は安易に編集しない。決定事項となる見出し、ファイル、項目を追加する前に、なぜ共通 template に必要か、どのプロジェクトにも適用できるか、既存プロジェクトへどう影響するかを整理する。

@@ -29,10 +29,7 @@ description: Use when creating or revising high-quality disposable browser proto
 
 - プロジェクト側 prototype: `project-documents/<project>/prototype/`
 - 正本テンプレート: `project-documents/_template/prototype/`
-- docs 全体の運用原則: `project-documents/_template/README.md`
-- プロトタイプ方針: `project-documents/_template/prototype/README.md`
-- 仕様文書地図: `project-documents/_template/spec/README.md`
-- デザイン文書地図: `project-documents/_template/design/README.md`
+- 共通文書: `project-documents/README.md` の「入口」に並ぶ文書（共通運用、ステータス、雛形カタログ、各領域のREADME）。prototype方針を含む。この一覧を確認範囲とし、下位の文書から辿って範囲を決めない。
 
 ## 手順
 

@@ -40,10 +40,7 @@ project-documents 運用の入口として、ドキュメント実体の用意�
 
 - 運用方針: `project-documents/README.md`
 - ドキュメントひな形: `project-documents/_template/`
-- docs 全体の運用原則: `project-documents/_template/README.md`
-- 仕様文書地図: `project-documents/_template/spec/README.md`
-- デザイン文書地図: `project-documents/_template/design/README.md`
-- プロトタイプ方針: `project-documents/_template/prototype/README.md`
+- 共通文書: `project-documents/README.md` の「入口」に並ぶ文書（共通運用、ステータス、雛形カタログ、各領域のREADME）。この一覧を確認範囲とし、下位の文書から辿って範囲を決めない。
 - プロジェクトドキュメント実体: `project-documents/<project>/`
 - アプリ側ドキュメント path: `<project>/docs`
 
@@ -54,7 +51,7 @@ project-documents 運用の入口として、ドキュメント実体の用意�
    - 原則はリポジトリ名を使う。
    - ユーザー指定があればそれを優先する。
 3. `project-documents` リポジトリの場所を確認する。
-4. `project-documents/README.md`、`_template/`、`_template/README.md`、`_template/spec/README.md`、`_template/design/README.md`、`_template/prototype/README.md` を確認する。
+4. `project-documents/README.md` と、その「入口」に並ぶ文書を確認する。
 5. `project-documents/<project>` の有無を確認する。
 6. アプリ側 `docs` path の状態を確認する。
    - 存在しない
@@ -66,7 +63,7 @@ project-documents 運用の入口として、ドキュメント実体の用意�
 
 setup が未完了の場合だけ行う。
 
-1. `project-documents/_template/project-readme.md` を `<project>/README.md`、`_template/spec/base/` のproduct.md・requirements.mdを `<project>/spec/` に用意する。READMEの共通運用・採用条件への参照と `spec/base/` のリンクを配置先に合わせる。雛形全体をコピーしない。
+1. `project-documents/_template/project-readme.md` を `<project>/README.md`、`_template/spec/README.md` の「必須」に挙がる雛形を `<project>/spec/` に用意する。READMEの共通運用・採用条件への参照と `spec/base/` のリンクを配置先に合わせる。雛形全体をコピーしない。
    - 任意の仕様文書は `_template/spec/optional/` から採用条件と必要性を確認して追加する。designはspecとは独立した領域で、UIがある場合は必須。`_template/design/` から入口と原則を用意し、その他の配下文書は必要なものだけ採用する。
    - 任意文書の不存在は欠陥とは限らない。必要な情報がADR・成果物で完結するなら作らない。
 2. アプリ側の `docs` path を `project-documents/<project>` への symlink にする。
@@ -84,11 +81,7 @@ setup 済み、または既存ドキュメントがある場合はここから�
 - `docs/diagrams/`
 - `docs/pencil/`
 - `docs/prototype/`
-- `project-documents/README.md`
-- `project-documents/_template/README.md`
-- `project-documents/_template/spec/README.md`
-- `project-documents/_template/design/README.md`
-- `project-documents/_template/prototype/README.md`
+- `project-documents/README.md` の「入口」に並ぶ文書（共通運用、ステータス、雛形カタログ、各領域のREADME）
 
 確認した項目は次に分類する。
 
@@ -210,7 +203,7 @@ spec 側で確認する入力条件:
 - 仕様や設計の穴をブラウザ上の操作感で検証する必要が出たら `prototype-workflow` に切り替える。
 - 実装後の変更内容を既存文書へ反映するだけなら `documents-sync-workflow` に切り替える。
 - schema、migration、ERD、テーブル責務、制約設計の妥当性をレビューする段階なら `db-design-review` に切り替える。
-- docs 全体の運用原則は `_template/README.md`、個別ファイル名は `_template/spec/README.md` と `_template/design/README.md` を正本とし、この skill 内の例示を固定の真実源として扱わない。
+- docs 全体の運用原則は `_template/README.md`、個別ファイル名は入口に並ぶ各領域のREADMEを正本とし、この skill 内の例示を固定の真実源として扱わない。
 
 ## Hard Rules
 
