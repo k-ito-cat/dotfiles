@@ -1,0 +1,29 @@
+% custom-cli
+; == pdocs ==
+# プロジェクトを選んで記入状況・ステータス・未決事項・ADRを表示
+pdocs stat
+# プロジェクトを指定して表示
+pdocs stat <project>
+# ステータスの件数だけ表示
+pdocs stat --status <project>
+# 記入状況だけ表示
+pdocs stat --fill <project>
+# 未決事項だけ表示
+pdocs stat --open <project>
+# 文書地図とステータス値を検査（問題があれば終了コード1）
+pdocs check
+# プロダクトREADMEの文書地図の漏れとリンク切れだけ検査
+pdocs check --readme
+# 定義にないステータス値だけ検査
+pdocs check --status
+# プロダクト文書の見出し構成が雛形と一致しているかだけ検査
+pdocs check --template
+# 雛形にない項目名を警告として一覧にする（既定の検査には含まれない）
+pdocs check --items
+
+$ project: cd "${PDOCS_DIR:-$HOME/src/github.com/k-ito-cat/project-documents}" && ls -1d */ | sed 's#/$##' | grep -v '^_'
+
+% custom-cli
+; == git today ==
+# ghq管理のリポジトリとdotfilesから今日のコミットを選び、hunkで表示
+git today
