@@ -105,3 +105,29 @@ adrs cheatsheet
 
 $ status: echo -e "proposed\naccepted\ndeprecated\nsuperseded\nrejected\ndraft"
 $ rule: echo -e "ADR004\nADR005\nADR007\nADR013\nADR017"
+
+% pdocs, custom-cli
+; == pdocs ==
+# プロジェクトを選んで記入状況・ステータス・未決事項・ADRを表示
+pdocs stat
+# プロジェクトを指定して表示
+pdocs stat <project>
+# ステータスの件数だけ表示
+pdocs stat --status <project>
+# 記入状況だけ表示
+pdocs stat --fill <project>
+# 未決事項だけ表示
+pdocs stat --open <project>
+# 文書地図とステータス値を検査（問題があれば終了コード1）
+pdocs check
+# 入口の一覧・リンク・プロダクトREADMEの文書地図だけ検査
+pdocs check --readme
+# 定義にないステータス値だけ検査
+pdocs check --status
+
+$ project: cd "${PDOCS_DIR:-$HOME/src/github.com/k-ito-cat/project-documents}" && ls -1d */ | sed 's#/$##' | grep -v '^_'
+
+% git-today, custom-cli
+; == git today ==
+# ghq管理のリポジトリとdotfilesから今日のコミットを選び、hunkで表示
+git today

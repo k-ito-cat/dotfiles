@@ -1,0 +1,348 @@
+#!/usr/bin/env python3
+"""project-documents のプロダクト文書の統計と、文書地図・ステータスの検査を行う。
+
+ステータスの定義・必須文書・共通運用へのリンクは、実行のたびに project-documents 側の
+README から読み取る。この CLI には値を持たない。
+"""
+
+import argparse
+import os
+import re
+import shutil
+import subprocess
+import sys
+import unicodedata
+from dataclasses import dataclass, field
+from pathlib import Path
+
+ROOT = Path(os.environ.get("PDOCS_DIR", "~/src/github.com/k-ito-cat/project-documents")).expanduser()
+TEMPLATE = ROOT / "_template"
+TARGET_DIRS = ("spec", "design")
+
+ITEM_RE = re.compile(r"^\s*- ([^:：\n`]+?)[:：][ \t]*(.*?)\s*$")
+LINK_RE = re.compile(r"\[[^\]]*\]\(([^)\s]+)\)")
+HEADING_RE = re.compile(r"^(#{1,6})\s+(.*?)\s*$")
+
+
+def fail(msg: str) -> None:
+    print(f"pdocs: {msg}", file=sys.stderr)
+    sys.exit(2)
+
+
+def width(s: str) -> int:
+    return sum(2 if unicodedata.east_asian_width(c) in "WF" else 1 for c in s)
+
+
+def pad(s: str, w: int, right: bool = False) -> str:
+    gap = " " * (w - width(s))
+    return gap + s if right else s + gap
+
+
+def read(path: Path) -> list[str]:
+    return path.read_text(encoding="utf-8").split("\n")
+
+
+def section(lines: list[str], title: str) -> list[str]:
+    """見出し title の節の本文を、次の同階層以上の見出しまで返す。"""
+    out, level = [], None
+    for line in lines:
+        m = HEADING_RE.match(line)
+        if m and level is not None and len(m.group(1)) <= level:
+            break
+        if level is not None:
+            out.append(line)
+        elif m and m.group(2) == title:
+            level = len(m.group(1))
+    return out
+
+
+def table_rows(lines: list[str]) -> list[tuple[list[str], list[list[str]]]]:
+    """Markdown の表を (見出し, 本文行) の組で返す。"""
+    tables, i = [], 0
+    while i < len(lines):
+        if lines[i].startswith("|") and i + 1 < len(lines) and re.fullmatch(r"[|\s:-]+", lines[i + 1] or "x"):
+            head = [c.strip() for c in lines[i].strip().strip("|").split("|")]
+            body, i = [], i + 2
+            while i < len(lines) and lines[i].startswith("|"):
+                body.append([c.strip() for c in lines[i].strip().strip("|").split("|")])
+                i += 1
+            tables.append((head, body))
+        else:
+            i += 1
+    return tables
+
+
+def without_code(lines: list[str]) -> list[str]:
+    out, fenced = [], False
+    for line in lines:
+        if line.lstrip().startswith("```"):
+            fenced = not fenced
+            continue
+        out.append("" if fenced else line)
+    return out
+
+
+def load_statuses() -> dict[str, str]:
+    """_template/README.md の「ステータス」表から ID→ラベル を読む。"""
+    for head, body in table_rows(section(read(TEMPLATE / "README.md"), "ステータス")):
+        if "ID" in head and "ラベル" in head:
+            i, j = head.index("ID"), head.index("ラベル")
+            return {row[i]: row[j] for row in body if len(row) > max(i, j)}
+    fail(f"{TEMPLATE / 'README.md'} にステータス表が見つかりません")
+
+
+def projects() -> list[str]:
+    return sorted(p.name for p in ROOT.iterdir()
+                  if p.is_dir() and not p.name.startswith(("_", ".")) and (p / "README.md").is_file())
+
+
+def choose(names: list[str]) -> str | None:
+    if not shutil.which("fzf"):
+        fail("fzf が見つかりません。プロジェクト名を引数で指定してください")
+    r = subprocess.run(["fzf", "--prompt=project> "], input="\n".join(names), text=True, capture_output=True)
+    return r.stdout.strip() or None
+
+
+# ---- 記入状況 ----------------------------------------------------------------
+
+@dataclass
+class FileStat:
+    path: str
+    items: int = 0
+    filled: int = 0
+    statuses: dict[str, int] = field(default_factory=dict)
+    blank: int = 0
+    invalid: list[str] = field(default_factory=list)
+    open_items: list[str] = field(default_factory=list)
+
+
+def stat_file(path: Path, rel: str, ids: dict[str, str]) -> FileStat:
+    st = FileStat(rel, statuses={k: 0 for k in ids})
+    lines = without_code(read(path))
+
+    def count_status(value: str, where: str) -> None:
+        if not value:
+            st.blank += 1
+        elif value in ids:
+            st.statuses[value] += 1
+        else:
+            st.invalid.append(f"{rel}:{where}  {value}")
+
+    for n, line in enumerate(lines, 1):
+        m = ITEM_RE.match(line)
+        if not m:
+            continue
+        key, value = m.group(1).strip(), m.group(2)
+        if key == "ステータス":
+            count_status(value, str(n))
+        elif key == "未決事項":
+            if value:
+                st.open_items.append(value)
+        else:
+            st.items += 1
+            st.filled += bool(value)
+
+    for head, body in table_rows(lines):
+        if "ステータス" in head:
+            k = head.index("ステータス")
+            for row in body:
+                count_status(row[k] if k < len(row) else "", "表")
+
+    open_sec = section(lines, "未決事項")
+    st.open_items += [l.strip()[2:] for l in open_sec if l.strip().startswith("- ")]
+    st.open_items += [" / ".join(r[:1]) for _, body in table_rows(open_sec) for r in body]
+    return st
+
+
+def render_table(stats: list[FileStat], ids: dict[str, str], aspects: set[str]) -> str:
+    head = ["文書"]
+    if "fill" in aspects:
+        head += ["記入"]
+    if "status" in aspects:
+        head += [*ids.values(), "未記", "不正"]
+    if "open" in aspects:
+        head += ["未決"]
+
+    def row(s: FileStat) -> list[str]:
+        r = [s.path]
+        if "fill" in aspects:
+            r += [f"{s.filled}/{s.items}"]
+        if "status" in aspects:
+            r += [*(str(s.statuses[k]) for k in ids), str(s.blank), str(len(s.invalid))]
+        if "open" in aspects:
+            r += [str(len(s.open_items))]
+        return r
+
+    total = FileStat("合計", statuses={k: sum(s.statuses[k] for s in stats) for k in ids})
+    for s in stats:
+        total.items += s.items; total.filled += s.filled; total.blank += s.blank
+        total.invalid += s.invalid; total.open_items += s.open_items
+    rows = [row(s) for s in stats]
+    widths = [max(width(r[i]) for r in [head, *rows, row(total)]) for i in range(len(head))]
+    line = "+" + "+".join("-" * (w + 2) for w in widths) + "+"
+    fmt = lambda r: "| " + " | ".join(pad(c, w, right=i > 0) for i, (c, w) in enumerate(zip(r, widths))) + " |"
+    return "\n".join([line, fmt(head), line, *map(fmt, rows), line, fmt(row(total)), line])
+
+
+# ---- 検査 --------------------------------------------------------------------
+
+def slug(text: str) -> str:
+    text = re.sub(r"[^\w\s-]", "", text.strip().lower())
+    return re.sub(r"\s+", "-", text)
+
+
+def links(lines: list[str]) -> list[str]:
+    return [t for l in lines for t in LINK_RE.findall(l) if not re.match(r"[a-z]+:", t)]
+
+
+def check_link(base: Path, target: str) -> str | None:
+    path, _, anchor = target.partition("#")
+    dest = (base / path).resolve() if path else None
+    if dest is None or not dest.exists():
+        return f"リンク切れ   {target}"
+    if anchor and dest.is_file():
+        heads = {slug(m.group(2)) for l in read(dest) if (m := HEADING_RE.match(l))}
+        if slug(anchor) not in heads:
+            return f"リンク切れ   {target}（見出しが見つからない）"
+    return None
+
+
+def check_readme(add) -> None:
+    # 検査1・2: ルート README の入口が _template 配下の README を全て直接指しているか
+    entry = section(read(ROOT / "README.md"), "入口")
+    targets = links(entry)
+    listed = {(ROOT / t.partition("#")[0]).resolve() for t in targets}
+    for readme in sorted(TEMPLATE.rglob("README.md")):
+        if readme.resolve() not in listed:
+            add("template map", f"一覧の漏れ   {readme.relative_to(ROOT)}")
+    for t in targets:
+        if err := check_link(ROOT, t):
+            add("template map", err)
+
+    # 検査3: 各プロダクト README の文書地図
+    spec_lines = read(TEMPLATE / "spec" / "README.md")
+    required = [Path(t).name for t in links(section(spec_lines, "必須")) if t.startswith("base/")]
+    # 型の箇条書きに並ぶ共通運用は常に必須、本文中の領域別リンクはその領域を採用した場合だけ必須
+    tmpl = read(TEMPLATE / "project-readme.md")
+    always = [t for l in tmpl if l.lstrip().startswith("- ") for t in links([l]) if "_template/" in t]
+    optional = [t for l in tmpl if not l.lstrip().startswith("- ") for t in links([l]) if "_template/" in t]
+    for name in projects():
+        pj = ROOT / name
+        pj_links = links(read(pj / "README.md"))
+        key = f"project {name}"
+        for doc in required:
+            if not (pj / "spec" / doc).exists():
+                add(key, f"必須文書なし {'spec/' + doc}")
+            elif not any(t.partition("#")[0] == f"spec/{doc}" for t in pj_links):
+                add(key, f"一覧の漏れ   spec/{doc}")
+        area = lambda t: t.split("_template/", 1)[1].split("/")[0]
+        for t in [*always, *(t for t in optional if (pj / area(t)).is_dir())]:
+            if t not in pj_links:
+                add(key, f"一覧の漏れ   {t}")
+        for t in pj_links:
+            if err := check_link(pj, t):
+                add(key, err)
+
+
+def check_status(ids: dict[str, str], add) -> None:
+    for name in [*projects(), "_template"]:
+        for d in TARGET_DIRS:
+            for f in sorted((ROOT / name / d).rglob("*.md")):
+                for msg in stat_file(f, str(f.relative_to(ROOT)), ids).invalid:
+                    add("status", f"不正な値     {msg}")
+
+
+def run_checks(ids: dict[str, str], aspects: set[str]) -> dict[str, list[str]]:
+    problems: dict[str, list[str]] = {}
+    add = lambda key, msg: problems.setdefault(key, []).append(msg)
+    if "readme" in aspects:
+        check_readme(add)
+    if "status" in aspects:
+        check_status(ids, add)
+    return problems
+
+
+# ---- main --------------------------------------------------------------------
+
+def cmd_check(ids: dict[str, str], aspects: set[str]) -> int:
+    problems = run_checks(ids, aspects)
+    for key, msgs in problems.items():
+        print(f"[{key}]")
+        for m in msgs:
+            print(f"  NG {m}")
+    count = sum(map(len, problems.values()))
+    print(f"{count} 件の問題" if count else "OK")
+    return 1 if count else 0
+
+
+def cmd_stat(ids: dict[str, str], project: str | None, aspects: set[str], show_all: bool) -> int:
+    names = projects()
+    name = project or choose(names)
+    if not name:
+        return 0
+    if name not in names:
+        fail(f"プロジェクトが見つかりません: {name}")
+
+    pj = ROOT / name
+    stats = [stat_file(f, str(f.relative_to(pj)), ids)
+             for d in TARGET_DIRS for f in sorted((pj / d).rglob("*.md"))]
+    print(name)
+    print(render_table(stats, ids, aspects))
+
+    if "open" in aspects:
+        open_items = [(s.path, o) for s in stats for o in s.open_items]
+        if open_items:
+            print("\n未決事項:")
+            for path, item in open_items:
+                print(f"  - {path}: {item}")
+    if "status" in aspects:
+        invalid = [m for s in stats for m in s.invalid]
+        if invalid:
+            print("\n不正なステータス値:")
+            for m in invalid:
+                print(f"  - {m}")
+    if not show_all:
+        return 0
+
+    print("\nADR:")
+    if not (pj / "adrs.toml").exists():
+        print("  (adrs.toml なし)")
+    elif not shutil.which("adrs"):
+        print("  (adrs が見つかりません)")
+    else:
+        r = subprocess.run(["adrs", "-C", str(pj), "list", "-l"], text=True, capture_output=True)
+        print("\n".join("  " + l for l in (r.stdout or r.stderr).rstrip().split("\n")))
+
+    count = sum(map(len, run_checks(ids, {"readme", "status"}).values()))
+    print(f"\n検査: {'問題なし' if not count else f'問題 {count} 件（pdocs check で詳細）'}")
+    return 0
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(prog="pdocs", description=__doc__.split("\n")[0])
+    sub = ap.add_subparsers(dest="command", required=True)
+
+    st = sub.add_parser("stat", help="プロダクト文書の統計を表示する（観点の指定がなければ全て）")
+    st.add_argument("project", nargs="?", help="対象プロジェクト名（省略時は fzf で選択）")
+    st.add_argument("--status", action="store_true", help="ステータスの件数")
+    st.add_argument("--fill", action="store_true", help="項目の記入状況")
+    st.add_argument("--open", action="store_true", help="未決事項")
+
+    ck = sub.add_parser("check", help="文書地図とステータス値を検査する（観点の指定がなければ全て）")
+    ck.add_argument("--readme", action="store_true", help="入口の一覧・リンク・プロダクトREADMEの文書地図")
+    ck.add_argument("--status", action="store_true", help="定義にないステータス値")
+
+    args = ap.parse_args()
+    if not ROOT.is_dir():
+        fail(f"{ROOT} が見つかりません（PDOCS_DIR で変更できます）")
+    ids = load_statuses()
+
+    if args.command == "check":
+        aspects = {a for a in ("readme", "status") if getattr(args, a)} or {"readme", "status"}
+        return cmd_check(ids, aspects)
+    chosen = {a for a in ("status", "fill", "open") if getattr(args, a)}
+    return cmd_stat(ids, args.project, chosen or {"status", "fill", "open"}, show_all=not chosen)
+
+
+if __name__ == "__main__":
+    sys.exit(main())
