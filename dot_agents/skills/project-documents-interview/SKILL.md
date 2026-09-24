@@ -115,6 +115,7 @@ Reorganize Mode の確認フォーマット:
 
 - プロダクト定義、スコープ、機能・品質要求、用語、未決事項: `references/product-and-requirements.md`
 - アーキテクチャ、API契約、validation、error、実装規則: `references/architecture-and-contracts.md`
+- ブランチ戦略、変更の流れ、リリース、環境変数の管理手法: `references/development-workflow.md`
 - デザイン基礎、画面・状態、部品、pattern、token、デザインレビュー: `references/design-review.md`
 
 ### Phase 1: Core Spec Foundation
@@ -207,6 +208,7 @@ tokenの意味と使い分けを文書化し、移行済みの実装値は転記
 - 入力・UI: 状態、保存・復元、失敗時体験。
 - 外部サービス・依存: 採用判断、制約、更新と安全性。
 - 実装規則: 検査設定で表現できる部分と固有の文章規則。
+- 開発ワークフロー: ブランチ戦略、変更の流れ、リリース、環境変数の管理手法を確認し、`spec/development-workflow.md` へ振り分ける。
 
 要求・ADR・成果物へ振り分け、それでも独立した説明が必要な場合だけcatalogから文書を採用する。既存のapi.mdやstructure.mdを存続させるために役割を作らない。
 
@@ -220,7 +222,7 @@ tokenの意味と使い分けを文書化し、移行済みの実装値は転記
 - 多言語・locale・文言・RTL: 対象範囲、デザイン、文言リソース、設計判断。
 - 監視・ログ・復旧: 品質要求、設定、初動と復旧手順。
 
-監査が必要であることと、領域別文書が必要であることを区別する。
+監査が必要であることと、領域別文書が必要であることを区別する。バージョニング・環境分離・secretの運用方針は `spec/development-workflow.md` に置き、この Phase では公開・運用上の監査だけを扱う。
 
 ### Phase 7: Quality Cross-check
 
