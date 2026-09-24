@@ -1,6 +1,6 @@
 ---
 name: project-documents-setup-workflow
-description: Use when the user says `pdocs`, `project-docs`, or wants to set up or evolve project documentation under project-documents. Set up documentation from project-documents/_template when needed, connect the app repository's `docs` path with a symlink, read docs/README.md as the operating contract, then hand off structured spec/design document interviews to project-documents-interview after setup and inspection are complete.
+description: Use when the user mentions a project name together with its documentation, or asks to create, set up, place, or organize project documentation under project-documents. Set up documentation from project-documents/_template when needed, connect the app repository's `docs` path with a symlink, read docs/README.md as the operating contract, then hand off structured spec/design document interviews to project-documents-interview after setup and inspection are complete.
 ---
 
 # Project Documents Setup Workflow
@@ -22,8 +22,8 @@ project-documents 運用の入口として、ドキュメント実体の用意�
 
 ## Trigger
 
-- ユーザーが `pdocs` または `project-docs` と言った
-- project-documents を使ってプロジェクトドキュメントの作成、接続、整理を始めたい
+- プロジェクト名とあわせて、そのドキュメントに言及された
+- ドキュメントの作成、設置、接続、整理を始めたいと言われた
 - 実装前に仕様書を起点として仕様や設計前提を対話で固めたい
 
 ## Role
