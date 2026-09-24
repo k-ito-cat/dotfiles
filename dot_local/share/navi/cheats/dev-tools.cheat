@@ -120,10 +120,12 @@ pdocs stat --fill <project>
 pdocs stat --open <project>
 # 文書地図とステータス値を検査（問題があれば終了コード1）
 pdocs check
-# 入口の一覧・リンク・プロダクトREADMEの文書地図だけ検査
+# プロダクトREADMEの文書地図の漏れとリンク切れだけ検査
 pdocs check --readme
 # 定義にないステータス値だけ検査
 pdocs check --status
+# プロダクト文書の見出し構成が雛形と一致しているかだけ検査
+pdocs check --template
 
 $ project: cd "${PDOCS_DIR:-$HOME/src/github.com/k-ito-cat/project-documents}" && ls -1d */ | sed 's#/$##' | grep -v '^_'
 

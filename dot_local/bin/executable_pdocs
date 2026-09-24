@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """project-documents のプロダクト文書の統計と、文書地図・ステータスの検査を行う。
 
-ステータスの定義・必須文書・共通運用へのリンクは、実行のたびに project-documents 側の
-README から読み取る。この CLI には値を持たない。
+ステータスの定義・必須文書は documentation-policy.md、共通運用へのリンクは _template/README.md から
+実行のたびに読み取る。この CLI には値を持たない。
 """
 
 import argparse
@@ -17,6 +17,7 @@ from pathlib import Path
 
 ROOT = Path(os.environ.get("PDOCS_DIR", "~/src/github.com/k-ito-cat/project-documents")).expanduser()
 TEMPLATE = ROOT / "_template"
+POLICY = ROOT / "documentation-policy.md"
 TARGET_DIRS = ("spec", "design")
 
 ITEM_RE = re.compile(r"^\s*- ([^:：\n`]+?)[:：][ \t]*(.*?)\s*$")
@@ -83,12 +84,12 @@ def without_code(lines: list[str]) -> list[str]:
 
 
 def load_statuses() -> dict[str, str]:
-    """_template/README.md の「ステータス」表から ID→ラベル を読む。"""
-    for head, body in table_rows(section(read(TEMPLATE / "README.md"), "ステータス")):
+    """documentation-policy.md の「ステータス」表から ID→ラベル を読む。"""
+    for head, body in table_rows(section(read(POLICY), "ステータス")):
         if "ID" in head and "ラベル" in head:
             i, j = head.index("ID"), head.index("ラベル")
             return {row[i]: row[j] for row in body if len(row) > max(i, j)}
-    fail(f"{TEMPLATE / 'README.md'} にステータス表が見つかりません")
+    fail(f"{POLICY} にステータス表が見つかりません")
 
 
 def projects() -> list[str]:
@@ -188,7 +189,7 @@ def render_table(stats: list[FileStat], ids: dict[str, str], aspects: set[str]) 
 
 def slug(text: str) -> str:
     text = re.sub(r"[^\w\s-]", "", text.strip().lower())
-    return re.sub(r"\s+", "-", text)
+    return re.sub(r"\s", "-", text)
 
 
 def links(lines: list[str]) -> list[str]:
@@ -208,35 +209,19 @@ def check_link(base: Path, target: str) -> str | None:
 
 
 def check_readme(add) -> None:
-    # 検査1・2: ルート README の入口が _template 配下の README を全て直接指しているか
-    entry = section(read(ROOT / "README.md"), "入口")
-    targets = links(entry)
-    listed = {(ROOT / t.partition("#")[0]).resolve() for t in targets}
-    for readme in sorted(TEMPLATE.rglob("README.md")):
-        if readme.resolve() not in listed:
-            add("template map", f"一覧の漏れ   {readme.relative_to(ROOT)}")
-    for t in targets:
-        if err := check_link(ROOT, t):
-            add("template map", err)
-
-    # 検査3: 各プロダクト README の文書地図
-    spec_lines = read(TEMPLATE / "spec" / "README.md")
-    required = [Path(t).name for t in links(section(spec_lines, "必須")) if t.startswith("base/")]
-    # 型の箇条書きに並ぶ共通運用は常に必須、本文中の領域別リンクはその領域を採用した場合だけ必須
-    tmpl = read(TEMPLATE / "project-readme.md")
-    always = [t for l in tmpl if l.lstrip().startswith("- ") for t in links([l]) if "_template/" in t]
-    optional = [t for l in tmpl if not l.lstrip().startswith("- ") for t in links([l]) if "_template/" in t]
+    """各プロダクト README が必須文書と共通運用を直接指し、リンク切れがないか。"""
+    required = [t.removeprefix("_template/") for t in links(section(read(POLICY), "必須")) if t.startswith("_template/spec/")]
+    common = [t for t in links(read(TEMPLATE / "README.md")) if t.startswith("../documentation-policy.md")]
     for name in projects():
         pj = ROOT / name
         pj_links = links(read(pj / "README.md"))
         key = f"project {name}"
         for doc in required:
-            if not (pj / "spec" / doc).exists():
-                add(key, f"必須文書なし {'spec/' + doc}")
-            elif not any(t.partition("#")[0] == f"spec/{doc}" for t in pj_links):
-                add(key, f"一覧の漏れ   spec/{doc}")
-        area = lambda t: t.split("_template/", 1)[1].split("/")[0]
-        for t in [*always, *(t for t in optional if (pj / area(t)).is_dir())]:
+            if not (pj / doc).exists():
+                add(key, f"必須文書なし {doc}")
+            elif not any(t.partition("#")[0] == doc for t in pj_links):
+                add(key, f"一覧の漏れ   {doc}")
+        for t in common:
             if t not in pj_links:
                 add(key, f"一覧の漏れ   {t}")
         for t in pj_links:
@@ -251,6 +236,156 @@ def check_status(ids: dict[str, str], add) -> None:
                 for msg in stat_file(f, str(f.relative_to(ROOT)), ids).invalid:
                     add("status", f"不正な値     {msg}")
 
+# ---- 雛形との構成比較 ----------------------------------------------------------
+
+ROOT_PARENT = "文書直下"
+ANY_H2 = "各##節"
+
+
+def norm_heading(text: str) -> str:
+    return re.sub(r"\s+", " ", text.replace("`", "")).strip()
+
+
+def headings(path: Path) -> list[tuple[int, int, str]]:
+    """(行番号, 深さ, 見出し) を返す。コードブロック内は除く。"""
+    return [(n, len(m.group(1)), norm_heading(m.group(2)))
+            for n, l in enumerate(without_code(read(path)), 1) if (m := HEADING_RE.match(l))]
+
+
+def load_entry_rules() -> dict[str, list[tuple[int, str, object]]]:
+    """方針の「見出しの構成と繰り返すエントリ」表から、雛形ごとの繰り返す見出しと置く節を読む。"""
+    rules: dict[str, list[tuple[int, str, object]]] = {}
+    for head, body in table_rows(section(read(POLICY), "見出しの構成と繰り返すエントリ")):
+        if not {"雛形", "繰り返す見出し", "置く節"} <= set(head):
+            continue
+        i, j, k = head.index("雛形"), head.index("繰り返す見出し"), head.index("置く節")
+        for row in body:
+            tmpl = row[i].strip("` ")
+            stub = re.match(r"(#+)\s+(.*)", row[j].strip("` "))
+            place = row[k].replace("`", "").replace(" ", "")
+            if not stub:
+                continue
+            if place in (ROOT_PARENT, ANY_H2):
+                parent: object = place
+            else:
+                pm = re.match(r"(#+)(.*)", place)
+                parent = (len(pm.group(1)), norm_heading(pm.group(2))) if pm else place
+            rules.setdefault(tmpl, []).append((len(stub.group(1)), norm_heading(stub.group(2)), parent))
+    if not rules:
+        fail(f"{POLICY} に見出しの構成の表が見つかりません")
+    return rules
+
+
+def template_for(rel: Path) -> Path | None:
+    parts = rel.parts
+    if parts[0] == "decisions" and rel.name != "README.md":
+        return None  # ADR 本体は adrs が管理する
+    if parts[0] == "operations":
+        rel = Path("operations/runbook.md")
+    return rel
+
+
+def compare_structure(tmpl_rel: str, tmpl: Path, target: Path, rules) -> tuple[list[str], list[str]]:
+    """雛形にない見出し（NG）と、採用していない雛形の見出し（未採用）を返す。"""
+    stubs = rules.get(tmpl_rel, [])
+    is_stub = lambda lv, tx: any(lv == a and tx == b for a, b, _ in stubs)
+
+    # 雛形の固定見出し（スタブとその子孫を除く）と、スタブごとの子見出し
+    fixed: set[tuple] = set()
+    stub_children: dict[str, set[str]] = {}
+    chain: list[tuple[int, str]] = []
+    in_stub: tuple[int, str] | None = None
+    for _, lv, tx in headings(tmpl):
+        if lv == 1:
+            chain = []
+            continue
+        chain = [c for c in chain if c[0] < lv] + [(lv, tx)]
+        if in_stub and lv > in_stub[0]:
+            stub_children.setdefault(in_stub[1], set()).add(tx)
+            continue
+        in_stub = None
+        if is_stub(lv, tx):
+            in_stub = (lv, tx)
+            continue
+        fixed.add(tuple(chain))
+
+    ng, seen = [], set()
+    chain = []
+    entry: tuple[int, str] | None = None
+    for n, lv, tx in headings(target):
+        if lv == 1:
+            chain = []
+            continue
+        chain = [c for c in chain if c[0] < lv] + [(lv, tx)]
+        if entry and lv > entry[0]:
+            if tx not in stub_children.get(entry[1], set()):
+                ng.append(f"{n}: {'#' * lv} {tx}")
+            continue
+        entry = None
+        path = tuple(chain)
+        if path in fixed:
+            seen.add(path)
+            continue
+        parent = chain[-2] if len(chain) > 1 else None
+        for slv, stx, place in stubs:
+            if lv != slv:
+                continue
+            if (place == ROOT_PARENT and parent is None) or (place == ANY_H2 and parent and parent[0] == 2) \
+                    or (isinstance(place, tuple) and parent == place):
+                entry = (lv, stx)
+                break
+        if entry is None:
+            ng.append(f"{n}: {'#' * lv} {tx}")
+    missing = [" > ".join(t for _, t in p) for p in sorted(fixed - seen, key=len)]
+    return ng, missing
+
+
+def item_keys(path: Path, include_code: bool = False) -> list[tuple[int, str]]:
+    """行頭の `- 項目名:` を (行番号, 項目名) で返す。雛形の型はコードブロック内にもあるため include_code で含める。"""
+    lines = read(path) if include_code else without_code(read(path))
+    return [(n, m.group(1).strip()) for n, l in enumerate(lines, 1)
+            if (m := re.match(r"^- ([^:：`]+?)[:：]", l))]
+
+
+def check_items(info) -> None:
+    """雛形にない項目名を警告として並べる（問題の件数には数えない）。"""
+    for name in projects():
+        pj = ROOT / name
+        for f in [pj / "README.md", *sorted(pj.glob("spec/**/*.md")), *sorted(pj.glob("design/**/*.md")),
+                  *sorted(pj.glob("decisions/README.md")), *sorted(pj.glob("prototype/README.md")),
+                  *sorted(pj.glob("operations/*.md"))]:
+            tmpl_rel = template_for(f.relative_to(pj))
+            if tmpl_rel is None or not (TEMPLATE / tmpl_rel).exists():
+                continue
+            known = {k for _, k in item_keys(TEMPLATE / tmpl_rel, include_code=True)}
+            for n, k in item_keys(f):
+                if k not in known:
+                    info(f"items {name}", f"雛形にない項目 {f.relative_to(pj)}:{n}  {k}")
+
+
+def check_template(add, info) -> None:
+    rules = load_entry_rules()
+    for name in projects():
+        pj = ROOT / name
+        files = [pj / "README.md", *sorted(pj.glob("spec/**/*.md")), *sorted(pj.glob("design/**/*.md")),
+                 *sorted(pj.glob("decisions/README.md")), *sorted(pj.glob("prototype/README.md")),
+                 *sorted(pj.glob("operations/*.md"))]
+        for f in files:
+            rel = f.relative_to(pj)
+            tmpl_rel = template_for(rel)
+            if tmpl_rel is None:
+                continue
+            tmpl = TEMPLATE / tmpl_rel
+            key = f"template {name}"
+            if not tmpl.exists():
+                add(key, f"雛形なし     {rel}")
+                continue
+            ng, missing = compare_structure(str(tmpl_rel), tmpl, f, rules)
+            for m in ng:
+                add(key, f"雛形にない見出し {rel}:{m}")
+            if missing:
+                info(key, f"未採用 {len(missing)} 節  {rel}")
+
 
 def run_checks(ids: dict[str, str], aspects: set[str]) -> dict[str, list[str]]:
     problems: dict[str, list[str]] = {}
@@ -259,17 +394,26 @@ def run_checks(ids: dict[str, str], aspects: set[str]) -> dict[str, list[str]]:
         check_readme(add)
     if "status" in aspects:
         check_status(ids, add)
+    if "template" in aspects:
+        check_template(add, lambda key, msg: INFO.setdefault(key, []).append(msg))
+    if "items" in aspects:
+        check_items(lambda key, msg: INFO.setdefault(key, []).append(msg))
     return problems
 
 
 # ---- main --------------------------------------------------------------------
 
+INFO: dict[str, list[str]] = {}
+
+
 def cmd_check(ids: dict[str, str], aspects: set[str]) -> int:
     problems = run_checks(ids, aspects)
-    for key, msgs in problems.items():
+    for key in dict.fromkeys([*problems, *INFO]):
         print(f"[{key}]")
-        for m in msgs:
+        for m in problems.get(key, []):
             print(f"  NG {m}")
+        for m in INFO.get(key, []):
+            print(f"  -- {m}")
     count = sum(map(len, problems.values()))
     print(f"{count} 件の問題" if count else "OK")
     return 1 if count else 0
@@ -313,7 +457,7 @@ def cmd_stat(ids: dict[str, str], project: str | None, aspects: set[str], show_a
         r = subprocess.run(["adrs", "-C", str(pj), "list", "-l"], text=True, capture_output=True)
         print("\n".join("  " + l for l in (r.stdout or r.stderr).rstrip().split("\n")))
 
-    count = sum(map(len, run_checks(ids, {"readme", "status"}).values()))
+    count = sum(map(len, run_checks(ids, {"readme", "status", "template"}).values()))
     print(f"\n検査: {'問題なし' if not count else f'問題 {count} 件（pdocs check で詳細）'}")
     return 0
 
@@ -329,8 +473,10 @@ def main() -> int:
     st.add_argument("--open", action="store_true", help="未決事項")
 
     ck = sub.add_parser("check", help="文書地図とステータス値を検査する（観点の指定がなければ全て）")
-    ck.add_argument("--readme", action="store_true", help="入口の一覧・リンク・プロダクトREADMEの文書地図")
+    ck.add_argument("--readme", action="store_true", help="プロダクトREADMEの文書地図の漏れとリンク切れ")
     ck.add_argument("--status", action="store_true", help="定義にないステータス値")
+    ck.add_argument("--template", action="store_true", help="プロダクト文書の見出し構成と雛形の一致")
+    ck.add_argument("--items", action="store_true", help="雛形にない項目名（警告のみ。既定の検査には含めない）")
 
     args = ap.parse_args()
     if not ROOT.is_dir():
@@ -338,7 +484,8 @@ def main() -> int:
     ids = load_statuses()
 
     if args.command == "check":
-        aspects = {a for a in ("readme", "status") if getattr(args, a)} or {"readme", "status"}
+        all_checks = {"readme", "status", "template"}
+        aspects = {a for a in all_checks | {"items"} if getattr(args, a)} or all_checks
         return cmd_check(ids, aspects)
     chosen = {a for a in ("status", "fill", "open") if getattr(args, a)}
     return cmd_stat(ids, args.project, chosen or {"status", "fill", "open"}, show_all=not chosen)
