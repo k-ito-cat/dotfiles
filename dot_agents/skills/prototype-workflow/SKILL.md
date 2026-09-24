@@ -29,7 +29,7 @@ description: Use when creating or revising high-quality disposable browser proto
 
 - プロジェクト側 prototype: `project-documents/<project>/prototype/`
 - 正本テンプレート: `project-documents/_template/prototype/`
-- 共通文書: `project-documents/README.md` の「入口」に並ぶ文書（共通運用、ステータス、雛形カタログ、各領域のREADME）。prototype方針を含む。この一覧を確認範囲とし、下位の文書から辿って範囲を決めない。
+- 共通運用: `project-documents/documentation-policy.md`。prototypeの運用を含む唯一の正本とする。
 
 ## 手順
 
@@ -50,7 +50,7 @@ description: Use when creating or revising high-quality disposable browser proto
 - Prototype は、仕様書や design 文書では見えなかった未定義事項が最も露出しやすい工程として扱う。
 - Prototype に存在する状態、操作、文言、画面、分岐、データ、UI パターンが、仕様書や design 文書に存在しない場合は、すぐに文書更新せず、乖離として分類する。
 - 乖離を見つけた場合は、仕様書が正か、prototype の判断を採用するか、prototype 限定の検証要素として残すか、保留にするかを決める。
-- prototypeの判断を採用する場合は、要求・デザイン・ADRの適切な保存先へ接続する。既存の仕様書に同じ判断を必ず再掲しない。
+- prototypeの判断を採用する場合は、要求・デザイン・ADRの適切な保存先へ接続する。置き場所は`project-documents/documentation-policy.md` の「内容を書く場所の決め方」に従う。既存の仕様書に同じ判断を必ず再掲しない。
 - prototypeだけが採用判断の保存先になっている状態を完了扱いしない。
 
 ## Prototype Drift Classification
@@ -109,7 +109,7 @@ Prototype 作成中・作成後は、仕様書 / design 文書 / prototype の�
 
 - プロトタイプは `project-documents/<project>/prototype/` 配下に 1 つ置く。
 - プロジェクト直下や `project-documents` 直下に横断プロトタイプを置かない。
-- prototype の具体ファイル構成は `project-documents/_template/prototype/` と `README.md` を正本とし、この skill 内で固定しない。
+- prototype の具体ファイル構成は `project-documents/_template/prototype/` を正本とし、この skill 内で固定しない。
 - 品質を落として軽量化しない。
 - 仕様書と矛盾する UI/UX をプロトタイプに入れない。
 - 仕様書未定義の挙動をプロトタイプだけで既成事実化しない。

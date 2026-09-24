@@ -9,7 +9,7 @@ setup 済みの project-documents に対して、`spec/` と `design/` をヒア
 
 この skill の目的は、template の空欄を埋めることではない。専門家観点で論点を網羅的に発見し、各論点をステータス表のいずれか、または振り分け先（`別文書へ送る`、`prototypeで検証`）に分類し、品質、意図、判断の再現に必要な内容だけを文書化する。
 
-ステータスの定義は `project-documents/_template/README.md` の「ステータス」表を正本とし、この skill では列挙しない。文書にはIDだけを記し、会話では表のラベルで呼ぶ。個別の扱いを定める規則はIDで参照する。
+ステータスの定義は `project-documents/documentation-policy.md` の「ステータス」表を正本とし、この skill では列挙しない。文書にはIDだけを記し、会話では表のラベルで呼ぶ。個別の扱いを定める規則はIDで参照する。
 
 ## Trigger
 
@@ -26,7 +26,7 @@ setup が未完了、`docs` path の正本が不明、または project-document
 - 未実装の設計と未決事項は引き継ぎ先が確認できるまで保持する。Storybook は任意の後続作業とし、components の情報は対象実装・stories・説明への対応と表示・操作を確認できた範囲だけ移す。
 
 - `docs/README.md`をプロダクト固有の文書地図とし、共通運用への参照に従う。
-- 文書の型と採用条件は共通templateの `spec/README.md` に従う。既存の分割文書はプロダクトREADMEから辿り、任意文書を一律に要求しない。
+- 文書の型と採用条件は `project-documents/documentation-policy.md` に従う。既存の分割文書はプロダクトREADMEから辿り、任意文書を一律に要求しない。
 - `design/` はデザインファイル作成のためではなく、prototype と実装が迷わないための UI / UX 判断の正本として扱う。
 - `prototype/`は検証道具。採用する要求はspec、デザインはdesign、設計判断はADRへ接続する。
 - code、OpenAPI、schema、migration、test、生成物が正本になる詳細を docs に転記しない。
@@ -35,7 +35,7 @@ setup が未完了、`docs` path の正本が不明、または project-document
 
 ## Required Start Checks
 
-最初にdocs/README.mdを読み、共通運用と今回の論点に必要な要求・デザイン・成果物へ進む。新規文書を採用する時にcatalogを参照する。全雛形・全仕様書・全ADRを一括読込しない。
+最初にdocs/README.mdを読み、共通運用と今回の論点に必要な要求・デザイン・成果物へ進む。新規文書を採用する時は方針ファイルの「採用する文書」を参照する。全雛形・全仕様書・全ADRを一括読込しない。
 
 その後、既存文書の状態を確認し、対象項目を次に分類する。
 
@@ -210,7 +210,7 @@ tokenの意味と使い分けを文書化し、移行済みの実装値は転記
 - 実装規則: 検査設定で表現できる部分と固有の文章規則。
 - 開発ワークフロー: ブランチ戦略、変更の流れ、リリース、環境変数の管理手法を確認し、`spec/development-workflow.md` へ振り分ける。
 
-要求・ADR・成果物へ振り分け、それでも独立した説明が必要な場合だけcatalogから文書を採用する。既存のapi.mdやstructure.mdを存続させるために役割を作らない。
+契約・データ構造・権限・状態遷移・実値などツールや成果物で定義できるものは、`project-documents/documentation-policy.md` の「文章以外で定義するもの」に従って正本を選ぶ。要求・ADR・成果物へ振り分け、それでも独立した説明が必要な場合だけ方針ファイルの「採用する文書」から雛形を採用する。置き場所は`project-documents/documentation-policy.md` の「内容を書く場所の決め方」に従う。既存のapi.mdやstructure.mdを存続させるために役割を作らない。
 
 ### Phase 6: Release / Operational Concerns
 
@@ -270,7 +270,7 @@ tokenの意味と使い分けを文書化し、移行済みの実装値は転記
 2. 既存文書、正本分担、用語、粒度、実装可能性との整合を確認する。
 3. 矛盾、品質リスク、デファクトからの逸脱、二重管理、過剰スコープを確認する。
 4. ステータス表のいずれか、または振り分け先（`別文書へ送る`、`prototypeで検証`）で提案する。
-5. 反映先文書と変更しない範囲を提示する。
+5. 反映先文書と変更しない範囲を提示する。反映先は`project-documents/documentation-policy.md` の「内容を書く場所の決め方」に従って既存の雛形の節・項目から選ぶ。
 6. 次の質問へ進むか、更新提案へ進むかを確認する。
 
 ## Quality Intervention Gate

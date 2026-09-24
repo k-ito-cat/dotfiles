@@ -10,7 +10,7 @@
 
 - `package.json`, lockfile, workspace config
 - CI/CD workflow and GitHub Actions
-- `dependencies.md`, `tech.md`, `security.md`, `legal.md`
+- 関連するADR（技術・依存の選定理由）, `spec/requirements/non-functional.md`（制約）
 - external SDK/API/provider 設定
 - Renovate/Dependabot config
 

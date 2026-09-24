@@ -4,7 +4,7 @@
 
 全 PJ 共通のセキュリティ監査観点を扱う。ここでは仕様を決めず、実装・設定・docs が危険な状態になっていないかを確認する。
 
-固有の要求・保持条件は要求文書、認証等の採用判断はADR、Cookie属性などの具体定義は設定、報告窓口・対応手順は必要な運用文書へ分担する。プロダクトREADMEから参照し、security.mdの作成を前提にしない。
+固有の要求・保持条件は要求文書、認証等の採用判断はADR、Cookie属性などの具体定義は設定、報告窓口は公開文書、人が行う対応手順はoperationsの手順書へ分担する。プロダクトREADMEから参照し、security.mdの作成を前提にしない。
 
 ## 目次
 
@@ -25,7 +25,7 @@
 
 ## 読むもの
 
-- `security.md`, `legal.md`, `dependencies.md`, `observability.md`, `release.md`
+- `spec/requirements/functional.md`（認証・権限）, `spec/requirements/non-functional.md`, `operations/` の手順書（人が手で行う作業がある場合）, 関連するADR
 - auth/session/middleware/router/API handler
 - DB schema, migration, validation schema
 - framework/server config, security headers, CORS/CSP 設定
@@ -157,7 +157,7 @@
 Skill は受付導線を定義しない。次を監査する。
 
 - 公開サービスとして、脆弱性報告導線が必要か検討されているか。
-- 必要な場合、受付窓口、security.txt、対応目安、報奨金有無、開示ポリシー、初動確認者を公開情報・運用文書から確認できるか。
+- 必要な場合、受付窓口、security.txt、対応目安、報奨金有無、開示ポリシー、初動確認者を公開情報・operationsの手順書から確認できるか。
 - 窓口が個人情報や exploit code を受け取りうる前提で扱われているか。
 - 公開前 checklist に受付導線の確認が含まれているか。
 

@@ -11,7 +11,7 @@ project-documents 運用の入口として、ドキュメント実体の用意�
 
 - ドキュメント / 仕様書は、詳細仕様の正本ではなく、開発判断の道しるべとして扱う。
 - 目的は、メンテナンスコストを下げつつ、プロダクト品質を維持し、ドキュメント / 仕様書が実装と乖離して腐ることを防ぐこと。
-- 文書の役割と採用条件は共通運用とcatalogに従う。specをすべての判断の集約先にしない。
+- 文書の役割と採用条件は方針ファイルに従う。specをすべての判断の集約先にしない。内容の置き場所は`project-documents/documentation-policy.md` の「内容を書く場所の決め方」に従う。
 - 詳細の編集元と生成物を区別する。実装やテストが要求に対して正しいとは限らない。prototypeを自動的に正本にはしない。
 - 情報の置き場所はdocs READMEから共通運用へ辿る。要求、設計判断、実装上の定義、デザイン、運用手順、未決事項を分ける。設計判断はまずADRへの移譲を検討し、現在の判断だからという理由でspecへ再掲しない。依存一覧・構成ツリー・実装済み詳細を再作成しない。
 - 未実装の設計と未決事項は引き継ぎ先が確認できるまで保持する。Storybook は任意の後続作業とし、components の情報は対象実装・stories・説明への対応と表示・操作を確認できた範囲だけ移す。
@@ -40,7 +40,7 @@ project-documents 運用の入口として、ドキュメント実体の用意�
 
 - 運用方針: `project-documents/README.md`
 - ドキュメントひな形: `project-documents/_template/`
-- 共通文書: `project-documents/README.md` の「入口」に並ぶ文書（共通運用、ステータス、雛形カタログ、各領域のREADME）。この一覧を確認範囲とし、下位の文書から辿って範囲を決めない。
+- 共通運用: `project-documents/documentation-policy.md`。採用条件・記入規則・各領域の運用を含む唯一の正本とする。
 - プロジェクトドキュメント実体: `project-documents/<project>/`
 - アプリ側ドキュメント path: `<project>/docs`
 
@@ -51,7 +51,7 @@ project-documents 運用の入口として、ドキュメント実体の用意�
    - 原則はリポジトリ名を使う。
    - ユーザー指定があればそれを優先する。
 3. `project-documents` リポジトリの場所を確認する。
-4. `project-documents/README.md` と、その「入口」に並ぶ文書を確認する。
+4. `project-documents/README.md` と `project-documents/documentation-policy.md` を確認する。
 5. `project-documents/<project>` の有無を確認する。
 6. アプリ側 `docs` path の状態を確認する。
    - 存在しない
@@ -63,8 +63,9 @@ project-documents 運用の入口として、ドキュメント実体の用意�
 
 setup が未完了の場合だけ行う。
 
-1. `project-documents/_template/project-readme.md` を `<project>/README.md`、`_template/spec/README.md` の「必須」に挙がる雛形を `<project>/spec/` に用意する。READMEの共通運用・採用条件への参照と `spec/base/` のリンクを配置先に合わせる。雛形全体をコピーしない。
-   - 任意の仕様文書は `_template/spec/optional/` から採用条件と必要性を確認して追加する。designはspecとは独立した領域で、UIがある場合は必須。`_template/design/` から入口と原則を用意し、その他の配下文書は必要なものだけ採用する。
+1. `project-documents/_template/` の `README.md` と `adrs.toml`、`decisions/README.md`、方針ファイルの「必須」に挙がる `spec/` の雛形を、同じ配置で `<project>/` にコピーする。雛形はコピー後に書き換えずそのまま使えるため、パスの調整はしない。雛形全体をコピーしない。
+   - 任意の仕様文書は方針ファイルの採用条件と必要性を確認し、`_template/spec/` から追加する。designはspecとは独立した領域で、UIがある場合は必須。`_template/design/` から `README.md` と必要な文書だけを採用する。prototype・operationsも必要な場合だけ同じ配置でコピーする。
+   - 採用しなかった領域への行は、プロダクトREADMEの文書地図から除く。
    - 任意文書の不存在は欠陥とは限らない。必要な情報がADR・成果物で完結するなら作らない。
 2. アプリ側の `docs` path を `project-documents/<project>` への symlink にする。
 3. symlink 先と標準構成を確認する。
@@ -81,7 +82,7 @@ setup 済み、または既存ドキュメントがある場合はここから�
 - `docs/diagrams/`
 - `docs/pencil/`
 - `docs/prototype/`
-- `project-documents/README.md` の「入口」に並ぶ文書（共通運用、ステータス、雛形カタログ、各領域のREADME）
+- `project-documents/documentation-policy.md`
 
 確認した項目は次に分類する。
 
@@ -91,7 +92,7 @@ setup 済み、または既存ドキュメントがある場合はここから�
 - `blocked`: ユーザー判断がないと進めない
 - `out-of-scope`: この workflow では扱わない
 
-この分類はsetup時点の準備状況の評価であり、文書に記すステータス（`_template/README.md` のID）とは別に扱う。
+この分類はsetup時点の準備状況の評価であり、文書に記すステータス（方針ファイルのID）とは別に扱う。
 
 ## Phase 3: Handoff To Interview
 
@@ -148,7 +149,7 @@ handoff 時は、次を短く伝える。
 - ユーザー回答が一部だけの場合は、回答済み部分だけを検証し、未回答部分は追質問、保留、不要のいずれにするか確認する。
 - ユーザー回答と新しい質問が混ざっている場合は、回答として扱う部分と新しい論点を切り分け、必要なら先に整合性を確認する。
 - 各論点は `今決める`、`仮決めする`、`後で決める`、`決めない`、`不要` のどれとして扱うかを明確にする。
-  - この区分は論点の進め方を示すもので、文書に記すステータス（`_template/README.md` のID）とは別に扱う。
+  - この区分は論点の進め方を示すもので、文書に記すステータス（方針ファイルのID）とは別に扱う。
 - 複数の妥当な仕様判断がありうる場合だけ、選択肢と影響を示す。
   - 例: MVP 範囲、認証方式、データ所有境界、同期方式、命名、validation 境界、API 境界、エラー方針
 - ユーザー回答をそのまま転記しない。反映前に、表記、用語、タイポ、意味の正確さ、既存仕様との整合性、実装時に困る抽象度、見落としや穴を確認する。
@@ -206,7 +207,7 @@ spec 側で確認する入力条件:
 - 仕様や設計の穴をブラウザ上の操作感で検証する必要が出たら `prototype-workflow` に切り替える。
 - 実装後の変更内容を既存文書へ反映するだけなら `documents-sync-workflow` に切り替える。
 - schema、migration、ERD、テーブル責務、制約設計の妥当性をレビューする段階なら `db-design-review` に切り替える。
-- docs 全体の運用原則は `_template/README.md`、個別ファイル名は入口に並ぶ各領域のREADMEを正本とし、この skill 内の例示を固定の真実源として扱わない。
+- docs 全体の運用原則と採用条件は方針ファイル、個別ファイル名は `_template/` の実際の配置を正本とし、この skill 内の例示を固定の真実源として扱わない。
 
 ## Hard Rules
 

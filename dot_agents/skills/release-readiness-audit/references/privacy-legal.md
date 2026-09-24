@@ -8,7 +8,7 @@
 
 ## 読むもの
 
-- `legal.md`, `security.md`, `observability.md`, `dependencies.md`, `release.md`
+- `spec/product.md`（提供範囲・課金方針）, `spec/requirements/functional.md`, `spec/requirements/non-functional.md`, 関連するADR
 - auth/profile/account code
 - analytics/error reporting/monitoring config
 - cookie/storage usage

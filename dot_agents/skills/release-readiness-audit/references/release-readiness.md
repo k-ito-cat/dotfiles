@@ -4,11 +4,11 @@
 
 公開前・リリース前に、全 PJ 共通で落としやすいリスクを監査する。リリースフローそのものを定義せず、公開してよい状態かを確認する。
 
-固有の公開範囲・条件は要求、実行処理はCI等、採用判断はADR、確認環境・判断者・手動の復旧や告知手順は必要な運用文書へ分担する。プロダクトREADMEから参照し、release.mdの作成を前提にしない。
+固有の公開範囲・条件は要求、実行処理はCI等、採用判断はADR、確認環境・判断者などリリースの進め方はdevelopment-workflow、手動の復旧や告知の手順はoperationsの手順書へ分担する。プロダクトREADMEから参照し、release.mdの作成を前提にしない。
 
 ## 読むもの
 
-- `release.md`, `domain.md`, `infra.md`, `observability.md`, `legal.md`, `security.md`, `qa.md`, `test.md`
+- `spec/product.md`（公開範囲）, `spec/requirements/non-functional.md`, `spec/development-workflow.md`（リリース・デプロイ）, `operations/` の手順書（人が手で行う作業がある場合）, 関連するADR
 - deploy/hosting config, CI/CD workflow
 - DNS/domain/mail DNS docs
 - app routes, 404/500, auth flow, major user journeys

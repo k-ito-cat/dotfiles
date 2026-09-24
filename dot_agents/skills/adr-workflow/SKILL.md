@@ -7,7 +7,7 @@ description: Use when a durable design, architecture, technology, tooling, docum
 
 同じ文脈の話に結論が付き、その文脈の作業が完了する時点で、判断を決定時点のまま ADR として残す。
 
-このスキルは手順を担当する。ADR の書く条件、置き場所の判定、命名、status、spec との接続は `project-documents/_template/decisions/README.md` を正本とし、ここに重複させない。
+このスキルは手順を担当する。ADR の書く条件、置き場所の判定、spec との接続は `project-documents/documentation-policy.md` の「ADRの運用」を正本とし、ここに重複させない。命名・採番・frontmatter・statusの値は`adrs`が生成・検査する仕様に従う。
 
 ## Trigger
 
@@ -33,7 +33,7 @@ description: Use when a durable design, architecture, technology, tooling, docum
    - project name は原則リポジトリ名を使う。ユーザー指定があればそれを優先する。
 
 2. 正本を読む。
-   - `project-documents/_template/decisions/README.md` の「書く条件」「置き場所の判定」「ファイル」を読む。
+   - `project-documents/documentation-policy.md` の「ADRの運用」のうち「書く条件」「置き場所の判定」「ファイル」を読む。
    - 記憶で代用しない。条件は更新される。
    - 対象階層で`adrs config`を実行し、ADR directory、NextGen mode、MADR templateを確認する。
 
@@ -71,7 +71,7 @@ description: Use when a durable design, architecture, technology, tooling, docum
 
 8. 書き込む。
    - OK後は本文全体の再提示や二度目の確認を行わず、対象階層で`adrs new --no-edit --status <status> "<title>"`を使ってファイルを作り、確認済みの要約に対応する全量を反映する。
-   - `project-documents/_template/decisions/template.md` と生成されたMADRの構成に従う。
+   - `adrs new` が生成したファイルを、見出しと構成を変えずにそのまま使い、各節の中身を記入する。独自の型に置き換えたり、本文を別の型で書き直したりしない。
    - 新しい判断の`date`は実行日とする。履歴移行では確認できた判断日を使う。
    - `_decisions/` に書いた場合は `_decisions/README.md` の Index に 1 行追加する。
 

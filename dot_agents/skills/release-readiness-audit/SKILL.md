@@ -13,7 +13,7 @@ description: Audit release and launch readiness across security, public environm
 
 - 個人開発を主対象にする。チーム向けの承認フローや厳格な役割分担は、必要な場合だけ PJ 側 docs に残す。
 - 全 PJ で共通するチェックリストや診断観点は docs に定義しない。この skill に置く。
-- 固有の要求・例外・未決事項は要求文書、設計判断・リスク受容は必要なADR、実際の窓口・手動手順は運用文書へ分担する。
+- 固有の要求・例外・未決事項は要求文書、設計判断・リスク受容は必要なADR、実際の窓口は公開文書、人が手で行う作業の手順は operations の手順書へ分担する。置き場所は `project-documents/documentation-policy.md` に従う。
 - 監査結果によって PJ 固有判断が必要になった場合だけ、関連 spec の更新候補として報告する。
 
 ## 使い方
@@ -44,7 +44,7 @@ description: Audit release and launch readiness across security, public environm
 
 ## 文書の参照と保存先
 
-プロダクトREADMEを入口に、今回必要な要求・設定・成果物・ADR・運用手順を辿る。referencesのファイル名は論点の例であり、その文書の存在・作成を必須にしない。新規プロダクトではspec/base / spec/optionalの採用条件に従う。
+プロダクトREADMEを入口に、今回必要な要求・設定・成果物・ADR・運用手順を辿る。referencesのファイル名は論点の例であり、その文書の存在・作成を必須にしない。新規プロダクトでは `project-documents/documentation-policy.md` の採用条件に従う。
 
 設計判断はまずADRへ、具体定義は成果物へ振り分ける。監査対象領域が存在するだけでは領域別文書を作らない。独立した説明や手動手順が必要な場合だけ任意文書を採用する。
 
@@ -52,7 +52,7 @@ description: Audit release and launch readiness across security, public environm
 
 対象に応じて、次を広く確認する。
 
-- `README.md`, `spec/README.md`, 関連 spec
+- `README.md`（プロダクトの文書地図）, 関連 spec
 - `package.json`, lockfile, workspace 設定
 - framework config: Vite, Next.js, SvelteKit, Astro, Vercel, Netlify など
 - `.env.example`, `.env.*.example`, `.env.1password`, CI secret 設定の参照記述

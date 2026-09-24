@@ -4,11 +4,11 @@
 
 公開後に問題を検知・切り分け・復旧できるかを監査する。監視 SaaS や具体手順を定義するのではなく、欠落しやすい観測性と初動の観点を確認する。
 
-品質目標は要求、監視基盤・通知先は設定、採用判断はADR、障害時の初動・問い合わせ・復旧判断は必要な運用文書へ分担する。プロダクトREADMEから参照し、領域別文書の作成を前提にしない。
+品質目標は要求、監視基盤・通知先は設定、採用判断はADR、障害時の初動・問い合わせ・復旧判断はoperationsの手順書へ分担する。プロダクトREADMEから参照し、領域別文書の作成を前提にしない。
 
 ## 読むもの
 
-- `observability.md`, `release.md`, `security.md`, `legal.md`, `infra.md`
+- `spec/requirements/non-functional.md`（品質目標）, `spec/development-workflow.md`（デプロイの契機・戻し方）, `operations/` の手順書（人が手で行う作業がある場合）, 関連するADR
 - logging/monitoring/error reporting config
 - hosting/provider dashboard docs
 - CI/CD and deploy config

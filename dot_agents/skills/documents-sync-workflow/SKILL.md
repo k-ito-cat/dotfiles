@@ -31,7 +31,8 @@ description: Use when documentation content may be out of sync with implementati
 
 - この workflow は、既にある内容・成果物・実態の同期と整合性維持を扱う。
 - 新規プロジェクト文書を対話で育てる主導は `project-documents-setup-workflow` が扱う。
-- 画面設計や UI 設計の新しい判断は `project-documents-interview` が扱う。既に合意した役割分担の移行のために、仕様の再ヒアリングを一律には要求しない。
+- 要求・デザイン・開発ワークフローなどの新しい判断は `project-documents-interview` が扱う。既に合意した役割分担の移行のために、仕様の再ヒアリングを一律には要求しない。
+- 設計判断をADRへ移譲する場合は `adr-workflow` の手順に従い、`adrs` を作成・status・linkの入口とする。
 - prototype の実装は `prototype-workflow` が扱う。
 - アプリケーションコード修正そのものは、この workflow の主目的ではない。
 
@@ -42,7 +43,7 @@ description: Use when documentation content may be out of sync with implementati
 - アプリ側 `docs` path
 - `project-documents/README.md`
 - `project-documents/_template/`
-- `project-documents/README.md` の「入口」に並ぶ文書（共通運用、ステータス、雛形カタログ、各領域のREADME）。この一覧を確認範囲とし、下位の文書から辿って範囲を決めない。
+- `project-documents/documentation-policy.md`。共通運用の唯一の正本とする。
 - `project-documents/<project>/`
 - 実装、設計成果物、prototype、DB schema / migration、test、生成物
 
@@ -51,7 +52,7 @@ description: Use when documentation content may be out of sync with implementati
 ## Workflow
 
 1. 対象リポジトリ、文書実体、関連成果物を確認する。
-   - docs 配下を扱う場合は、先に `docs/README.md` または `project-documents/_template/README.md` の docs 全体の正本分担と更新条件を確認する。
+   - docs 配下を扱う場合は、先に `docs/README.md` と `project-documents/documentation-policy.md` の正本分担と更新条件を確認する。
 2. ドキュメントに書かれた内容と実態を照合する。
 3. 乖離を分類する。
    - ファイル名ではなく記述ごとに分類する。設計判断はADR移譲を検討し、引き継ぎ後に独立した情報がなければ任意文書・雛形も不要とする。
@@ -62,9 +63,9 @@ description: Use when documentation content may be out of sync with implementati
    - ドキュメントが詳細仕様を転記しすぎており、正本の所在だけに戻すべき
    - 文書間で矛盾している
    - README や構成説明が実ディレクトリと違う
+   - プロダクト側の README や文書の構成が、対応する `_template/` の雛形から外れている
    - template が古い、または共通項目が欠けている
    - Skill に明記された構成やファイル名が古い
-   - 対象プロジェクト固有の拡張であり template へ反映しない
    - 判断材料が足りず正本を決められない
 4. どちらを正とするか判断する。
    - ドキュメントを更新する
@@ -72,7 +73,7 @@ description: Use when documentation content may be out of sync with implementati
    - 成果物を詳細の編集元とし、READMEから案内する。設計判断はADRへ分担し、独立した文書を残す必要があるか判定する
    - template をメンテナンスする
    - Skill 記述をメンテナンスする
-   - プロジェクト固有差分として扱う
+   - プロダクト固有の内容を、既存の雛形の見出しへ入れ直す（入らなければ雛形への見出しの追加を検討する）
    - 仮決めまたは保留にする
 5. 更新対象、更新理由、反映内容、波及先、保留事項を整理してユーザーの合意を得る。
 6. 合意した内容だけを反映する。
@@ -83,14 +84,14 @@ description: Use when documentation content may be out of sync with implementati
 - この skill や他 skill に明記されたファイル名、ディレクトリ名、ファイル数は固定の真実源として扱わない。
 - 実際の `project-documents/_template/`、`project-documents/<project>/`、`project-documents/README.md` を確認し、差分があればどちらを正とするか判断する。
 - template 配下の親ディレクトリと各 README を優先して確認し、個別ファイル名は README の文書地図に従う。
-- docs 全体の運用原則、各ディレクトリの役割、正本の分担、更新条件は `project-documents/_template/README.md` を基準に確認する。
-- 各領域の文書地図と方針は、`project-documents/README.md` の「入口」に並ぶ各領域のREADMEを基準に確認する。
+- docs 全体の運用原則、各ディレクトリの役割、正本の分担、更新条件、採用条件は `project-documents/documentation-policy.md` を基準に確認する。
+- 雛形の配置と各文書の構成は `project-documents/_template/` を基準に確認する。`_template/` 内のREADMEはプロダクト側READMEの雛形であり、運用方針の置き場ではない。
 - template が正なら、Skill 側の記述を修正する。
 - Skill の方針や品質基準が正しく、template に共通項目が欠けている場合は、template のメンテナンス候補として扱う。
 - template は安易に編集しない。決定事項となる見出し、ファイル、項目を追加する前に、なぜ共通 template に必要か、どのプロジェクトにも適用できるか、既存プロジェクトへどう影響するかを整理する。
 - ただし、template に項目が存在しないことでプロダクト品質、仕様の整合性、実装判断、メンテナビリティが落ちる恐れがある場合は、ユーザーの合意を得て template のメンテナンスを行う。
-- template変更時はspec/base / spec/optionalの採用条件と既存プロダクトの実態を確認する。同じファイル構成への強制同期はしない。移行途中は元情報と未完了範囲を記録する。
-- template に反映しないプロジェクト固有の項目は、対象プロジェクト固有の判断として扱い、template へ一般化しない。
+- template変更時は方針ファイルの採用条件と既存プロダクトの実態を確認し、プロダクト文書と雛形の一致を `pdocs check --template` で確認する。移行途中は元情報と未完了範囲を記録する。
+- プロダクト固有の内容は、`project-documents/documentation-policy.md` の「内容を書く場所の決め方」に従って既存の雛形の見出しへ入れる。入らない場合は雛形への見出しの追加を検討し、プロダクトだけに雛形にない節・文書を作らない。
 
 ## Hard Rules
 
@@ -100,7 +101,7 @@ description: Use when documentation content may be out of sync with implementati
 - 片方だけを自動的に正としない。
   - 理由: 実装が正しい場合も、仕様書が正しい場合も、どちらも古い場合もある。
   - 判断には、ユーザーの意図、既存文書、実装実態、設計成果物、変更履歴、プロダクト品質への影響を使う。
-- 詳細仕様の転記を同期とみなさない。
+- 詳細仕様の転記を同期とみなさない。どの情報をどの成果物で定義するかは`project-documents/documentation-policy.md` の「文章以外で定義するもの」に従う。
   - 理由: endpoint 詳細、schema field、validation の具体値、migration、UI 細部、test で担保できる具体挙動をドキュメントへ転記すると、二重管理になり腐りやすい。
   - それらは該当成果物へ分担し、設計判断はADR、必要な要求はspec、所在の案内はREADMEへ接続する。元の文書を存続させるために説明を作らない。
 - 関連文書を横断確認する。

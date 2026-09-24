@@ -4,11 +4,11 @@
 
 AI にテストコードや確認手順を作らせる前、または変更レビュー時に、正常系だけへ偏らず、境界条件・状態遷移・例外系・権限・実運用事故パターンを監査する。
 
-主要導線と受け入れ条件は要求、テスト戦略の採用判断はADR、固有の手動検証・環境差分は必要な運用文書へ分担する。プロダクトREADMEから参照し、qa.md / test.mdの作成を前提にしない。
+主要導線と受け入れ条件は `spec/requirements/functional.md`、品質条件と手動で確認する方法は `spec/requirements/non-functional.md`（デザイン原則への準拠は `design/principles.md` の確認方法）、統合前に通す検証とその時期は `spec/development-workflow.md`、テスト戦略や採用ツールの判断はADRへ分担する。実行する検査の中身はCI・testの定義を正本とする。プロダクトREADMEから参照し、qa.md / test.mdの作成を前提にしない。
 
 ## 読むもの
 
-- `requirements/functional.md`, `qa.md`, `test.md`, `validation.md`, `error-policy.md`, `security.md`
+- `spec/requirements/functional.md`, `spec/requirements/non-functional.md`, `spec/development-workflow.md`, 関連するADR
 - related tests, test utils, fixtures, mocks
 - API/client/schema implementation
 - UI routes and state management
@@ -69,9 +69,11 @@ AI にテストコードや確認手順を作らせる前、または変更レ�
 
 ## docs に残すべきもの
 
-- PJ 固有の主要導線と回帰対象
-- テストレベルごとの責務、品質ゲート、採用ツール
-- 既知課題、保留、QA 環境差分
+- PJ 固有の主要導線と回帰対象: `spec/requirements/functional.md` の受け入れ条件
+- 品質の最低ライン、QA 環境の差分、手動で確認する方法: `spec/requirements/non-functional.md`
+- 統合前・公開前に通す検証（品質ゲート）と実施時期: `spec/development-workflow.md`。検査の中身はCI・testの定義を正本とする
+- テストレベルごとの責務と採用ツールの判断: ADR
+- 既知課題と保留: 各文書の未決事項
 
 ## docs から外す候補
 

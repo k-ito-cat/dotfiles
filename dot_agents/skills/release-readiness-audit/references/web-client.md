@@ -13,7 +13,7 @@ UI/UX 判断や画面責務は design docs に残す。client の一般監査観
 - browser storage usage
 - analytics/error reporting config
 - framework config and env usage
-- `security.md`, `legal.md`, `qa.md`, `test.md`, `requirements/non-functional.md`
+- `spec/requirements/non-functional.md`, `spec/development-workflow.md`（統合前に通す検証）, 関連するADR
 
 ## 監査観点
 
