@@ -9,6 +9,8 @@ description: Use when writing or modifying code in any language. Universal imple
 
 プロジェクト単位の具体規約は、機械検査できるものを設定で表し、固有の文章規則だけをプロダクトREADMEから辿る文書に残す。この skill には置かない。この skill は上位原則のみを扱う。
 
+プロダクトの `spec/coding-guidelines.md` などに固有の規則がある場合は、この skill より優先する。ただし、この skill のセキュリティ基本と矛盾する場合は、進める前に差異を示して確認する。
+
 ## UI変更前のプロジェクト文書確認
 
 - UI / UXの提案、設計、実装、変更では、コードへ進む前にプロダクトREADMEなどの文書地図を読み、今回の変更に関係するdesign文書を確認する。
