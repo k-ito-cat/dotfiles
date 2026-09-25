@@ -20,7 +20,7 @@ TEMPLATE = ROOT / "_template"
 POLICY = ROOT / "documentation-policy.md"
 TARGET_DIRS = ("spec", "design")
 
-ITEM_RE = re.compile(r"^\s*- ([^:：\n`]+?)[:：][ \t]*(.*?)\s*$")
+ITEM_RE = re.compile(r"^\s*- ([^:：\n`]+?)(?:：|:(?=\s|$))[ \t]*(.*?)\s*$")
 LINK_RE = re.compile(r"\[[^\]]*\]\(([^)\s]+)\)")
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.*?)\s*$")
 
@@ -78,6 +78,7 @@ def without_code(lines: list[str]) -> list[str]:
     for line in lines:
         if line.lstrip().startswith("```"):
             fenced = not fenced
+            out.append("")  # 行番号を元のファイルと揃える
             continue
         out.append("" if fenced else line)
     return out
@@ -309,6 +310,21 @@ def compare_structure(tmpl_rel: str, tmpl: Path, target: Path, rules) -> tuple[l
             continue
         fixed.add(tuple(chain))
 
+    # スタブ直後の最初の項目名。エントリは同じ項目から書き始める
+    first_key: dict[tuple[int, str], str] = {}
+    tl = read(tmpl)
+    for i, l in enumerate(tl):
+        m = HEADING_RE.match(l.strip())
+        if m and is_stub(len(m.group(1)), norm_heading(m.group(2))):
+            k = next((re.match(r"^- ([^:：]+)[:：]", x) for x in tl[i + 1:] if x.strip()), None)
+            if k:
+                first_key[(len(m.group(1)), norm_heading(m.group(2)))] = k.group(1).strip()
+
+    def opens_with(n: int, key: str) -> bool:
+        body = read(target)[n:]
+        head = next((x for x in body if x.strip()), "")
+        return re.match(rf"^- {re.escape(key)}[:：]", head) is not None
+
     ng, seen = [], set()
     chain = []
     entry: tuple[int, str] | None = None
@@ -332,7 +348,9 @@ def compare_structure(tmpl_rel: str, tmpl: Path, target: Path, rules) -> tuple[l
                 continue
             if (place == ROOT_PARENT and parent is None) or (place == ANY_H2 and parent and parent[0] == 2) \
                     or (isinstance(place, tuple) and parent == place):
-                entry = (lv, stx)
+                key = first_key.get((slv, stx))
+                if key is None or opens_with(n, key):
+                    entry = (lv, stx)
                 break
         if entry is None:
             ng.append(f"{n}: {'#' * lv} {tx}")
@@ -344,7 +362,8 @@ def item_keys(path: Path, include_code: bool = False) -> list[tuple[int, str]]:
     """行頭の `- 項目名:` を (行番号, 項目名) で返す。雛形の型はコードブロック内にもあるため include_code で含める。"""
     lines = read(path) if include_code else without_code(read(path))
     return [(n, m.group(1).strip()) for n, l in enumerate(lines, 1)
-            if (m := re.match(r"^- ([^:：`]+?)[:：]", l))]
+            if (m := re.match(r"^- ([^:：`]+?)(?:：|:(?=\s|$))", l))]
+
 
 
 def check_items(info) -> None:
