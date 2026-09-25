@@ -10,7 +10,7 @@ pdocs stat --status <project>
 pdocs stat --fill <project>
 # 未決事項だけ表示
 pdocs stat --open <project>
-# 文書地図とステータス値を検査（問題があれば終了コード1）
+# 文書地図・ステータス値・見出し構成・エントリのID・成果物の有無・品質特性の確認手段を検査（問題があれば終了コード1）
 pdocs check
 # プロダクトREADMEの文書地図の漏れとリンク切れだけ検査
 pdocs check --readme
@@ -18,10 +18,21 @@ pdocs check --readme
 pdocs check --status
 # プロダクト文書の見出し構成が雛形と一致しているかだけ検査
 pdocs check --template
+# エントリのIDの有無・重複・参照先だけ検査
+pdocs check --id
+# 文章以外で定義するもの（成果物）の有無だけ検査。未完了は警告
+pdocs check --sources
+# 品質特性の水準（ID・ステータス・基準と水準・確認手段）だけ検査。未決定・未確立は警告
+pdocs check --quality
 # 雛形にない項目名を警告として一覧にする（既定の検査には含まれない）
 pdocs check --items
+# 接頭辞（FRQ など）の次に使うIDを表示
+pdocs id <project> <prefix>
+# IDの定義と、参照している場所を表示
+pdocs id <project> <id>
 
 $ project: cd "${PDOCS_DIR:-$HOME/src/github.com/k-ito-cat/project-documents}" && ls -1d */ | sed 's#/$##' | grep -v '^_'
+$ prefix: grep -o '| `[A-Z]\{3\}`' "${PDOCS_DIR:-$HOME/src/github.com/k-ito-cat/project-documents}/documentation-policy.md" | tr -d '|` ' | sort -u
 
 % zsh function
 ; == git-today（zsh関数） ==
