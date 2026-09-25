@@ -23,7 +23,7 @@ pdocs check --items
 
 $ project: cd "${PDOCS_DIR:-$HOME/src/github.com/k-ito-cat/project-documents}" && ls -1d */ | sed 's#/$##' | grep -v '^_'
 
-% custom-cli
-; == git today ==
+% zsh function
+; == git-today（zsh関数） ==
 # ghq管理のリポジトリとdotfilesから今日のコミットを選び、hunkで表示
-git today
+git-today
