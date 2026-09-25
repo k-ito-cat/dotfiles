@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# 個人利用の project-documents 専用CLI。現状はパッケージ化による運用上のメリットがないため、
+# 当面は単一スクリプトとして管理する。
 """project-documents のプロダクト文書の統計と、文書地図・ステータスの検査を行う。
 
 ステータスの定義・必須文書は documentation-policy.md、共通運用へのリンクは _template/README.md から
@@ -37,6 +39,23 @@ def width(s: str) -> int:
 def pad(s: str, w: int, right: bool = False) -> str:
     gap = " " * (w - width(s))
     return gap + s if right else s + gap
+
+
+STYLES = {"red": "31", "yellow": "33", "green": "32", "cyan": "36", "dim": "2", "bold": "1"}
+USE_COLOR = False
+
+
+def paint(text: str, *styles: str) -> str:
+    if not USE_COLOR or not styles:
+        return text
+    return "\x1b[" + ";".join(STYLES[s] for s in styles) + "m" + text + "\x1b[0m"
+
+
+def color_enabled(mode: str) -> bool:
+    """--color の指定を優先し、auto では NO_COLOR（空でない値）と端末かどうかで決める。"""
+    if mode != "auto":
+        return mode == "always"
+    return not os.environ.get("NO_COLOR") and sys.stdout.isatty()
 
 
 def read(path: Path) -> list[str]:
@@ -114,7 +133,7 @@ class FileStat:
     filled: int = 0
     statuses: dict[str, int] = field(default_factory=dict)
     blank: int = 0
-    invalid: list[str] = field(default_factory=list)
+    invalid: list[tuple[str, str]] = field(default_factory=list)
     open_items: list[str] = field(default_factory=list)
 
 
@@ -128,7 +147,7 @@ def stat_file(path: Path, rel: str, ids: dict[str, str]) -> FileStat:
         elif value in ids:
             st.statuses[value] += 1
         else:
-            st.invalid.append(f"{rel}:{where}  {value}")
+            st.invalid.append((where, value))
 
     for n, line in enumerate(lines, 1):
         m = ITEM_RE.match(line)
@@ -181,12 +200,41 @@ def render_table(stats: list[FileStat], ids: dict[str, str], aspects: set[str]) 
         total.invalid += s.invalid; total.open_items += s.open_items
     rows = [row(s) for s in stats]
     widths = [max(width(r[i]) for r in [head, *rows, row(total)]) for i in range(len(head))]
-    line = "+" + "+".join("-" * (w + 2) for w in widths) + "+"
-    fmt = lambda r: "| " + " | ".join(pad(c, w, right=i > 0) for i, (c, w) in enumerate(zip(r, widths))) + " |"
-    return "\n".join([line, fmt(head), line, *map(fmt, rows), line, fmt(row(total)), line])
+    line = paint("+" + "+".join("-" * (w + 2) for w in widths) + "+", "dim")
+    bar = paint("|", "dim")
 
+    def fmt(r: list[str], styles=None) -> str:
+        cells = [paint(pad(c, w, right=i > 0), *(styles(head[i], c) if styles and i > 0 else ()))
+                 for i, (c, w) in enumerate(zip(r, widths))]
+        return f"{bar} " + f" {bar} ".join(cells) + f" {bar}"
+
+    head_row = f"{bar} " + f" {bar} ".join(paint(pad(c, w, right=i > 0), "bold")
+                                           for i, (c, w) in enumerate(zip(head, widths))) + f" {bar}"
+    return "\n".join([line, head_row, line, *(fmt(r, cell_style) for r in rows), line,
+                      fmt(row(total), cell_style), line])
+
+
+def cell_style(col: str, value: str) -> tuple[str, ...]:
+    """記入は全部なら緑・一部なら黄・なしなら薄く、未記入は黄、不正は赤、0 は薄く表示する。"""
+    if col == "記入":
+        done, total = map(int, value.split("/"))
+        return ("green",) if total and done == total else ("dim",) if done == 0 else ("yellow",)
+    if value == "0":
+        return ("dim",)
+    return {"未記": ("yellow",), "不正": ("red", "bold")}.get(col, ())
 
 # ---- 検査 --------------------------------------------------------------------
+
+@dataclass
+class Finding:
+    project: str
+    aspect: str  # readme / status / template / items
+    level: str  # error（問題）/ warn（警告）/ info（参考）
+    file: str
+    line: int | None
+    text: str
+    note: str = ""
+
 
 def slug(text: str) -> str:
     text = re.sub(r"[^\w\s-]", "", text.strip().lower())
@@ -198,14 +246,15 @@ def links(lines: list[str]) -> list[str]:
 
 
 def check_link(base: Path, target: str) -> str | None:
+    """リンク先の問題を返す。問題がなければ None。"""
     path, _, anchor = target.partition("#")
     dest = (base / path).resolve() if path else None
     if dest is None or not dest.exists():
-        return f"リンク切れ   {target}"
+        return "リンク切れ"
     if anchor and dest.is_file():
         heads = {slug(m.group(2)) for l in read(dest) if (m := HEADING_RE.match(l))}
         if slug(anchor) not in heads:
-            return f"リンク切れ   {target}（見出しが見つからない）"
+            return "リンク先の見出しがない"
     return None
 
 
@@ -216,26 +265,27 @@ def check_readme(add) -> None:
     for name in projects():
         pj = ROOT / name
         pj_links = links(read(pj / "README.md"))
-        key = f"project {name}"
+        err = lambda text, note: add(Finding(name, "readme", "error", "README.md", None, text, note))
         for doc in required:
             if not (pj / doc).exists():
-                add(key, f"必須文書なし {doc}")
+                err(doc, "必須文書がない")
             elif not any(t.partition("#")[0] == doc for t in pj_links):
-                add(key, f"一覧の漏れ   {doc}")
+                err(doc, "文書地図に載っていない")
         for t in common:
             if t not in pj_links:
-                add(key, f"一覧の漏れ   {t}")
+                err(t, "文書地図に載っていない")
         for t in pj_links:
-            if err := check_link(pj, t):
-                add(key, err)
-
+            if note := check_link(pj, t):
+                err(t, note)
 
 def check_status(ids: dict[str, str], add) -> None:
     for name in [*projects(), "_template"]:
         for d in TARGET_DIRS:
             for f in sorted((ROOT / name / d).rglob("*.md")):
-                for msg in stat_file(f, str(f.relative_to(ROOT)), ids).invalid:
-                    add("status", f"不正な値     {msg}")
+                rel = str(f.relative_to(ROOT / name))
+                for where, value in stat_file(f, rel, ids).invalid:
+                    add(Finding(name, "status", "error", rel, int(where) if where.isdigit() else None,
+                                value, "定義にないステータス" + ("（表）" if where == "表" else "")))
 
 # ---- 雛形との構成比較 ----------------------------------------------------------
 
@@ -286,7 +336,7 @@ def template_for(rel: Path) -> Path | None:
     return rel
 
 
-def compare_structure(tmpl_rel: str, tmpl: Path, target: Path, rules) -> tuple[list[str], list[str]]:
+def compare_structure(tmpl_rel: str, tmpl: Path, target: Path, rules) -> tuple[list[tuple[int, str]], list[str]]:
     """雛形にない見出し（NG）と、採用していない雛形の見出し（未採用）を返す。"""
     stubs = rules.get(tmpl_rel, [])
     is_stub = lambda lv, tx: any(lv == a and tx == b for a, b, _ in stubs)
@@ -335,7 +385,7 @@ def compare_structure(tmpl_rel: str, tmpl: Path, target: Path, rules) -> tuple[l
         chain = [c for c in chain if c[0] < lv] + [(lv, tx)]
         if entry and lv > entry[0]:
             if tx not in stub_children.get(entry[1], set()):
-                ng.append(f"{n}: {'#' * lv} {tx}")
+                ng.append((n, f"{'#' * lv} {tx}"))
             continue
         entry = None
         path = tuple(chain)
@@ -353,7 +403,7 @@ def compare_structure(tmpl_rel: str, tmpl: Path, target: Path, rules) -> tuple[l
                     entry = (lv, stx)
                 break
         if entry is None:
-            ng.append(f"{n}: {'#' * lv} {tx}")
+            ng.append((n, f"{'#' * lv} {tx}"))
     missing = [" > ".join(t for _, t in p) for p in sorted(fixed - seen, key=len)]
     return ng, missing
 
@@ -365,78 +415,142 @@ def item_keys(path: Path, include_code: bool = False) -> list[tuple[int, str]]:
             if (m := re.match(r"^- ([^:：`]+?)(?:：|:(?=\s|$))", l))]
 
 
+def pj_files(pj: Path) -> list[Path]:
+    return [pj / "README.md", *sorted(pj.glob("spec/**/*.md")), *sorted(pj.glob("design/**/*.md")),
+            *sorted(pj.glob("decisions/README.md")), *sorted(pj.glob("prototype/README.md")),
+            *sorted(pj.glob("operations/*.md"))]
 
-def check_items(info) -> None:
+
+def section_of(path: Path) -> list[str]:
+    """行番号（1 始まり）ごとに、その行が属する見出しを返す。"""
+    out, cur = [""], ""
+    for l in without_code(read(path)):
+        if m := HEADING_RE.match(l):
+            cur = norm_heading(m.group(2))
+        out.append(cur)
+    return out
+
+
+def free_sections(tmpl: Path) -> set[str]:
+    """雛形で項目を持たない見出し（文書地図、Index、未決事項など自由に書く節）。"""
+    owner = section_of(tmpl)
+    with_items = {owner[n] for n, _ in item_keys(tmpl)}
+    return {norm_heading(m.group(2)) for l in without_code(read(tmpl)) if (m := HEADING_RE.match(l))} - with_items
+
+
+def check_items(add) -> None:
     """雛形にない項目名を警告として並べる（問題の件数には数えない）。"""
     for name in projects():
         pj = ROOT / name
-        for f in [pj / "README.md", *sorted(pj.glob("spec/**/*.md")), *sorted(pj.glob("design/**/*.md")),
-                  *sorted(pj.glob("decisions/README.md")), *sorted(pj.glob("prototype/README.md")),
-                  *sorted(pj.glob("operations/*.md"))]:
+        for f in pj_files(pj):
             tmpl_rel = template_for(f.relative_to(pj))
             if tmpl_rel is None or not (TEMPLATE / tmpl_rel).exists():
                 continue
             known = {k for _, k in item_keys(TEMPLATE / tmpl_rel, include_code=True)}
+            free = free_sections(TEMPLATE / tmpl_rel)
+            owner = section_of(f)
             for n, k in item_keys(f):
-                if k not in known:
-                    info(f"items {name}", f"雛形にない項目 {f.relative_to(pj)}:{n}  {k}")
+                if k not in known and owner[n] not in free:
+                    add(Finding(name, "items", "warn", str(f.relative_to(pj)), n, k, "雛形にない項目"))
 
 
-def check_template(add, info) -> None:
+def check_template(add) -> None:
     rules = load_entry_rules()
     for name in projects():
         pj = ROOT / name
-        files = [pj / "README.md", *sorted(pj.glob("spec/**/*.md")), *sorted(pj.glob("design/**/*.md")),
-                 *sorted(pj.glob("decisions/README.md")), *sorted(pj.glob("prototype/README.md")),
-                 *sorted(pj.glob("operations/*.md"))]
-        for f in files:
+        for f in pj_files(pj):
             rel = f.relative_to(pj)
             tmpl_rel = template_for(rel)
             if tmpl_rel is None:
                 continue
             tmpl = TEMPLATE / tmpl_rel
-            key = f"template {name}"
             if not tmpl.exists():
-                add(key, f"雛形なし     {rel}")
+                add(Finding(name, "template", "error", str(rel), None, str(tmpl_rel), "雛形がない"))
                 continue
             ng, missing = compare_structure(str(tmpl_rel), tmpl, f, rules)
-            for m in ng:
-                add(key, f"雛形にない見出し {rel}:{m}")
+            for n, head in ng:
+                add(Finding(name, "template", "error", str(rel), n, head, "雛形にない見出し"))
             if missing:
-                info(key, f"未採用 {len(missing)} 節  {rel}")
+                add(Finding(name, "template", "info", str(rel), None, " / ".join(missing),
+                            f"未採用 {len(missing)} 節"))
 
 
-def run_checks(ids: dict[str, str], aspects: set[str]) -> dict[str, list[str]]:
-    problems: dict[str, list[str]] = {}
-    add = lambda key, msg: problems.setdefault(key, []).append(msg)
+def run_checks(ids: dict[str, str], aspects: set[str]) -> list[Finding]:
+    found: list[Finding] = []
     if "readme" in aspects:
-        check_readme(add)
+        check_readme(found.append)
     if "status" in aspects:
-        check_status(ids, add)
+        check_status(ids, found.append)
     if "template" in aspects:
-        check_template(add, lambda key, msg: INFO.setdefault(key, []).append(msg))
+        check_template(found.append)
     if "items" in aspects:
-        check_items(lambda key, msg: INFO.setdefault(key, []).append(msg))
-    return problems
+        check_items(found.append)
+    return found
 
+
+# ---- 検査結果の表示 --------------------------------------------------------------
+
+ASPECTS = [("readme", "文書地図"), ("status", "ステータス値"), ("template", "見出し構成"), ("items", "項目名")]
+MARK = {"error": ("✗", "red"), "warn": ("!", "yellow"), "info": ("·", "dim"), "ok": ("✓", "green")}
+
+
+def tally(fs: list[Finding]) -> tuple[int, int]:
+    return sum(f.level == "error" for f in fs), sum(f.level == "warn" for f in fs)
+
+
+def tally_text(err: int, warn: int) -> str:
+    parts = [paint(f"✗ {err} 問題", "red", "bold")] if err else []
+    parts += [paint(f"! {warn} 警告", "yellow")] if warn else []
+    return "  ".join(parts) or paint("✓ 問題なし", "green")
+
+
+def render_findings(found: list[Finding], aspects: set[str]) -> list[str]:
+    """PJ → 検査の種類 → ファイルの順にまとめて表示する。"""
+    names = projects() + (["_template"] if any(f.project == "_template" for f in found) else [])
+    out: list[str] = []
+    for name in names:
+        fs = [f for f in found if f.project == name]
+        out.append(f"{paint(name, 'bold')}  {tally_text(*tally(fs))}")
+        for key, label in ASPECTS:
+            if key not in aspects or (name == "_template" and key != "status"):
+                continue
+            af = [f for f in fs if f.aspect == key]
+            err, warn = tally(af)
+            mark, color = MARK["error" if err else "warn" if warn else "ok"]
+            count = f"  {paint(str(err or warn), color)}" if err or warn else ""
+            # 説明がすべて同じなら見出しに一度だけ出す
+            notes = {f.note for f in af if f.level != "info"}
+            shared = notes.pop() if len(notes) == 1 else None
+            out.append(f"  {paint(mark, color)} {label}" + (paint(f"（{shared}）", "dim") if shared else "") + count)
+            for file in dict.fromkeys(sorted(f.file for f in af)):
+                ff = sorted((f for f in af if f.file == file), key=lambda f: (f.level != "error", f.line or 0))
+                n = sum(f.level != "info" for f in ff)
+                out.append(f"      {paint(file, 'cyan')}" + (paint(f"  ({n})", "dim") if n > 1 else ""))
+                loc_w = max(width(f"L{f.line}") if f.line else 0 for f in ff)
+                for f in ff:
+                    m, c = MARK[f.level]
+                    if f.level == "info":
+                        out.append(f"        {paint(f'{m} {f.note}: {f.text}', c)}")
+                        continue
+                    loc = f"{paint(pad(f'L{f.line}' if f.line else '', loc_w), 'dim')}  " if loc_w else ""
+                    note = "" if shared else f"  {paint(f.note, 'dim')}"
+                    out.append(f"        {paint(m, c)} {loc}{f.text}{note}")
+        out.append("")
+    err, warn = tally(found)
+    clean = sum(1 for n in names if not tally([f for f in found if f.project == n])[0])
+    out.append(paint("─" * 40, "dim"))
+    if not err and not warn:
+        out.append(paint(f"✓ {len(names)} PJ すべて問題なし", "green"))
+    else:
+        out.append(f"{tally_text(err, warn)}   {clean}/{len(names)} PJ で問題なし")
+    return out
 
 # ---- main --------------------------------------------------------------------
 
-INFO: dict[str, list[str]] = {}
-
-
 def cmd_check(ids: dict[str, str], aspects: set[str]) -> int:
-    problems = run_checks(ids, aspects)
-    for key in dict.fromkeys([*problems, *INFO]):
-        print(f"[{key}]")
-        for m in problems.get(key, []):
-            print(f"  NG {m}")
-        for m in INFO.get(key, []):
-            print(f"  -- {m}")
-    count = sum(map(len, problems.values()))
-    print(f"{count} 件の問題" if count else "OK")
-    return 1 if count else 0
-
+    found = run_checks(ids, aspects)
+    print("\n".join(render_findings(found, aspects)))
+    return 1 if tally(found)[0] else 0
 
 def cmd_stat(ids: dict[str, str], project: str | None, aspects: set[str], show_all: bool) -> int:
     names = projects()
@@ -449,25 +563,25 @@ def cmd_stat(ids: dict[str, str], project: str | None, aspects: set[str], show_a
     pj = ROOT / name
     stats = [stat_file(f, str(f.relative_to(pj)), ids)
              for d in TARGET_DIRS for f in sorted((pj / d).rglob("*.md"))]
-    print(name)
+    print(paint(name, "bold"))
     print(render_table(stats, ids, aspects))
 
     if "open" in aspects:
         open_items = [(s.path, o) for s in stats for o in s.open_items]
         if open_items:
-            print("\n未決事項:")
+            print(paint("\n未決事項:", "bold"))
             for path, item in open_items:
                 print(f"  - {path}: {item}")
     if "status" in aspects:
-        invalid = [m for s in stats for m in s.invalid]
+        invalid = [(s.path, w, v) for s in stats for w, v in s.invalid]
         if invalid:
-            print("\n不正なステータス値:")
-            for m in invalid:
-                print(f"  - {m}")
+            print(paint("\n不正なステータス値:", "red", "bold"))
+            for path, where, value in invalid:
+                print(f"  {paint('✗', 'red')} {paint(f'{path}:{where}', 'cyan')}  {value}")
     if not show_all:
         return 0
 
-    print("\nADR:")
+    print(paint("\nADR:", "bold"))
     if not (pj / "adrs.toml").exists():
         print("  (adrs.toml なし)")
     elif not shutil.which("adrs"):
@@ -476,28 +590,33 @@ def cmd_stat(ids: dict[str, str], project: str | None, aspects: set[str], show_a
         r = subprocess.run(["adrs", "-C", str(pj), "list", "-l"], text=True, capture_output=True)
         print("\n".join("  " + l for l in (r.stdout or r.stderr).rstrip().split("\n")))
 
-    count = sum(map(len, run_checks(ids, {"readme", "status", "template"}).values()))
-    print(f"\n検査: {'問題なし' if not count else f'問題 {count} 件（pdocs check で詳細）'}")
+    err, warn = tally([f for f in run_checks(ids, {"readme", "status", "template"}) if f.project == name])
+    print(f"\n検査: {tally_text(err, warn)}" + ("（pdocs check で詳細）" if err else ""))
     return 0
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(prog="pdocs", description=__doc__.split("\n")[0])
     sub = ap.add_subparsers(dest="command", required=True)
+    common = argparse.ArgumentParser(add_help=False)
+    common.add_argument("--color", choices=["auto", "always", "never"], default="auto",
+                        help="色付け（auto は端末のときだけ。NO_COLOR が設定されていれば付けない）")
 
-    st = sub.add_parser("stat", help="プロダクト文書の統計を表示する（観点の指定がなければ全て）")
+    st = sub.add_parser("stat", parents=[common], help="プロダクト文書の統計を表示する（観点の指定がなければ全て）")
     st.add_argument("project", nargs="?", help="対象プロジェクト名（省略時は fzf で選択）")
     st.add_argument("--status", action="store_true", help="ステータスの件数")
     st.add_argument("--fill", action="store_true", help="項目の記入状況")
     st.add_argument("--open", action="store_true", help="未決事項")
 
-    ck = sub.add_parser("check", help="文書地図とステータス値を検査する（観点の指定がなければ全て）")
+    ck = sub.add_parser("check", parents=[common], help="文書地図とステータス値を検査する（観点の指定がなければ全て）")
     ck.add_argument("--readme", action="store_true", help="プロダクトREADMEの文書地図の漏れとリンク切れ")
     ck.add_argument("--status", action="store_true", help="定義にないステータス値")
     ck.add_argument("--template", action="store_true", help="プロダクト文書の見出し構成と雛形の一致")
     ck.add_argument("--items", action="store_true", help="雛形にない項目名（警告のみ。既定の検査には含めない）")
 
     args = ap.parse_args()
+    global USE_COLOR
+    USE_COLOR = color_enabled(args.color)
     if not ROOT.is_dir():
         fail(f"{ROOT} が見つかりません（PDOCS_DIR で変更できます）")
     ids = load_statuses()
