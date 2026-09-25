@@ -7,7 +7,7 @@ description: Use when a durable design, architecture, technology, tooling, docum
 
 同じ文脈の話に結論が付き、その文脈の作業が完了する時点で、判断を決定時点のまま ADR として残す。
 
-このスキルは手順を担当する。ADR の書く条件、置き場所の判定、spec との接続は `project-documents/documentation-policy.md` の「ADRの運用」を正本とし、ここに重複させない。命名・採番・frontmatter・statusの値は`adrs`が生成・検査する仕様に従う。
+このスキルは、ADR の書く条件、置き場所の判定、各節の書き方、覆し方、過去の判断の移し方の正本とする。ファイル名・採番・frontmatter・statusの値・MADRの構成は、`adrs.toml` の設定と `adrs` が生成・検査する仕様に従い、ここに書き写さない。spec・design から ADR をどう参照するかは `project-documents/documentation-policy.md` の「ADRの運用」を正本とする。
 
 ## Trigger
 
@@ -25,6 +25,40 @@ description: Use when a durable design, architecture, technology, tooling, docum
 - 会話に無い内容を補完しない
 - ユーザーの確認前にファイルを書かない
 
+## 書く条件
+
+次のいずれかに当たる場合だけ書く。
+
+- 選択肢が複数あり、片方を捨てた
+- 覆すコストが高い（データ構造、ホスティング、認証方式、フレームワーク、正本の置き場所）
+- 外部制約（無料枠、プラットフォーム制限、コスト、他ツールとの互換）で妥協した
+- 「なぜこうしなかったのか」を将来の自分または AI に聞かれそう
+
+書かない代表例。
+
+- 選択肢が実質 1 つしかなかった
+- 可逆で安い（ライブラリ差し替え、命名、ディレクトリ構成の微調整）
+- code、OpenAPI、schema、migration、test が正本になる実装詳細
+- 実装済みの内容を説明したいだけ
+
+## 置き場所の判定
+
+判断がプロジェクト固有か横断かは、次で分ける。
+
+> そのプロジェクトを消したら、この判断も一緒に消えるか。
+
+- 消える → `project-documents/<project>/decisions/`
+- 残る → `project-documents/_decisions/`。開発環境、dotfiles、CLI ツールの選定、AI エージェント運用（skill、hook、subagent、MCP）、project-documents 自体の運用、複数プロジェクトで再利用する技術選定や設計方針が当たる。
+
+迷う場合は `<project>/decisions/` に置く。同じ判断が別プロジェクトでも必要になった時点で `_decisions/` に新しいADRを作り、元のADRを`superseded`にして移動先をlinkで示す。
+
+## ファイル
+
+- ADRディレクトリには番号付きADRと案内用の`README.md`だけを置く。移行記録などの非ADR文書を混在させない。
+- ルートと各プロダクト直下の`adrs.toml`が、それぞれのADRディレクトリを指定する。アプリ側からは `docs -> project-documents/<project>` の symlink 越しに `docs/decisions/` として見える。
+- `adrs new` が生成したファイルを、見出しと構成を変えずにそのまま使う。独自の型に置き換えたり、本文を別の型で書き直したりしない。
+- 任意節は、情報がないときに空欄を維持せず削除してよい。`Considered Options` は捨てた案を残すという ADR の目的そのものなので、実際に比較した案がある限り省略しない。
+
 ## 手順
 
 1. project-documents の場所を確認する。
@@ -32,9 +66,7 @@ description: Use when a durable design, architecture, technology, tooling, docum
    - プロジェクト外にいる場合、または `docs` が無い場合は `project-documents` リポジトリの場所を確認する。
    - project name は原則リポジトリ名を使う。ユーザー指定があればそれを優先する。
 
-2. 正本を読む。
-   - `project-documents/documentation-policy.md` の「ADRの運用」のうち「書く条件」「置き場所の判定」「ファイル」を読む。
-   - 記憶で代用しない。条件は更新される。
+2. 設定を確認する。
    - 対象階層で`adrs config`を実行し、ADR directory、NextGen mode、MADR templateを確認する。
 
 3. 書くべきか判定する。
@@ -43,10 +75,8 @@ description: Use when a durable design, architecture, technology, tooling, docum
    - 当てはまる条件を明示してから次に進む。
 
 4. 置き場所を決める。
-   - 「そのプロジェクトを消したら、この判断も一緒に消えるか」で判定する。
-   - 消える → `project-documents/<project>/decisions/`
-   - 残る → `project-documents/_decisions/`
-   - 判定結果と理由を短く示す。迷う場合はプロジェクト配下に倒し、その旨を伝える。
+   - 「置き場所の判定」に従う。
+   - 判定結果と理由を短く示す。迷ってプロジェクト配下に倒した場合は、その旨を伝える。
 
 5. 連番を決める。
    - 対象階層で`adrs list`を確認し、次の番号を予測する。確認前にはファイルを作らない。
@@ -71,12 +101,12 @@ description: Use when a durable design, architecture, technology, tooling, docum
 
 8. 書き込む。
    - OK後は本文全体の再提示や二度目の確認を行わず、対象階層で`adrs new --no-edit --status <status> "<title>"`を使ってファイルを作り、確認済みの要約に対応する全量を反映する。
-   - `adrs new` が生成したファイルを、見出しと構成を変えずにそのまま使い、各節の中身を記入する。独自の型に置き換えたり、本文を別の型で書き直したりしない。
+   - 「ファイル」に従い、生成されたファイルの各節の中身を記入する。
    - 新しい判断の`date`は実行日とする。履歴移行では確認できた判断日を使う。
    - `_decisions/` に書いた場合は `_decisions/README.md` の Index に 1 行追加する。
 
 9. 接続を確認する。
-   - docs READMEの分担に照らし、要求の変更はspec、UI / UXの変更はdesign、実装上の定義は成果物へ接続する。設計判断は未実装でもADRを参照先にでき、現在の判断だからという理由でspecへ再掲しない。
+   - 方針ファイルの「ADRの運用」の「spec との接続」に従い、要求・design・成果物との接続を確認する。
    - 既存の判断を覆した場合は、`adrs status <旧番号> superseded --by <新番号>`でstatusとlinkを更新する。本文は書き換えない。
    - `spec/` 側から理由を辿る必要がある項目には `→ ADR-NNNN` の参照を提案する。
 
@@ -92,7 +122,7 @@ description: Use when a durable design, architecture, technology, tooling, docum
 - **決定時点で知らなかったことを Context に書かない。** 後から分かった事実を混ぜると、なぜその判断が妥当だったかが読めなくなる。
 - 会話に判断の経緯が無い場合（別セッションで決めた、口頭で決めた）は、推測で再構成せずユーザーに聞く。答えが得られない項目は未記入のままにせず、何が不明かを本文に残す。
 - 過去の ADR の判断内容を編集しない。訂正も追記ではなく新しい ADR で行う。status / linkの変更と、ユーザーが明示的に承認したformat migrationによるmetadata・見出しの機械変換だけは例外とし、意味を変えない。ただし、未完了・未commitの履歴移行で、下書きが証拠やユーザー判断と矛盾すると判明した場合は、誤った再構成を履歴として残さず、確認済みの証拠に合わせて下書きを訂正する。
-- 実装済み詳細の説明だけでADRを作らない。既存の設計判断の移譲はユーザーが求めた場合に行い、既存文書、Git履歴、保存された会話記録から確認できた情報だけで再構成する。仮決定を確定に変えず、理由・比較案・決定日を推測しない。元情報は引き継ぎ確認まで保持する。
+- 実装済み詳細の説明だけでADRを作らない。既存の設計判断の移譲はユーザーが求めた場合に行い、既存文書、Git履歴、保存された会話記録から確認できた情報だけで再構成する。確認できた最初の判断日だけを`date`に使い、仮決定を`accepted`へ変えず、理由・比較案・決定日を推測しない。不明点は不明と記す。移行元と移行先の対応を検証するまで元情報を保持し、確認後は作業用資料と独立した情報のない移行元を廃止する。
 - 移行中の対応表や検証メモは一時的な作業資料とし、`decisions/`へ非ADR文書として恒久保存しない。判断は判断ごとにADRへ、要求・デザイン・実装上の定義・運用手順はそれぞれの正本へ移し、対応確認後に作業資料を廃止する。
 - 過去分を無断でADR化しない。明示的な依頼がある場合は既存文書を優先し、記憶に基づく場合はそのことと不明点を明記する。履歴移行に必要な確認は、判断ごとの対応表、配置先、status、日付根拠、移行元を含む一度の確認にまとめ、承認後に本文全体の再確認を設けない。
 - 通常は1回の実行で1つのADRだけを扱う。ユーザーが履歴の一括移行を明示した場合は、判断ごとの対応表、status、日付根拠、削除する移行元をまとめて提示して承認を得たうえで、複数ADRを一括処理できる。1ファイル1判断の原則は維持する。
