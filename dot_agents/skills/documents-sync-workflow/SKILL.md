@@ -90,8 +90,9 @@ description: Use when documentation content may be out of sync with implementati
 - Skill の方針や品質基準が正しく、template に共通項目が欠けている場合は、template のメンテナンス候補として扱う。
 - template は安易に編集しない。決定事項となる見出し、ファイル、項目を追加する前に、なぜ共通 template に必要か、どのプロジェクトにも適用できるか、既存プロジェクトへどう影響するかを整理する。
 - ただし、template に項目が存在しないことでプロダクト品質、仕様の整合性、実装判断、メンテナビリティが落ちる恐れがある場合は、ユーザーの合意を得て template のメンテナンスを行う。
-- template変更時は方針ファイルの採用条件と既存プロダクトの実態を確認し、プロダクト文書と雛形の一致を `pdocs check --template` で確認する。移行途中は元情報と未完了範囲を記録する。
+- template変更時は方針ファイルの採用条件と既存プロダクトの実態を確認する。プロダクト文書と雛形の一致は CI の `pdocs check` が検査するので、変更のたびに自分で実行せず、必要なら CI の結果を参照する（方針ファイルの「読み方とハーネス」）。移行途中は元情報と未完了範囲を記録する。
 - プロダクト固有の内容は、`project-documents/documentation-policy.md` の「内容を書く場所の決め方」に従って既存の雛形の見出しへ入れる。入らない場合は雛形への見出しの追加を検討し、プロダクトだけに雛形にない節・文書を作らない。
+- 新しいエントリを足すとき・エントリを参照するときは、`project-documents/documentation-policy.md` の「エントリの ID」に従い、次の番号は `pdocs id <project> <接頭辞>` で確かめる。
 
 ## Hard Rules
 

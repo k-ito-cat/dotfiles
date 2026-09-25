@@ -9,15 +9,13 @@ description: Use when creating or revising high-quality disposable browser proto
 
 ## 目的
 
-- 仕様・デザインだけでは見つけづらい UI/UX 体験の穴を見つける。
-- 考慮できていない画面状態、空状態、エラー状態、密度、レスポンシブ、操作導線を洗い出す。
+- prototype の役割と、確かめる項目（画面遷移の整合性と網羅性、仕様と UI の考慮漏れ、インタラクション、UI の崩れ）は、`project-documents/documentation-policy.md` の「prototypeの運用」を正本とする。
 - 必要な UI スタックやコンポーネント構成に抜けがないか確認する。
-- インタラクション、状態遷移、操作感をブラウザ上で具体的に確認する。
 - 軽量に作るが、確認品質を落とさない。
 
 ## Documentation Operating Model
 
-- prototype のギャラリーは、本番コンポーネントと stories の正本を代替しない。未実装の components 記述は保持し、本番実装への引き継ぎ条件は docs の design README に従う。
+- prototype のギャラリーは、本番コンポーネントと stories の正本を代替しない。未実装の components 記述は保持し、本番コンポーネントと stories の作成状況は、docs の README の「編集元と参照先」の「UI 部品の表示状態」で管理し、条件は `project-documents/documentation-policy.md` の「UI 部品と Storybook」に従う。
 
 - prototype は仕様書の代替ではなく、体験確認と仕様判断のための検証材料として扱う。
 - 要求・デザインは期待する体験、ADRは設計判断、prototypeは検証材料、実装は現在の挙動を示す。実装を自動的に正しい要求とは扱わない。
@@ -37,13 +35,14 @@ description: Use when creating or revising high-quality disposable browser proto
 2. `docs/README.md` を確認し、docs 全体の正本分担、更新条件、prototype から戻す基準を確認する。
 3. プロダクトREADMEから今回必要な要求・デザイン・ADRを辿る。全雛形の読込や任意文書の新設は要求しない。
 4. `project-documents/<project>/prototype/` がなければ、`project-documents/_template/prototype/` から用意する。
-5. `prototype/README.md` に目的、確認観点、未検証のリスクを短く残す。
+5. `prototype/README.md` に目的と未検証のリスクを短く残し、「確認観点」には方針の確認項目のうち今回確かめるものを挙げる。確かめた後は、結果（見つけた問題と、それを戻した文書）を残す。
 6. `Vite + Svelte 5 + UnoCSS + @lucide/svelte` を標準として実装する。
 7. 見た目と操作感に必要な状態・データ・インタラクション・分岐は省略しない。
 8. API、認証、本格永続化、例外処理は原則作らない。
 9. 必要に応じて `npm run build` で確認する。
 10. プロトタイプ作成中・作成後に、仕様書 / design 文書 / prototype の乖離を分類する。
 11. 乖離がある場合は判断イベントとして扱い、仕様書が正か、prototype の判断を採用するか、未決事項として保留するかを決める。
+12. `project-documents-interview` の Prototype-driven Mode から使われる場合は、仕様に無いまま下した判断を記録し、区切りごとに文書の更新案として返す。文書への反映はユーザーの合意を得てから行う。
 
 ## Prototype Sync Gate
 

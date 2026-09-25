@@ -68,6 +68,7 @@ setup が未完了の場合だけ行う。
    - 採用しなかった領域への行は、プロダクトREADMEの文書地図から除く。
    - 任意文書の不存在は欠陥とは限らない。必要な情報がADR・成果物で完結するなら作らない。
 2. アプリ側の `docs` path を `project-documents/<project>` への symlink にする。
+   - あわせて、アプリの直下に `AGENTS.md` を `docs/../_template/AGENTS.app.md` への symlink として置く（`ln -s docs/../_template/AGENTS.app.md AGENTS.md`）。アプリで作業する AI エージェントが、セッションの開始時に docs を入口とする指示を読むようにするため。アプリに `CLAUDE.md`・`.claude/CLAUDE.md`・`CLAUDE.local.md` があると Claude Code は `AGENTS.md` を読まないので、ある場合はそこから `@AGENTS.md` で取り込む。
 3. symlink 先と標準構成を確認する。
 4. setup が終わったら仕様書の中身をすぐ埋めず、Phase 2 に進む。
 
