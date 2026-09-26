@@ -1,6 +1,9 @@
 ---
 name: cat-lineart-generator
 description: Generate a transparent PNG of one consistent refined feline line-art character for recurring website use. Preserve the canonical character identity, proportions, gentle feline charm, structural plausibility, and small-size graphic readability across poses.
+metadata:
+  category: その他
+  summary: サイト用の猫の線画キャラクターを、透過 PNG で生成する
 ---
 
 # 猫線画ジェネレーター

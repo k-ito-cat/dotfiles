@@ -1,6 +1,9 @@
 ---
 name: adr-workflow
 description: Use when a durable design, architecture, technology, tooling, documentation, or operating-policy decision is accepted, changed, rejected, or superseded—even if the user does not say ADR (e.g. 「これでいく」「方針が固まった」「採用する」「見送る」). Also use for explicit ADR requests and historical decision migration. Exclude mere research, work logs, and reversible implementation details. Reconstruct evidence into MADR, confirm before writing, and use adrs for lifecycle operations.
+metadata:
+  category: 仕様書運用
+  summary: 方針が決まったときに、判断を ADR として記録する
 ---
 
 # ADR Workflow

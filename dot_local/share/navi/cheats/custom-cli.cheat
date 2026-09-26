@@ -31,6 +31,10 @@ pdocs id <project> <prefix>
 # IDの定義と、参照している場所を表示
 pdocs id <project> <id>
 
+; == skills-ls ==
+# dotfilesで管理するSkillを、カテゴリごとにスキル名と用途の表で表示
+skills-ls
+
 $ project: cd "${PDOCS_DIR:-$HOME/src/github.com/k-ito-cat/project-documents}" && ls -1d */ | sed 's#/$##' | grep -v '^_'
 $ prefix: grep -o '| `[A-Z]\{3\}`' "${PDOCS_DIR:-$HOME/src/github.com/k-ito-cat/project-documents}/documentation-policy.md" | tr -d '|` ' | sort -u
 

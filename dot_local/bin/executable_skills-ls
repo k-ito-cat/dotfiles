@@ -1,0 +1,99 @@
+#!/usr/bin/env python3
+"""dotfiles（chezmoi）で管理する Skill を、カテゴリごとに一覧する。
+
+各 SKILL.md の frontmatter にある metadata.category と metadata.summary を読む。
+"""
+
+import subprocess
+import sys
+import unicodedata
+from pathlib import Path
+
+# 表示の順番。ここに無いカテゴリは警告を出し、一覧の後ろに回す
+CATEGORIES = ["仕様書運用", "レビュー・監査", "開発", "環境・設定", "執筆", "その他"]
+UNCATEGORIZED = "未分類"
+
+
+def skills_dir() -> Path:
+    source = subprocess.run(
+        ["chezmoi", "source-path"], capture_output=True, text=True, check=True
+    ).stdout.strip()
+    return Path(source) / "dot_agents" / "skills"
+
+
+def read_frontmatter(path: Path) -> dict[str, str]:
+    """name と metadata 直下の値だけを読む。それ以外の項目は使わないので解釈しない。"""
+    lines = path.read_text(encoding="utf-8").splitlines()
+    if not lines or lines[0].strip() != "---":
+        return {}
+    fields: dict[str, str] = {}
+    in_metadata = False
+    for line in lines[1:]:
+        if line.strip() == "---":
+            break
+        if not line.startswith((" ", "\t")):
+            in_metadata = line.rstrip() == "metadata:"
+            if line.startswith("name:"):
+                fields["name"] = line.split(":", 1)[1].strip()
+            continue
+        if in_metadata and ":" in line:
+            key, value = line.strip().split(":", 1)
+            fields[key] = value.strip()
+    return fields
+
+
+def display_width(text: str) -> int:
+    # 全角の文字はターミナルで2桁を占める
+    return sum(2 if unicodedata.east_asian_width(c) in "WF" else 1 for c in text)
+
+
+def pad(text: str, width: int) -> str:
+    return text + " " * (width - display_width(text))
+
+
+def render_table(header: list[str], rows: list[list[str]], widths: list[int]) -> str:
+
+    def line(left: str, mid: str, right: str) -> str:
+        return left + mid.join("─" * (w + 2) for w in widths) + right
+
+    def row(cells: list[str]) -> str:
+        return "│" + "│".join(f" {pad(c, w)} " for c, w in zip(cells, widths)) + "│"
+
+    out = [line("┌", "┬", "┐"), row(header), line("├", "┼", "┤")]
+    out += [row(r) for r in rows]
+    out.append(line("└", "┴", "┘"))
+    return "\n".join(out)
+
+
+def main() -> int:
+    groups: dict[str, list[tuple[str, str]]] = {}
+    warnings: list[str] = []
+    for skill in sorted(skills_dir().glob("*/SKILL.md")):
+        fields = read_frontmatter(skill)
+        name = fields.get("name", skill.parent.name)
+        category = fields.get("category", UNCATEGORIZED)
+        if category == UNCATEGORIZED:
+            warnings.append(f"{name}: metadata.category がない")
+        elif category not in CATEGORIES:
+            warnings.append(f"{name}: 一覧にないカテゴリ「{category}」")
+        groups.setdefault(category, []).append((name, fields.get("summary", "")))
+
+    order = CATEGORIES + sorted(set(groups) - set(CATEGORIES) - {UNCATEGORIZED}) + [UNCATEGORIZED]
+    header = ["スキル名", "用途"]
+    rows = [[name, summary] for items in groups.values() for name, summary in items]
+    # カテゴリをまたいで列の幅をそろえる
+    widths = [max(display_width(r[i]) for r in [header, *rows]) for i in range(len(header))]
+    bold = ("\033[1m", "\033[0m") if sys.stdout.isatty() else ("", "")
+    tables = []
+    for category in order:
+        if category in groups:
+            table = render_table(header, [[n, s] for n, s in groups[category]], widths)
+            tables.append(f"{bold[0]}{category}{bold[1]}\n{table}")
+    print("\n\n".join(tables))
+    for warning in warnings:
+        print(f"skills-ls: {warning}", file=sys.stderr)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

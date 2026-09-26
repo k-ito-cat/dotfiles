@@ -44,9 +44,12 @@ abbr adl="adrs list -l"
 abbr ads="adrs search"
 abbr adh="adrs doctor"
 
-# custom commands
-abbr gt="git-today"
+# custom-cli
 abbr pds="pdocs stat"
+abbr skl="skills-ls"
+
+# zsh function
+abbr gt="git-today"
 
 # zellij
 abbr zj="zellij"

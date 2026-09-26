@@ -1,6 +1,9 @@
 ---
 name: evidence-based-design-discussion
 description: Use when the user explicitly wants design discussion, architecture discussion, wall-style discussion, decision discussion, or higher-quality debate about a technical, design, operational, security, tooling, or implementation proposal. Also use when the conversation is in a design/discussion context and the user asks whether an approach is good, standard, secure, maintainable, de facto, suitable for the current project/environment, or whether there are better ideas beyond the proposed means. This skill prevents low-quality agreement by requiring appropriate sources, explicit de facto status where relevant, goal-first exploration, logical reasoning, multiple perspectives, consideration of overlooked factors, and clear separation of facts, inference, exploration, and recommendations.
+metadata:
+  category: 開発
+  summary: 設計の議論や壁打ちを、根拠と多角的な視点で行う
 ---
 
 # Evidence-Based Design Discussion

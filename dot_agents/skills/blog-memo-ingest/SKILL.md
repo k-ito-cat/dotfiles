@@ -1,6 +1,9 @@
 ---
 name: blog-memo-ingest
 description: Use when adding a user-provided memo into an Astro Markdown blog draft's ## メモ section, choosing an existing post or proposing a new post with slug, title, categories, and frontmatter before editing, and letting the user choose whether to preserve, lightly organize, reformat, or edit the memo.
+metadata:
+  category: 執筆
+  summary: メモをブログ記事の「メモ」欄へ転記する
 ---
 
 # Blog Memo Ingest

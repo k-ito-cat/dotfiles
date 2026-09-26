@@ -1,6 +1,9 @@
 ---
 name: coding-guidelines
 description: Use when writing or modifying code in any language. Universal implementation principles — change scope discipline, consistency with existing code, readability, correctness, testing and verification, dependency and compatibility judgment, security basics, and dummy data conventions. Project-specific conventions live in project-documents spec, not here.
+metadata:
+  category: 開発
+  summary: コードを書くときの、どのプロジェクトにも共通する原則
 ---
 
 # Coding Guidelines

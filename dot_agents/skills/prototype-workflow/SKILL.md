@@ -1,6 +1,9 @@
 ---
 name: prototype-workflow
 description: Use when creating or revising high-quality disposable browser prototypes in a project's prototype directory under project-documents. Treat the prototype README and template prototype directory as the source for setup details, expose specification gaps, validate UI/UX states and interactions, and classify drift between prototype, specifications, and design without automatically making the prototype authoritative.
+metadata:
+  category: 仕様書運用
+  summary: 使い捨てのブラウザ用プロトタイプを作り、仕様とのずれを確かめる
 ---
 
 # Prototype Workflow

@@ -1,6 +1,9 @@
 ---
 name: documents-sync-workflow
 description: Use when documentation content may be out of sync with implementation, design, prototypes, DB schema, tests, README, project-documents, templates, related specifications, or generated outputs. Detect discrepancies, decide which side is authoritative, identify required maintenance, and update documents only after user agreement.
+metadata:
+  category: 仕様書運用
+  summary: 文書と実装・設計のずれを見つけ、どちらを正とするか決めて直す
 ---
 
 # Documents Sync Workflow

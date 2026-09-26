@@ -1,6 +1,9 @@
 ---
 name: cross-platform-tool-install-workflow
 description: Use when installing, declaring, or recommending global npm packages, CLI tools, developer utilities, or app-linked tools across macOS, Windows, and WSL. Check official compatibility and installation docs first, compare package managers such as npm, Homebrew, winget, and manual installers, and add OS-specific branches when configuration differs.
+metadata:
+  category: 環境・設定
+  summary: CLI やツールを、macOS・Windows・WSL の違いを踏まえて導入する
 ---
 
 # Cross-platform Tool Install Workflow

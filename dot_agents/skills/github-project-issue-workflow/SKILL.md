@@ -1,6 +1,9 @@
 ---
 name: github-project-issue-workflow
 description: Use when creating, updating, deleting, or organizing GitHub Project issues or project items. Create new tasks as private task-tracker issues, link them to a user-selected project, set confirmed project fields, and verify Markdown bodies use real newlines instead of escaped newline strings.
+metadata:
+  category: 開発
+  summary: GitHub Project のタスクを、task-tracker の Issue として管理する
 ---
 
 # GitHub Project Issue Workflow

@@ -15,6 +15,9 @@ description: |
   - Backend: Database SQL, ORMs, Express API routes.
   - Pipelines: CI/CD deployment, Docker, Actions.
   - Generic: Local scripts (Python/Go tools), ESLint, Git.
+metadata:
+  category: 開発
+  summary: Web 開発の用途別のベストプラクティスを探して参照する
 ---
 
 # Modern Web Guidance

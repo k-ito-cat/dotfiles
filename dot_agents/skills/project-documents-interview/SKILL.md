@@ -1,6 +1,9 @@
 ---
 name: project-documents-interview
 description: Use when the user wants to fill, organize, or evolve project documents, spec, design documents, requirements, or unanswered docs sections through structured interviews after project-documents setup is complete. Use for requests like docsを埋めたい, 仕様を埋めたい, デザイン文書を埋めたい, 要件を整理したい, or prototype前に前提を固めたい.
+metadata:
+  category: 仕様書運用
+  summary: プロジェクト文書の仕様・デザインを、ヒアリングで埋める
 ---
 
 # Project Documents Interview

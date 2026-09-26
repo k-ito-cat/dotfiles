@@ -1,6 +1,9 @@
 ---
 name: notion-organize
 description: Use when organizing Notion content for 情報整理 or 仕様整理. Preserve information volume and meaning, keep headings clean, update in stages, and verify each update with fetch.
+metadata:
+  category: その他
+  summary: Notion の情報整理・仕様整理を、段階を踏んで進める
 ---
 
 # Notion Organize

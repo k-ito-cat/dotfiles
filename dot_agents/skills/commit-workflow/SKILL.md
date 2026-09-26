@@ -1,6 +1,9 @@
 ---
 name: commit-workflow
 description: Use when the user asks for `gcm`, or whenever commit splitting and commit message generation are needed. Split commits by purpose first, not by file or Conventional Commit type. Prefer line-level grouping when practical, and follow the Japanese conventional-commit rules used by the user.
+metadata:
+  category: 開発
+  summary: 変更を目的ごとに分けてコミットし、メッセージを作る（gcm）
 ---
 
 # Commit Workflow
