@@ -1,11 +1,27 @@
 ---
 name: package-addition-check
 description: Use before adding or recommending a new package, dependency, global npm package, CLI tool, plugin, MCP server, GitHub Action, or small OSS library. Check supply-chain risk, official package identity, maintainers, install scripts, dependency weight, publish and issue activity, security advisories, and whether the dependency is actually necessary.
+metadata:
+  category: レビュー・監査
+  summary: パッケージや依存を足す前に、必要性と供給網の危険を確かめる
 ---
 
 # Package Addition Check
 
 パッケージや依存を追加する前に、便利さよりも「固定・監視・隔離して利用できるか」を先に確認する。
+
+基準の確定、事前ヒアリング、出力の型は `review-protocol` に従う。
+
+## 依存追加に固有の事前ヒアリング
+
+`review-protocol` の共通項目に加え、分からない場合に次を確かめる。
+
+| 聞くこと | 精度が上がる理由 |
+| --- | --- |
+| 解決したい問題と、使う範囲（本番の実行時、開発時のみ、CI のみ） | 代わりの手段の有無と、許せる危険の大きさが決まる |
+| 導入を予定している版 | 既知の脆弱性の影響範囲に入るかを判定できる |
+| 使う環境（ブラウザ、サーバー、ローカル CLI） | 権限、install scripts、bundle への影響の重みが変わる |
+| すでに検討した代わりの手段 | 同じ比較を繰り返さずに済む |
 
 ## 手順
 
@@ -61,9 +77,8 @@ description: Use before adding or recommending a new package, dependency, global
 
 ## 回答形式
 
-回答では、事実と判断を分ける。
+`review-protocol` の出力の型で返す。この Skill では次のように読み替え・追加する。
 
-- 確認済み事実: 公式情報、package identity、maintainer、install scripts、依存数、publish / issue 状況、既知脆弱性の影響バージョン範囲と修正済みバージョン。
-- リスク: typosquatting、保守停滞、install scripts、依存過多、直近 publish、既知脆弱性、導入予定バージョンが影響範囲に入る可能性。
-- 推奨判断: 追加可、保留、追加しない。
-- 導入条件: exact version、lockfile、ignore scripts、監視方法、代替案。
+- 「結論」の総合判定は、上の判定（追加可、保留、追加しない）のいずれかとする。
+- 「評価の要約」の観点は、手順の2〜8（実体、maintainer、セキュリティ、install scripts と配布物、依存の重さ、publish と保守、固定方法）とする。既知の脆弱性は、影響を受ける版の範囲、修正済みの版、導入予定の版が範囲に入るかを示す。
+- 「次にやること」の前に「導入条件」の節を加え、exact version、lockfile、ignore scripts、監視方法、代替案を書く。

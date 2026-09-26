@@ -1,6 +1,9 @@
 ---
 name: release-readiness-audit
 description: Audit release and launch readiness across security, public environment variables, privacy/legal triggers, dependencies, QA/test, observability, web-client risks, and operational blockers before exposing a service to users. Use when reviewing project-documents spec/templates, preparing a service release, checking whether common checklist items are satisfied, or deciding whether a concern belongs in a reusable audit skill instead of PJ-specific docs.
+metadata:
+  category: レビュー・監査
+  summary: 公開・リリースの前に、セキュリティや運用などを横断して監査する
 ---
 
 # Release Readiness Audit
@@ -25,9 +28,22 @@ description: Audit release and launch readiness across security, public environm
    - `docs audit`: spec/template に共通チェックが残っていないかの監査
    - `full audit`: 複数領域を横断する監査
 2. 対象リポジトリ、`docs` symlink、`project-documents/<project>`、実装、設定、package、CI、env サンプルを確認する。
-3. 必要な reference だけ読む。
-4. 事実、リスク、推奨、docs 更新要否を分けて報告する。
-5. 仕様変更や docs 更新が必要な場合は、反映前にユーザー合意を得る。
+3. `review-protocol` に従い基準を確定する。足りない入力があれば、ヒアリングするか前提を置いて進めるかを選んでもらう。
+4. 必要な reference だけ読む。
+5. `review-protocol` の出力の型で報告する。
+6. 仕様変更や docs 更新が必要な場合は、反映前にユーザー合意を得る。
+
+## 監査固有の事前ヒアリング
+
+`review-protocol` の共通項目に加え、文書で分からない場合に次を確かめる。
+
+| 聞くこと | 精度が上がる理由 |
+| --- | --- |
+| 公開の範囲と対象者（一般公開、限定公開、自分だけ） | 攻撃面と、法務の要否が変わる |
+| 扱うデータの種類（個人情報、決済、認証情報、外部へ送るデータ） | privacy-legal と security の深さが決まる |
+| 公開の予定と形態（初回公開、更新、実験的な公開） | blocker の基準と、戻し方の要否が決まる |
+| ホスティング、ドメイン、環境の分け方 | infrastructure-domain と public-env の対象が決まる |
+| 受け入れ済みのリスクや、意図した妥協 | 受け入れ済みのものを問題として指摘しない |
 
 ## Reference Routing
 
@@ -73,28 +89,13 @@ description: Audit release and launch readiness across security, public environm
 
 ## Output
 
-監査結果は簡潔に、次の順で出す。
+`review-protocol` の出力の型で返す。この Skill では次のように読み替え・追加する。
 
-```md
-## Findings
-
-- [Severity] タイトル
-  - 確認した事実:
-  - リスク:
-  - 推奨:
-  - 参照:
-  - docs 更新要否:
-
-## 確認済み
-
-## 追加確認が必要
-
-## docs に残すべき PJ 固有判断
-
-## docs から Skill 参照へ寄せる候補
-```
-
-問題がない場合も、確認範囲と未確認範囲を明示する。
+- 重さは上の Severity を使う。受け入れ（公開）を止めるのは Critical とし、High 以下で止めるものは結論で個別に示す。
+- 「指摘の詳細」の各項目に、docs 更新要否を加える。
+- 「次にやること」の前に、次の2節を加える。
+  - docs に残すべき PJ 固有判断
+  - docs から Skill 参照へ寄せる候補
 
 ## Boundary
 
