@@ -1,6 +1,9 @@
 ---
 name: project-documents-setup-workflow
 description: Use when the user mentions a project name together with its documentation, or asks to create, set up, place, or organize project documentation under project-documents. Set up documentation from project-documents/_template when needed, connect the app repository's `docs` path with a symlink, read docs/README.md as the operating contract, then hand off structured spec/design document interviews to project-documents-interview after setup and inspection are complete.
+metadata:
+  category: 仕様書運用
+  summary: プロジェクト文書を雛形から用意し、アプリのリポジトリとつなぐ
 ---
 
 # Project Documents Setup Workflow
@@ -65,7 +68,7 @@ setup が未完了の場合だけ行う。
 
 1. `project-documents/_template/` の `README.md` と `adrs.toml`、`decisions/README.md`、方針ファイルの「必須」に挙がる `spec/` の雛形を、同じ配置で `<project>/` にコピーする。雛形はコピー後に書き換えずそのまま使えるため、パスの調整はしない。雛形全体をコピーしない。
    - 任意の仕様文書は方針ファイルの採用条件と必要性を確認し、`_template/spec/` から追加する。designはspecとは独立した領域で、UIがある場合は必須。`_template/design/` から `README.md` と必要な文書だけを採用する。prototype・operationsも必要な場合だけ同じ配置でコピーする。
-   - 採用しなかった領域への行は、プロダクトREADMEの文書地図から除く。
+   - 雛形の文書地図には必ずある文書だけが載っている。採用した文書の行を足す。design・prototype・operations・任意の仕様文書の入口はプロダクトREADMEの文書地図に、採用した design の文書は `design/README.md` の文書地図に足す。足し忘れは `pdocs check` が検出する。
    - 任意文書の不存在は欠陥とは限らない。必要な情報がADR・成果物で完結するなら作らない。
 2. アプリ側の `docs` path を `project-documents/<project>` への symlink にする。
    - あわせて、アプリの直下に `AGENTS.md` を `docs/../_template/AGENTS.app.md` への symlink として置く（`ln -s docs/../_template/AGENTS.app.md AGENTS.md`）。アプリで作業する AI エージェントが、セッションの開始時に docs を入口とする指示を読むようにするため。アプリに `CLAUDE.md`・`.claude/CLAUDE.md`・`CLAUDE.local.md` があると Claude Code は `AGENTS.md` を読まないので、ある場合はそこから `@AGENTS.md` で取り込む。
