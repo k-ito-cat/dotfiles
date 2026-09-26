@@ -117,7 +117,7 @@ metadata:
    - 対象階層で`adrs doctor`を実行する。
    - `adrs list`で番号、title、statusが認識されることを確認する。
    - README索引、関連ADR、spec / design / 実装へのlinkを確認する。
-   - 完了報告では作成したADRのpath、status、検証結果に加え、ユーザーがterminalから開ける `v <ファイル名>` を提示する。ファイル名だけでは一意にならない場合は、fzfで一意に絞れる相対pathを渡す。
+   - 完了報告では作成したADRのpath、status、検証結果を示す。
 
 ## 必須ルール
 
