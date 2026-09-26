@@ -12,6 +12,7 @@
     "additionalDirectories": [
       "~/.local/share/chezmoi",
       "~/src/github.com/k-ito-cat/project-documents",
+      "~/src/github.com/k-ito-cat/cli-kit",
       "~/.agents/skills",
       "~/.claude",
       "~/.codex",
@@ -75,6 +76,7 @@
       "allowWrite": [
         "~/.local/share/chezmoi",
         "~/src/github.com/k-ito-cat/project-documents",
+        "~/src/github.com/k-ito-cat/cli-kit",
         "~/.agents/skills",
         "~/.claude",
         "~/.codex",

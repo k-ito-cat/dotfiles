@@ -1,6 +1,6 @@
 % custom-cli
 ; == pdocs ==
-# プロジェクトを選んで記入状況・ステータス・未決事項・ADRを表示
+# プロジェクトを選び、記入漏れと未判断を洗い出す（記入・ステータス・未決事項・ADR）
 pdocs stat
 # プロジェクトを指定して表示
 pdocs stat <project>
@@ -10,7 +10,7 @@ pdocs stat --status <project>
 pdocs stat --fill <project>
 # 未決事項だけ表示
 pdocs stat --open <project>
-# 文書地図・ステータス値・見出し構成・エントリのID・成果物の有無・品質特性の確認手段を検査（問題があれば終了コード1）
+# ルールからの逸脱を検査する（文書地図・ステータス値・見出し構成・エントリのID・成果物の有無・品質特性の確認手段。問題があれば終了コード1）
 pdocs check
 # プロダクトREADMEの文書地図の漏れとリンク切れだけ検査
 pdocs check --readme
@@ -31,14 +31,13 @@ pdocs id <project> <prefix>
 # IDの定義と、参照している場所を表示
 pdocs id <project> <id>
 
-; == skills-ls ==
-# dotfilesで管理するSkillを、カテゴリごとにスキル名と用途の表で表示
-skills-ls
+; == skl ==
+# dotfilesで管理するSkillを、カテゴリごとにスキル名と用途の一覧で表示
+skl list
 
-$ project: cd "${PDOCS_DIR:-$HOME/src/github.com/k-ito-cat/project-documents}" && ls -1d */ | sed 's#/$##' | grep -v '^_'
-$ prefix: grep -o '| `[A-Z]\{3\}`' "${PDOCS_DIR:-$HOME/src/github.com/k-ito-cat/project-documents}/documentation-policy.md" | tr -d '|` ' | sort -u
-
-% zsh function
-; == git-today（zsh関数） ==
+; == git today ==
 # ghq管理のリポジトリとdotfilesから今日のコミットを選び、hunkで表示
-git-today
+git today
+
+$ project: cd "$PDOCS_DIR" && ls -1d */ | sed 's#/$##' | grep -v '^_'
+$ prefix: grep -o '| `[A-Z]\{3\}`' "$PDOCS_DIR/documentation-policy.md" | tr -d '|` ' | sort -u

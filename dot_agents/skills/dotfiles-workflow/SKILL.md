@@ -62,7 +62,7 @@ metadata:
 - chezmoi 管理元がある場合、生成先 dotfile を正本として扱わない。
 - dot config が chezmoi 管理対象の場合、更新は基本的に chezmoi 側の `.tmpl` / `dot_` / `private_` / `symlink_` 管理元を優先する。
 - `~/.agents/skills` 配下は実ファイルが存在しても、chezmoi 管理対象の可能性が高い。`chezmoi source-path` が新名で失敗した場合も、旧名・表記ゆれ・`dot_agents/skills` を探索してから未管理と判断する。
-- Skill を追加する場合は、frontmatter の `metadata` に `category`（`skills-ls` の `CATEGORIES` から選ぶ）と `summary`（日本語で1行の用途）を書く。カテゴリを増やす場合は `skills-ls` の `CATEGORIES` も直す。
+- Skill を追加する場合は、frontmatter の `metadata` に `category`（`skl` の `categories` から選ぶ。`skl` のソースは cli-kit の `cmd/skl`）と `summary`（日本語で1行の用途）を書く。カテゴリを増やす場合は `skl` の `categories` も直し、cli-kit で `mise run install` し直す。
 - 参照先としても、生成先の実ファイルより chezmoi 管理元を優先する。
 - 実ファイルを確認する場合でも、真実源は chezmoi 管理元として扱う。
 - ユーザーの明示的な OK が出るまで、`apply_patch` などによるファイル編集を行わない。

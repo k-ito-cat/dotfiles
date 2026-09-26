@@ -61,34 +61,3 @@ v() {
 
   [ -n "$f" ] && nvim "$f"
 }
-
-# [git-today] 今日のコミットをリポジトリ横断で選び、hunkで表示する
-git-today() {
-  emulate -L zsh
-  setopt pipefail
-
-  local since repo selected hash subject
-  local -a repos entries
-  since="$(date +%Y-%m-%d) 00:00:00"
-  repos=("${(@f)$(ghq list --full-path)}" "$HOME/.local/share/chezmoi")
-
-  for repo in "${repos[@]}"; do
-    while IFS=$'\t' read -r hash subject; do
-      [[ -n "$hash" ]] && entries+=("${repo:t}"$'\t'"${subject}"$'\t'"${repo}"$'\t'"${hash}")
-    done < <(git -C "$repo" log --all --since="$since" --format=$'%h\t%s' 2>/dev/null)
-  done
-
-  (( ${#entries} )) || return 0
-
-  selected=$(printf '%s\n' "${entries[@]}" | fzf \
-    --delimiter=$'\t' \
-    --with-nth='1,2' \
-    --ansi \
-    --gap \
-    --preview='git -C {3} show --color=always --stat --format=fuller {4}' \
-    --preview-window='right,60%,wrap') || return 0
-
-  repo=$(printf '%s\n' "$selected" | cut -f3)
-  hash=$(printf '%s\n' "$selected" | cut -f4)
-  (cd "$repo" && hunk show "$hash")
-}

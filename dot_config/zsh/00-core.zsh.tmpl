@@ -53,6 +53,11 @@ if command -v ntn >/dev/null 2>&1; then
   source <(ntn completions zsh)
 fi
 
+# 自作 CLI（cli-kit）の補完。cli-kit の mise run install が書き出す
+if [[ -r "${XDG_DATA_HOME:-$HOME/.local/share}/cli-kit/completions.zsh" ]]; then
+  source "${XDG_DATA_HOME:-$HOME/.local/share}/cli-kit/completions.zsh"
+fi
+
 # ===== Prompt integration =====
 
 

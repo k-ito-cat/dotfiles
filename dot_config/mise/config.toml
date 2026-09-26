@@ -1,6 +1,7 @@
 [tools]
 node = "24"
 bun = "latest"
+go = "latest"
 uv = "latest"
 process-compose = "latest"
 "pipx:posting" = "latest"
