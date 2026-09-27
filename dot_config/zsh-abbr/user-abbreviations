@@ -44,7 +44,7 @@ abbr adl="adrs list -l"
 abbr ads="adrs search"
 abbr adh="adrs doctor"
 
-# custom-cli
+# cli-kit
 abbr pds="pdocs stat"
 
 # zellij

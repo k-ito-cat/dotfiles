@@ -1,0 +1,4 @@
+sources = ["ghq list --full-path", "chezmoi source-path"]
+
+[summarize]
+command = "claude -p --output-format json --tools ''"
