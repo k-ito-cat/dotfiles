@@ -60,6 +60,8 @@ enabled = false
 url = "https://mcp.figma.com/mcp"
 
 ` -}}
+{{- /* 生の文字列の中ではテンプレートが効かないため、__HOME__ をホームディレクトリに置き換える */ -}}
+{{- $managed = $managed | replace "__HOME__" .chezmoi.homeDir -}}
 
 {{- if eq .chezmoi.os "linux" -}}
 {{- $managed = printf `%s
