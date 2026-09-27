@@ -36,7 +36,7 @@ pdocs id <project> <id>
 skl list
 
 ; == git today ==
-# ghq管理のリポジトリとdotfilesから今日のコミットを選び、hunkで表示
+# ghq管理のリポジトリとdotfilesで今日のコミットで変わったファイルを選び、差分・yazi・今の中身で開く（ファイル→開き方の順にEnterで選ぶ）
 git today
 
 $ project: cd "$PDOCS_DIR" && ls -1d */ | sed 's#/$##' | grep -v '^_'
