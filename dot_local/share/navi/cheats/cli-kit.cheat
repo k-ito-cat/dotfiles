@@ -50,6 +50,10 @@ recap week --summary --deep
 recap week --summary --force
 # 要約の記録（月ごと）を選び、batで読むかyaziで開く
 recap log
+# 未コミットの変更と、未push のコミットがあるリポジトリを表示する
+recap status
+# recap の設定ファイルを bat で表示する
+recap config
 
 ; == skl ==
 # dotfilesで管理するSkillを、カテゴリごとにスキル名と用途の一覧で表示
