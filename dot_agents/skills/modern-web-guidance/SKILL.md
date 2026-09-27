@@ -38,7 +38,7 @@ Must use this skill:
 Search with an action-oriented query summarizing what you want to achieve using the `search` command. Run `modern-web-guidance` directly with `npx`.
 
 ```sh
-npx -y modern-web-guidance@latest search "<query>" --skill-version 2026_09_04-7de96777
+npx -y modern-web-guidance@0.0.190 search "<query>" --skill-version 2026_09_04-7de96777
 ```
 
 **Example Output**:
@@ -65,7 +65,7 @@ npx -y modern-web-guidance@latest search "<query>" --skill-version 2026_09_04-7d
 
 > **Note**: If search results are vague, return no matches, or show low similarity scores, run the `list` command to browse all guides:
 > ```sh
-> npx -y modern-web-guidance@latest list
+> npx -y modern-web-guidance@0.0.190 list
 > ```
 
 ---
@@ -75,7 +75,7 @@ npx -y modern-web-guidance@latest search "<query>" --skill-version 2026_09_04-7d
 Once you have a relevant `id` from the search results, call this script using the `retrieve` command to get the full guide. You can pass multiple IDs separated by commas.
 
 ```sh
-npx -y modern-web-guidance@latest retrieve "<id>"
+npx -y modern-web-guidance@0.0.190 retrieve "<id>"
 ```
 
 If the output is truncated, you must repeat the command but redirect to a file and read that file.
@@ -93,8 +93,10 @@ When generating or modifying code, cross-check the implementation against the re
 
 ## Using npx / pnpx
 
+- 版は `0.0.190` に固定している（最新版を確認なしで取得・実行しないため）。上げるときは package-addition-check で確かめ、この Skill の全ファイル、`~/.claude/settings.json` の allow、`~/.codex/rules/default.rules` の版を合わせて書き換える。
+
 - Prefer `pnpx` over `npx` if `pnpm` is available (note: `pnpx` does not use the `-y` flag).
-- When requesting tool permissions, allowlist `npx -y modern-web-guidance@latest *` specifically (or `pnpx modern-web-guidance@latest *`), never bare `npx *` or `pnpx *`.
+- When requesting tool permissions, allowlist `npx -y modern-web-guidance@0.0.190 *` specifically (or `pnpx modern-web-guidance@0.0.190 *`), never bare `npx *` or `pnpx *`.
 - IMPORTANT: on Windows, using `npx` may fail. Use `npx.cmd ...` instead.
 - Fetching and running `modern-web-guidance` requires outbound network access. If running in a sandboxed, permission-gated, or approval-based environment (e.g., Codex, Claude Code), **proactively request approval/allowlisting for the command with network access BEFORE executing it the first time**, avoiding sandbox network timeouts.
 - In sandboxed environments where `~/.npm` is read-only or restricted, set `NPM_CONFIG_CACHE=/tmp/npm-cache`.

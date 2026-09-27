@@ -39,7 +39,7 @@
       "Bash(git add *)",
       "Bash(hunk session *)",
       "Bash(npm run build)",
-      "Bash(npx -y modern-web-guidance@latest *)"
+      "Bash(npx -y modern-web-guidance@0.0.190 *)"
     ],
     "ask": [
       "Bash(rm -rf *)",

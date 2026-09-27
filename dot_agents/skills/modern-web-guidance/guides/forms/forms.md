@@ -218,7 +218,7 @@ input {
 
 ### Guidelines
 
-- **DO** check `KeyboardEvent.isComposing` before treating the `Enter` key as a submit action in chat or text inputs to ensure IME text composition is not interrupted. See guide `ime-safe-enter-submit` (via `npx -y modern-web-guidance@latest retrieve "ime-safe-enter-submit"`).
+- **DO** check `KeyboardEvent.isComposing` before treating the `Enter` key as a submit action in chat or text inputs to ensure IME text composition is not interrupted. See guide `ime-safe-enter-submit` (via `npx -y modern-web-guidance@0.0.190 retrieve "ime-safe-enter-submit"`).
 - **DO** prevent default navigation on form submit for AJAX (`e.preventDefault()`).
 - **DO** use `ValidityState` interfaces for real-time validation checks.
 - **DO** use `aria-expanded` and `aria-controls` for dynamic UI reveals.

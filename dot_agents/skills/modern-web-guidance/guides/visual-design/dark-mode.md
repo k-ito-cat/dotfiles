@@ -169,7 +169,7 @@ pre, code {
 }
 ```
 
-For more information about component-specific overrides and their gotchas, see `component-specific-light-dark-theme` (via `npx -y modern-web-guidance@latest retrieve "component-specific-light-dark-theme"`).
+For more information about component-specific overrides and their gotchas, see `component-specific-light-dark-theme` (via `npx -y modern-web-guidance@0.0.190 retrieve "component-specific-light-dark-theme"`).
 
 ## Known issues to be aware of
 
