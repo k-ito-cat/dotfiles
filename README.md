@@ -30,6 +30,11 @@ chezmoi の操作コマンド（`apply` / `diff` / `add` / `edit` / `update` な
 
 - Brewfile を変更したとき → `brew bundle`
 - mise 設定を変更したとき → `mise install`
+- terminal-browser の版を変えたとき → 取得した配布ファイルを展開し、起動用のファイルを作る
+
+### 外部から取得するもの
+
+`.chezmoiexternal.toml` に書いたファイル（zjstatus、terminal-browser の配布ファイル）は、chezmoi がダウンロードし、sha256 が一致したときだけ置く。版と sha256 は `.chezmoidata.toml` だけで管理し、版を上げるときはそこを書き換える。
 
 ### 手動が必要なもの
 
@@ -46,5 +51,5 @@ chezmoi の操作コマンド（`apply` / `diff` / `add` / `edit` / `update` な
 ## 構成
 
 - 管理リポジトリ: `~/.local/share/chezmoi`
-- chezmoi 本体設定: `~/.config/chezmoi/chezmoi.toml`（これ自体も管理対象に含める）
+- chezmoi 本体設定: `~/.config/chezmoi/chezmoi.toml`。管理元の `.chezmoi.toml.tmpl` から `chezmoi init` で作る（テンプレートを変えたら `chezmoi init` を実行する）
 - 運用前提: mac / WSL(Linux)。Windows ホスト側は `windows/`（chezmoi 管理対象外。winget Configuration + PowerShell で管理）

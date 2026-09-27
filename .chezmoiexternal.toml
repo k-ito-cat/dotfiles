@@ -1,0 +1,20 @@
+# 外部から取得するファイル。版と sha256 は .chezmoidata.toml で管理する。
+# chezmoi がダウンロードし、sha256 が一致したときだけ置く
+
+{{- $zj := .zjstatus }}
+
+[".local/share/zellij/plugins/zjstatus/{{ $zj.version }}/zjstatus.wasm"]
+type = "file"
+url = "https://github.com/dj95/zjstatus/releases/download/{{ $zj.version }}/zjstatus.wasm"
+checksum.sha256 = "{{ $zj.sha256 }}"
+
+{{- $tb := .terminalBrowser }}
+{{- $target := get $tb.targets (printf "%s/%s" .chezmoi.os .chezmoi.arch) }}
+{{- if $target }}
+
+# 展開と起動用のファイルの作成は .chezmoiscripts/run_onchange_after_terminal-browser-install.sh.tmpl が行う
+[".local/share/terminal-browser/dist/terminal-browser-{{ $tb.version }}-{{ $target }}.tar.gz"]
+type = "file"
+url = "https://terminal-browser.sh/install/dl/stable/{{ $tb.version }}/terminal-browser-{{ $target }}.tar.gz"
+checksum.sha256 = "{{ get $tb.sha256 $target }}"
+{{- end }}

@@ -1,0 +1,24 @@
+# テンプレートから共通で読む値。外部から取得するツールの版と sha256 はここだけで管理する
+
+# Plugin: zjstatus
+# Official GitHub: https://github.com/dj95/zjstatus
+# 版を上げたら、sha256 はリリースのファイルから取り直す
+[zjstatus]
+version = "v0.25.0"
+sha256 = "282ceab219e56e1908c9fac33907241fe6c3e1ef7d85faab3e5f438cef87b8fe"
+
+# Plugin: terminal-browser
+# Official GitHub: https://github.com/zenbu-labs/terminal-browser
+[terminalBrowser]
+version = "v0.7.3"
+
+# chezmoi の "os/arch" → 配布ファイルの名前。ここに無い環境には入れない
+[terminalBrowser.targets]
+"darwin/arm64" = "darwin-arm64"
+"linux/amd64" = "linux-x64"
+"linux/arm64" = "linux-arm64"
+
+[terminalBrowser.sha256]
+darwin-arm64 = "4d8f2a00109497da8222b746365d55fadd1c0e76dab16564191ccefa6868ebbc"
+linux-x64 = "f7ffae405e123ea583a54351fcb1b13f5058a19cc7c27423c31525bccaea1eb9"
+linux-arm64 = "49aa78993fa9ccba99e4ae8104096d75cad378768e21712d0bcfb350c683f02f"
