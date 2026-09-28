@@ -103,3 +103,20 @@ adrs cheatsheet
 
 $ status: echo -e "proposed\naccepted\ndeprecated\nsuperseded\nrejected\ndraft"
 $ rule: echo -e "ADR004\nADR005\nADR007\nADR013\nADR017"
+
+% vhs
+; == vhs ==
+# tapeのひな形を作る（例と説明入り）
+vhs new <name>
+# tapeを実行して動画を作る
+vhs <tape>
+# 出力ファイル名を指定して作る
+vhs <tape> -o <output>
+# 操作を録画してtapeを作る（exitで終了）
+vhs record > <name>.tape
+# tapeを実行せずに文法だけ検査する
+vhs validate <tape>
+# テーマ一覧
+vhs themes
+
+$ tape: ls *.tape
