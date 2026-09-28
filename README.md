@@ -31,6 +31,7 @@ chezmoi の操作コマンド（`apply` / `diff` / `add` / `edit` / `update` な
 - Brewfile を変更したとき → `brew bundle`
 - mise 設定を変更したとき → `mise install`
 - terminal-browser の版を変えたとき → 取得した配布ファイルを展開し、起動用のファイルを作る
+- gh の拡張の一覧（`.chezmoidata.toml` の `gh.extensions`）を変えたとき → 入っていない拡張を `gh extension install` で入れる（一覧から消しても自動では消さない）
 
 ### 外部から取得するもの
 

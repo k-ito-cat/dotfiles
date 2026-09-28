@@ -22,3 +22,7 @@ version = "v0.7.3"
 darwin-arm64 = "4d8f2a00109497da8222b746365d55fadd1c0e76dab16564191ccefa6868ebbc"
 linux-x64 = "f7ffae405e123ea583a54351fcb1b13f5058a19cc7c27423c31525bccaea1eb9"
 linux-arm64 = "49aa78993fa9ccba99e4ae8104096d75cad378768e21712d0bcfb350c683f02f"
+
+# gh の拡張。追加は run_onchange_after_gh-extensions.sh.tmpl が行う（一覧から消しても自動では消さない）
+[gh]
+extensions = ["dlvhdr/gh-dash"]

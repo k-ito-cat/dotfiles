@@ -1,0 +1,15 @@
+#!/bin/sh
+# .chezmoidata.toml の gh.extensions のうち、入っていないものを入れる
+set -eu
+
+if ! command -v gh >/dev/null 2>&1; then
+  echo "gh が無いので、gh の拡張の追加を飛ばす" >&2
+  exit 0
+fi
+
+installed="$(gh extension list 2>/dev/null || true)"
+{{ range .gh.extensions -}}
+if ! printf '%s\n' "$installed" | grep -q '{{ . }}'; then
+  gh extension install '{{ . }}'
+fi
+{{ end -}}
