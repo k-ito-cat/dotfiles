@@ -1,4 +1,4 @@
-% cli-kit
+% pdocs, cli-kit
 ; == pdocs ==
 # プロジェクトを選び、記入漏れと未判断を洗い出す（記入・ステータス・未決事項・ADR）
 pdocs stat
@@ -31,6 +31,10 @@ pdocs id <project> <prefix>
 # IDの定義と、参照している場所を表示
 pdocs id <project> <id>
 
+$ project: cd "$PDOCS_DIR" && ls -1d */ | sed 's#/$##' | grep -v '^_'
+$ prefix: grep -o '| `[A-Z]\{3\}`' "$PDOCS_DIR/documentation-policy.md" | tr -d '|` ' | sort -u
+
+% recap, cli-kit
 ; == recap ==
 # 今日のコミットで変わったファイルを選び、差分・yazi・今の中身で開く（ファイル→開き方の順にEnterで選ぶ）
 recap today
@@ -55,10 +59,9 @@ recap status
 # recap の設定ファイルを bat で表示する
 recap config
 
+$ date: for i in 0 1 2 3 4 5 6; do date -v-${i}d +%Y-%m-%d 2>/dev/null || date -d "-$i day" +%Y-%m-%d; done
+
+% skl, cli-kit
 ; == skl ==
 # dotfilesで管理するSkillを、カテゴリごとにスキル名と用途の一覧で表示
 skl list
-
-$ project: cd "$PDOCS_DIR" && ls -1d */ | sed 's#/$##' | grep -v '^_'
-$ prefix: grep -o '| `[A-Z]\{3\}`' "$PDOCS_DIR/documentation-policy.md" | tr -d '|` ' | sort -u
-$ date: for i in 0 1 2 3 4 5 6; do date -v-${i}d +%Y-%m-%d 2>/dev/null || date -d "-$i day" +%Y-%m-%d; done

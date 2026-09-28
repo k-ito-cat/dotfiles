@@ -1,0 +1,2 @@
+# 管理元から外したが、apply 先に残っているファイルを消す
+.local/share/navi/cheats/cheatsheet.cheat

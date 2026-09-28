@@ -14,7 +14,7 @@ style:
 
 finder:
   command: "fzf"
-  overrides: "--height 70% --layout=reverse --border --prompt='navi> ' --no-exact"
+  overrides: "--height 70% --layout=reverse --border --prompt='navi> ' --no-exact --with-nth 1,2 --no-sort"
 
 shell:
   command: "zsh"

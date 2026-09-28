@@ -12,15 +12,18 @@ gh repo view
 # リポジトリ一覧
 gh repo list
 # リポジトリ一覧（JSON / SSH URL付き）
-gh repo list {{owner}} -L 100 --json nameWithOwner,sshUrl
+gh repo list <owner> -L 100 --json nameWithOwner,sshUrl
 # ブラウザで開く
 gh repo view --web
 # .gitignoreテンプレート一覧
 gh repo gitignore list
 # .gitignoreテンプレート表示
-gh repo gitignore view {{gitignore_template}}
+gh repo gitignore view <gitignore_template>
 # .gitignore作成（上書き保存）
-gh repo gitignore view {{gitignore_template}} > .gitignore
+gh repo gitignore view <gitignore_template> > .gitignore
+
+$ owner: { gh api user --jq .login; gh api user/orgs --jq '.[].login'; }
+$ gitignore_template: gh repo gitignore list
 
 % gh project
 
@@ -43,6 +46,8 @@ gh project link <project_number> --owner @me --repo <repo_name>
 # Project削除（@me）
 gh project delete <project_number> --owner @me
 
+$ project_number: gh project list --owner @me -L 100 --format json --jq '.projects[] | "\(.number)  \(.title)"' --- --column 1
+
 % gh project item
 
 # Projectにdraft itemを追加（@me）
@@ -54,6 +59,8 @@ gh project item-list <project_number> --owner @me --query "is:issue"
 # Projectのopen issue item一覧（@me）
 gh project item-list <project_number> --owner @me --query "is:issue is:open"
 
+$ project_number: gh project list --owner @me -L 100 --format json --jq '.projects[] | "\(.number)  \(.title)"' --- --column 1
+
 % gh issue
 
 # issue一覧
@@ -63,7 +70,9 @@ gh search issues --state open --involves @me --archived=false --sort created --o
 # issue作成
 gh issue create
 # issueを見る
-gh issue view {{issue_number}}
+gh issue view <issue_number>
+
+$ issue_number: gh issue list -L 100 --json number,title --jq '.[] | "\(.number)  \(.title)"' --- --column 1
 
 % gh pr
 
@@ -72,9 +81,11 @@ gh pr list
 # PR作成（対話）
 gh pr create
 # PRチェックアウト
-gh pr checkout {{pr_number}}
+gh pr checkout <pr_number>
 # PRの中身を見る
-gh pr view {{pr_number}}
+gh pr view <pr_number>
+
+$ pr_number: gh pr list -L 100 --json number,title --jq '.[] | "\(.number)  \(.title)"' --- --column 1
 
 % gh release
 
@@ -86,9 +97,11 @@ gh release list
 # workflow一覧
 gh workflow list
 # workflow実行
-gh workflow run {{workflow_name}}
+gh workflow run <workflow_name>
 # run一覧
 gh run list
+
+$ workflow_name: gh workflow list --json name --jq '.[].name'
 
 % gh extension
 ; == GitHub CLI 拡張 ==
