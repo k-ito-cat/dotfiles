@@ -118,5 +118,9 @@ vhs record > <name>.tape
 vhs validate <tape>
 # テーマ一覧
 vhs themes
+# 共通レイアウト（~/.config/vhs/base.tape）を読み込むtapeを作る
+printf 'Source "%s/.config/vhs/base.tape"\nOutput "%s.gif"\n\n' "$HOME" "<name>" > <name>.tape
+# 共通レイアウトを表示
+bat ~/.config/vhs/base.tape
 
 $ tape: ls *.tape
