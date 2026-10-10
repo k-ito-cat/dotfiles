@@ -114,6 +114,14 @@ properties:
       settings:
         id: AgileBits.1Password
         source: winget
+    # VeraCrypt
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: veraCrypt
+      directives:
+        description: Install VeraCrypt
+      settings:
+        id: IDRIX.VeraCrypt
+        source: winget
     # Microsoft PowerToys
     - resource: Microsoft.WinGet.DSC/WinGetPackage
       id: powerToys
