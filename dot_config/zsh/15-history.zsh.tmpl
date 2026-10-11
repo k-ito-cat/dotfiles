@@ -6,3 +6,15 @@ export HISTSIZE=500
 export SAVEHIST=500
 # 複数タブで履歴を共有しつつ、重複と余分な空白を抑える。
 setopt APPEND_HISTORY SHARE_HISTORY HIST_IGNORE_DUPS HIST_REDUCE_BLANKS
+# 先頭にスペースを付けたコマンドは残さない。
+setopt HIST_IGNORE_SPACE
+
+# 秘密情報らしい行は、今のセッションでは使えるようにしつつ履歴ファイルには書かない。
+_history_skip_secrets() {
+  emulate -L zsh
+  setopt extendedglob
+  [[ $1 == (#i)*(token|secret|passw|api[_-]#key|authorization:)* ]] && return 2
+  return 0
+}
+autoload -Uz add-zsh-hook
+add-zsh-hook zshaddhistory _history_skip_secrets
