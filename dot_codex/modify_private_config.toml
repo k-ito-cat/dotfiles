@@ -9,6 +9,8 @@ sandbox_mode = "workspace-write"
 approval_policy = "on-request"
 approvals_reviewer = "auto_review"
 service_tier = "default"
+# 更新は mise に一本化する。起動時の更新確認で Update now を選ぶと npm -g で二重に入るため止める
+check_for_update_on_startup = false
 
 [memories]
 use_memories = false

@@ -9,6 +9,10 @@
   "model": "opus",
   "effortLevel": "high",
   "autoMemoryEnabled": false,
+  "env": {
+    {{- /* 更新は mise に一本化する。自動更新や claude update は node 側へ npm -g で二重に入れるため、全経路を止める */}}
+    "DISABLE_UPDATES": "1"
+  },
   "permissions": {
     "defaultMode": "auto",
     "additionalDirectories": [

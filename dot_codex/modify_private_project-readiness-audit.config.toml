@@ -2,5 +2,6 @@
 {{- $managed := `model = "gpt-6.1-sol"
 model_reasoning_effort = "medium"
 sandbox_mode = "read-only"
-approval_policy = "never"` -}}
+approval_policy = "never"
+check_for_update_on_startup = false` -}}
 {{- includeTemplate "codex-profile" (dict "managed" $managed "stdin" .chezmoi.stdin) -}}

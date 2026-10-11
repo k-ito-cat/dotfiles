@@ -83,6 +83,8 @@ export VISUAL=nvim
 # ===== Tools init =====
 
 eval "$(mise activate zsh)"
+# 更新は mise に一本化する。Copilot CLI は自動更新するとキャッシュの別版で起動し直すため止める
+export COPILOT_AUTO_UPDATE=false
 # zoxide: z / zi を追加し、移動履歴から学習してジャンプ
 eval "$(zoxide init zsh)"
 # starship: 言語情報などをターミナルに表示
