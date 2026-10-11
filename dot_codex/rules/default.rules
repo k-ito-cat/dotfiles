@@ -1,5 +1,25 @@
-prefix_rule(pattern=["chezmoi"], decision="allow")
+# allow はサンドボックス外で承認なしに実行される。
+# Claude の allow（サンドボックス内で承認なし）より強いため、サンドボックス内で動かないものだけに絞る。
+# 権限レベルは dot_claude/settings.json.tmpl の permissions と揃える。
+
+# allow: .git はサンドボックス内で読み取り専用のため、外で実行する
 prefix_rule(pattern=["git", "add"], decision="allow")
-prefix_rule(pattern=["hunk", "session"], decision="allow")
-prefix_rule(pattern=["npm", "run", "build"], decision="allow")
-prefix_rule(pattern=["npx", "-y", "modern-web-guidance@0.0.190"], decision="allow")
+prefix_rule(pattern=["git", "commit"], decision="allow")
+prefix_rule(pattern=["chezmoi", ["diff", "status", "managed", "source-path"]], decision="allow")
+
+# prompt: Claude の ask に対応
+prefix_rule(pattern=["chezmoi", "apply"], decision="prompt")
+prefix_rule(pattern=["rm", "-rf"], decision="prompt")
+prefix_rule(pattern=["git", "push"], decision="prompt")
+prefix_rule(pattern=["pnpm", "add"], decision="prompt")
+prefix_rule(pattern=["npm", ["install", "i"]], decision="prompt")
+prefix_rule(pattern=["bun", "add"], decision="prompt")
+prefix_rule(pattern=["yarn", "add"], decision="prompt")
+
+# forbidden: Claude の deny に対応
+prefix_rule(pattern=["curl"], decision="forbidden")
+prefix_rule(pattern=["wget"], decision="forbidden")
+prefix_rule(pattern=["sudo"], decision="forbidden")
+prefix_rule(pattern=["chmod", "777"], decision="forbidden")
+prefix_rule(pattern=["printenv"], decision="forbidden")
+prefix_rule(pattern=["env"], decision="forbidden")
