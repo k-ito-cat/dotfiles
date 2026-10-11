@@ -6,8 +6,8 @@ export HISTSIZE=500
 export SAVEHIST=500
 # 複数タブで履歴を共有しつつ、重複と余分な空白を抑える。
 setopt APPEND_HISTORY SHARE_HISTORY HIST_IGNORE_DUPS HIST_REDUCE_BLANKS
-# 先頭にスペースを付けたコマンドは残さない。
-setopt HIST_IGNORE_SPACE
+# 先頭にスペースを付けたコマンドは残さない。実行時刻も記録しておく。
+setopt HIST_IGNORE_SPACE EXTENDED_HISTORY
 
 # 秘密情報らしい行は、今のセッションでは使えるようにしつつ履歴ファイルには書かない。
 _history_skip_secrets() {
