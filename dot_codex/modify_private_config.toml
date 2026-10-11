@@ -83,7 +83,7 @@ args = ["--app", "desktop"]
 # -------------------------------------------------------------------
 
 [plugins."gmail@openai-curated"]
-enabled = true
+enabled = false
 
 [plugins."github@openai-curated"]
 enabled = true
