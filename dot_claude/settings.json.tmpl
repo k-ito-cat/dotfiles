@@ -86,6 +86,8 @@
     "autoAllowBashIfSandboxed": false,
     "allowUnsandboxedCommands": false,
     "failIfUnavailable": false,
+    {{- /* gh はサンドボックス内では認証情報（hosts.yml の denyRead）と TLS 検証で動かないため外で実行する。権限フローは通る */}}
+    "excludedCommands": ["gh *"],
     "filesystem": {
       "allowWrite": [
         "~/.local/share/chezmoi",

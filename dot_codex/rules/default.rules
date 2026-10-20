@@ -15,6 +15,8 @@ prefix_rule(pattern=["pnpm", "add"], decision="prompt")
 prefix_rule(pattern=["npm", ["install", "i"]], decision="prompt")
 prefix_rule(pattern=["bun", "add"], decision="prompt")
 prefix_rule(pattern=["yarn", "add"], decision="prompt")
+# gh: Claude の sandbox.excludedCommands に対応（サンドボックス外で実行し、承認は通す）
+prefix_rule(pattern=["gh"], decision="prompt")
 
 # forbidden: Claude の deny に対応
 prefix_rule(pattern=["curl"], decision="forbidden")
