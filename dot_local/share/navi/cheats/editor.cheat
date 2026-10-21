@@ -98,7 +98,7 @@ N
 <leader>fb
 
 # フォーマット（conform）
-\f
+<leader>cf
 
 # ツリー表示（neo-tree）
 <leader>nt
