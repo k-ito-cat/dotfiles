@@ -1,5 +1,6 @@
 require("config.clipboard")
 
+vim.g.mapleader = " "
 vim.opt.timeoutlen = 3000
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"

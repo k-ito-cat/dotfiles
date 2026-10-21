@@ -91,27 +91,27 @@ N
 % neovim plugin
 ; == neovim プラグイン ==
 # リポジトリ内ファイル検索（telescope）
-\ff
+<leader>ff
 # リポジトリ内の中身検索（telescope）
-\fg
+<leader>fg
 # バッファ一覧（telescope）
-\fb
+<leader>fb
 
 # フォーマット（conform）
 \f
 
 # ツリー表示（neo-tree）
-\nt
+<leader>nt
 # ツリーへ移動（neo-tree）
-\nf
+<leader>nf
 
 # 診断一覧（trouble）
-\xx
+<leader>xx
 # 診断一覧（現在バッファ / trouble）
-\xw
+<leader>xw
 
 # Git差分ファイル一覧（telescope）
-\gs
+<leader>gs
 # Git差分ファイル一覧（未ステージ）
 git diff --name-status
 # Git差分ファイル一覧（ステージ済み）
@@ -126,19 +126,19 @@ git status --short
 # 前のGit hunk（gitsigns）
 [c
 # Git hunk preview（gitsigns）
-\hp
+<leader>hp
 # Git hunk inline preview（gitsigns）
-\hi
+<leader>hi
 # 現在行のblame（gitsigns）
-\hb
+<leader>hb
 # 現在バッファのdiff（gitsigns）
-\hd
+<leader>hd
 # 現在バッファと前リビジョンのdiff（gitsigns）
-\hD
+<leader>hD
 # blame表示を切り替え（gitsigns）
-\tb
+<leader>tb
 # word diffを切り替え（gitsigns）
-\tw
+<leader>tw
 
 % database
 ; == DBクライアント ==
